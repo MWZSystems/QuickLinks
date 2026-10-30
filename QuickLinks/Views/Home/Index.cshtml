@@ -9,7 +9,7 @@
 @if (Model.Notices.Count > 0)
 {
     <div class="news-ticker" role="region" aria-label="Avisos">
-        <span class="news-label">Avisos</span>
+        <span class="news-label"><i class="bi bi-megaphone-fill me-1" aria-hidden="true"></i> Avisos</span>
         <div class="news-track">
             <div class="news-items">
                 @foreach (var notice in Model.Notices)
@@ -33,24 +33,22 @@
         <!-- Barra superior del modo completo -->
         <div class="complete-only portal-toolbar">
             <div class="search-box">
-                <span class="search-icon" aria-hidden="true">
-                    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="11" cy="11" r="7" /><path d="m20 20-3.5-3.5" /></svg>
-                </span>
+                <i class="bi bi-search search-icon" aria-hidden="true"></i>
                 <input type="search" class="form-control search-input" name="Search" value="@filter.Search"
                        placeholder="Buscar aplicación..." aria-label="Buscar aplicación" data-search />
             </div>
             <button type="button" class="btn btn-brand-outline" data-toggle-filters aria-expanded="@(filtersOpen ? "true" : "false")" aria-controls="filters-panel">
-                Filtros
+                <i class="bi bi-funnel me-1" aria-hidden="true"></i> Filtros
             </button>
-            <span class="app-count"><span id="app-count">@Model.AppCount</span> aplicaciones</span>
-            <button type="button" class="btn btn-link ms-lg-2" data-mode="simple">Ver menos</button>
+            <span class="app-count"><i class="bi bi-grid-3x3-gap me-1" aria-hidden="true"></i><span id="app-count">@Model.AppCount</span> aplicaciones</span>
+            <button type="button" class="btn btn-link ms-lg-2" data-mode="simple"><i class="bi bi-arrow-left-circle me-1" aria-hidden="true"></i>Ver menos</button>
         </div>
 
         <!-- Panel de filtros -->
         <div id="filters-panel" class="complete-only filters-panel" @(filtersOpen ? "" : "hidden")>
             <div class="filters-selects">
                 <label>
-                    <span>Sitio</span>
+                    <span><i class="bi bi-geo-alt me-1" aria-hidden="true"></i>Sitio</span>
                     <select name="SiteId" class="form-select" data-filter data-site-select>
                         <option value="">Todos</option>
                         @foreach (var site in Model.Sites)
@@ -60,7 +58,7 @@
                     </select>
                 </label>
                 <label>
-                    <span>Edificio</span>
+                    <span><i class="bi bi-building me-1" aria-hidden="true"></i>Edificio</span>
                     <select name="BuildingId" class="form-select" data-filter data-building-select>
                         <option value="">Todos</option>
                         @foreach (var building in Model.Buildings)
@@ -70,7 +68,7 @@
                     </select>
                 </label>
                 <label>
-                    <span>Grupo</span>
+                    <span><i class="bi bi-collection me-1" aria-hidden="true"></i>Grupo</span>
                     <select name="GroupId" class="form-select" data-filter>
                         <option value="">Ninguno</option>
                         @foreach (var group in Model.Groups)
@@ -81,7 +79,7 @@
                 </label>
             </div>
             <div class="filters-chips" role="group" aria-label="Categorías">
-                <button type="button" class="chip chip-clear" data-clear-filters>Limpiar</button>
+                <button type="button" class="chip chip-clear" data-clear-filters><i class="bi bi-x-circle me-1" aria-hidden="true"></i>Limpiar</button>
                 @foreach (var category in Model.Categories)
                 {
                     <label class="chip">
@@ -97,9 +95,7 @@
         <section class="simple-only simple-hero">
             <div class="hero-brand"><partial name="_Brand" model="settings" /></div>
             <div class="search-box search-box-lg">
-                <span class="search-icon" aria-hidden="true">
-                    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="11" cy="11" r="7" /><path d="m20 20-3.5-3.5" /></svg>
-                </span>
+                <i class="bi bi-search search-icon" aria-hidden="true"></i>
                 <input type="search" class="form-control search-input" value="@filter.Search"
                        placeholder="Buscar aplicación..." aria-label="Buscar aplicación" data-search data-search-mirror />
             </div>
@@ -109,14 +105,14 @@
     <div class="mode-switch">
         <div class="form-check form-switch">
             <input class="form-check-input" type="checkbox" role="switch" id="show-all-default" data-show-all-default />
-            <label class="form-check-label" for="show-all-default">Mostrar todo por defecto</label>
+            <label class="form-check-label" for="show-all-default"><i class="bi bi-grid-3x3-gap me-1" aria-hidden="true"></i>Abrir siempre con todas las aplicaciones</label>
         </div>
     </div>
 
     <div class="simple-only">
         <div id="simple-results"><partial name="_SimpleResults" model="Model" /></div>
         <div class="text-center mt-5">
-            <button type="button" class="btn btn-brand-outline btn-lg px-5" data-mode="complete">Ver todas las aplicaciones</button>
+            <button type="button" class="btn btn-brand-outline btn-lg px-5" data-mode="complete"><i class="bi bi-grid-3x3-gap-fill me-2" aria-hidden="true"></i>Ver todas las aplicaciones</button>
         </div>
     </div>
 
@@ -124,7 +120,7 @@
         @if (Model.Pinned.Count > 0)
         {
             <section class="app-section">
-                <h2 class="section-divider" style="--section-color: var(--ql-primary)"><span>Fijadas</span></h2>
+                <h2 class="section-divider" style="--section-color: var(--ql-primary)"><span><i class="bi bi-pin-angle-fill me-2" aria-hidden="true"></i>Fijadas</span></h2>
                 <ul class="app-pill-list app-pill-list-start">
                     @foreach (var app in Model.Pinned)
                     {
@@ -151,19 +147,19 @@
                     <div class="carousel-inner"></div>
                 </div>
                 <dl class="details-info">
-                    <dt>Descripción</dt>
+                    <dt><i class="bi bi-card-text me-2" aria-hidden="true"></i>Descripción</dt>
                     <dd data-field="description"></dd>
-                    <dt>Responsable (SME)</dt>
+                    <dt><i class="bi bi-person-badge me-2" aria-hidden="true"></i>Responsable (SME)</dt>
                     <dd data-field="sme"></dd>
-                    <dt>Manual de usuario</dt>
+                    <dt><i class="bi bi-book me-2" aria-hidden="true"></i>Manual de usuario</dt>
                     <dd data-field="userManual"></dd>
-                    <dt>Versión</dt>
+                    <dt><i class="bi bi-tag me-2" aria-hidden="true"></i>Versión</dt>
                     <dd data-field="version"></dd>
                 </dl>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-brand-outline" data-pin-toggle></button>
-                <a href="#" class="btn btn-success ms-auto app-link" target="_blank" rel="noopener noreferrer" data-open-app>Abrir aplicación</a>
+                <a href="#" class="btn btn-success ms-auto app-link" target="_blank" rel="noopener noreferrer" data-open-app><i class="bi bi-box-arrow-up-right me-2" aria-hidden="true"></i>Abrir aplicación</a>
             </div>
         </div>
     </div>
@@ -178,13 +174,11 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
             </div>
             <div class="modal-body text-center">
-                <div class="maintenance-icon" aria-hidden="true">
-                    <svg viewBox="0 0 24 24" width="72" height="72" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a4 4 0 0 0-5.4 5.4L3 18l3 3 6.3-6.3a4 4 0 0 0 5.4-5.4l-2.5 2.5-2.4-.6-.6-2.4z" /></svg>
-                </div>
+                <div class="maintenance-icon" aria-hidden="true"><i class="bi bi-tools"></i></div>
                 <p class="mt-3 mb-0" data-maintenance-message></p>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-brand px-4" data-bs-dismiss="modal">Entendido</button>
+                <button type="button" class="btn btn-brand px-4" data-bs-dismiss="modal"><i class="bi bi-check-lg me-1" aria-hidden="true"></i>Entendido</button>
             </div>
         </div>
     </div>
@@ -195,13 +189,13 @@
     <div class="modal-dialog modal-dialog-centered modal-sm">
         <div class="modal-content">
             <div class="modal-header">
-                <h2 class="modal-title fs-5" id="unpin-title">Quitar de fijadas</h2>
+                <h2 class="modal-title fs-5" id="unpin-title"><i class="bi bi-pin-angle me-2" aria-hidden="true"></i>Quitar de fijadas</h2>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
             </div>
             <div class="modal-body">¿Quieres quitar esta aplicación de tus fijadas?</div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancelar</button>
-                <button type="button" class="btn btn-danger" data-confirm-unpin>Quitar</button>
+                <button type="button" class="btn btn-light" data-bs-dismiss="modal"><i class="bi bi-x-lg me-1" aria-hidden="true"></i>Cancelar</button>
+                <button type="button" class="btn btn-danger" data-confirm-unpin><i class="bi bi-pin-angle me-1" aria-hidden="true"></i>Quitar</button>
             </div>
         </div>
     </div>

@@ -170,6 +170,11 @@
         const img = e.target;
         if (img instanceof HTMLImageElement && img.classList.contains('app-card-logo')) {
             img.nextElementSibling?.classList.add('app-card-name-only');
+            const placeholder = document.createElement('i');
+            placeholder.className = 'bi bi-window-stack app-card-placeholder';
+            placeholder.setAttribute('aria-hidden', 'true');
+            img.replaceWith(placeholder);
+        } else if (img instanceof HTMLImageElement && img.classList.contains('app-pill-logo')) {
             img.remove();
         }
     }, true);
@@ -222,26 +227,31 @@
 
     function renderPinButton(appId) {
         const pinned = cookies.getIds(PINNED).includes(appId);
-        pinButton.textContent = pinned ? 'Quitar de fijadas' : 'Fijar en inicio';
+        const icon = document.createElement('i');
+        icon.className = `bi ${pinned ? 'bi-pin-angle' : 'bi-pin-angle-fill'} me-2`;
+        icon.setAttribute('aria-hidden', 'true');
+        pinButton.replaceChildren(icon, pinned ? 'Quitar de fijadas' : 'Fijar en inicio');
         pinButton.classList.toggle('btn-outline-danger', pinned);
         pinButton.classList.toggle('btn-brand-outline', !pinned);
         pinButton.dataset.appId = String(appId);
     }
 
-    function renderCarousel(images, name) {
+    function renderCarousel(images, name, logo) {
         const carousel = document.getElementById('details-carousel');
         const indicators = carousel.querySelector('.carousel-indicators');
         const inner = carousel.querySelector('.carousel-inner');
         indicators.replaceChildren();
         inner.replaceChildren();
 
-        const sources = images.length > 0 ? images : [portal.dataset.placeholder];
+        // Sin carrusel se muestra el logo de la aplicación; sin logo, la imagen genérica.
+        const fallback = logo || portal.dataset.placeholder;
+        const sources = images.length > 0 ? images : [fallback];
         sources.forEach((src, index) => {
             const item = document.createElement('div');
             item.className = `carousel-item${index === 0 ? ' active' : ''}`;
             const img = document.createElement('img');
             img.src = src;
-            img.className = 'd-block w-100';
+            img.className = images.length > 0 ? 'd-block w-100' : 'd-block mx-auto details-logo';
             img.alt = images.length > 0 ? `Imagen ${index + 1} de ${name}` : '';
             item.appendChild(img);
             inner.appendChild(item);
@@ -278,7 +288,7 @@
             openButton.dataset.appId = String(app.id);
             openButton.dataset.appName = app.name;
             renderPinButton(app.id);
-            renderCarousel(app.images, app.name);
+            renderCarousel(app.images, app.name, app.logo);
             detailsModal.show();
         } catch (error) {
             console.error('No se pudo cargar el detalle de la aplicación', error);

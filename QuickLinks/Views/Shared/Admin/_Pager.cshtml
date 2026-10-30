@@ -1,12 +1,12 @@
 @model (ListQuery Query, int TotalPages, int TotalCount)
 <div class="d-flex flex-wrap align-items-center justify-content-between gap-2 mt-3">
-    <span class="text-muted small">@Model.TotalCount registros</span>
+    <span class="text-muted small"><i class="bi bi-list-ul me-1" aria-hidden="true"></i>@Model.TotalCount registros</span>
     @if (Model.TotalPages > 1)
     {
         <nav aria-label="Paginación">
             <ul class="pagination pagination-sm mb-0">
                 <li class="page-item @(Model.Query.Page <= 1 ? "disabled" : "")">
-                    <a class="page-link" asp-all-route-data="Model.Query.ToRoute(page: Model.Query.Page - 1)">Anterior</a>
+                    <a class="page-link" asp-all-route-data="Model.Query.ToRoute(page: Model.Query.Page - 1)" aria-label="Anterior"><i class="bi bi-chevron-left" aria-hidden="true"></i></a>
                 </li>
                 @for (var p = Math.Max(1, Model.Query.Page - 2); p <= Math.Min(Model.TotalPages, Model.Query.Page + 2); p++)
                 {
@@ -15,7 +15,7 @@
                     </li>
                 }
                 <li class="page-item @(Model.Query.Page >= Model.TotalPages ? "disabled" : "")">
-                    <a class="page-link" asp-all-route-data="Model.Query.ToRoute(page: Model.Query.Page + 1)">Siguiente</a>
+                    <a class="page-link" asp-all-route-data="Model.Query.ToRoute(page: Model.Query.Page + 1)" aria-label="Siguiente"><i class="bi bi-chevron-right" aria-hidden="true"></i></a>
                 </li>
             </ul>
         </nav>

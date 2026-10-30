@@ -94,6 +94,7 @@
   transform: translateY(-50%);
   color: var(--ql-muted);
   pointer-events: none;
+  line-height: 1;
 }
 
 .search-input {
@@ -202,6 +203,25 @@
   color: #fff;
 }
 
+.app-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: .5rem;
+}
+
+.app-pill-logo {
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
+  border-radius: 6px;
+  background: #fff;
+}
+
+.app-pill-external {
+  font-size: .8em;
+  opacity: .7;
+}
+
 .app-pill.is-blocked {
   filter: grayscale(1) brightness(.95);
   opacity: .75;
@@ -217,8 +237,11 @@
   border-radius: 8px;
   background: #dc3545;
   color: #fff;
-  font-weight: 700;
+  font-size: .8rem;
   line-height: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   opacity: 0;
   transition: opacity .2s ease;
 }
@@ -403,13 +426,20 @@
 
 .app-card-more {
   position: absolute;
-  top: 8px;
-  right: 8px;
-  padding: 6px 8px;
-  border-radius: 6px;
+  top: 6px;
+  right: 6px;
+  padding: 2px 7px;
+  border-radius: 8px;
   color: var(--ql-muted);
-  fill: currentColor;
+  font-size: 1.15rem;
+  line-height: 1.4;
   cursor: pointer;
+}
+
+.app-card-placeholder {
+  font-size: 2.6rem;
+  color: var(--ql-primary);
+  opacity: .8;
 }
 
 .app-card-more:hover,
@@ -461,6 +491,12 @@
   object-fit: contain;
 }
 
+.details-carousel .details-logo {
+  width: 55%;
+  max-width: 200px;
+  padding: 2rem 0;
+}
+
 .details-carousel .carousel-indicators [data-bs-target] {
   width: 12px;
   height: 12px;
@@ -483,5 +519,16 @@
 }
 
 .maintenance-icon {
+  color: var(--ql-primary);
+  font-size: 4rem;
+  line-height: 1;
+}
+
+.details-info dt i {
+  color: var(--ql-primary);
+}
+
+.simple-title i,
+.section-divider i {
   color: var(--ql-primary);
 }

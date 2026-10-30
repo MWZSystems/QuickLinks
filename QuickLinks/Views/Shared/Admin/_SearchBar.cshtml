@@ -10,8 +10,15 @@
         {
             @extra(null)
         }
-        <input type="search" name="Search" value="@Model.Search" class="form-control admin-search" placeholder="Buscar..." aria-label="Buscar" />
-        <button type="submit" class="btn btn-light border">Buscar</button>
+        <div class="input-group admin-search">
+            <span class="input-group-text"><i class="bi bi-search" aria-hidden="true"></i></span>
+            <input type="search" name="Search" value="@Model.Search" class="form-control" placeholder="Buscar..." aria-label="Buscar" />
+        </div>
+        <button type="submit" class="btn btn-light border"><i class="bi bi-funnel me-1" aria-hidden="true"></i>Buscar</button>
+        @if (!string.IsNullOrEmpty(Model.Search) || Model.SiteId.HasValue || Model.BuildingId.HasValue)
+        {
+            <a asp-action="Index" class="btn btn-link text-decoration-none"><i class="bi bi-x-circle me-1" aria-hidden="true"></i>Limpiar</a>
+        }
     </form>
-    <a asp-action="Create" class="btn btn-brand">+ @newLabel</a>
+    <a asp-action="Create" class="btn btn-brand"><i class="bi bi-plus-lg me-1" aria-hidden="true"></i>@newLabel</a>
 </div>

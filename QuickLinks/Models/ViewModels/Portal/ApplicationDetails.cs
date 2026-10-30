@@ -9,4 +9,5 @@ public sealed record ApplicationDetails(
     string? UserManual,
     string? Version,
     string Link,
+    string? Logo,
     IReadOnlyList<string> Images);

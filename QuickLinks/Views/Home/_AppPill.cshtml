@@ -6,9 +6,25 @@
 <li class="app-pill-item">
     <a href="@Model.Link" target="_blank" rel="noopener noreferrer"
        class="app-pill app-pill-@variant app-link @(Model.IsBlocked ? "is-blocked" : "")"
-       data-app-id="@Model.Id" data-app-name="@Model.Name">@Model.Name</a>
+       data-app-id="@Model.Id" data-app-name="@Model.Name" title="Abrir @Model.Name en una pestaña nueva">
+        @if (Model.ImageUrl is not null)
+        {
+            <img class="app-pill-logo" src="@Model.ImageUrl" alt="" loading="lazy" />
+        }
+        @Model.Name
+        @if (Model.IsBlocked)
+        {
+            <i class="bi bi-tools ms-1" aria-label="En mantenimiento"></i>
+        }
+        else
+        {
+            <i class="bi bi-box-arrow-up-right ms-1 app-pill-external" aria-hidden="true"></i>
+        }
+    </a>
     @if (canUnpin)
     {
-        <button type="button" class="app-pill-unpin" data-unpin="@Model.Id" aria-label="Quitar @Model.Name de fijadas">&minus;</button>
+        <button type="button" class="app-pill-unpin" data-unpin="@Model.Id" aria-label="Quitar @Model.Name de fijadas" title="Quitar de fijadas">
+            <i class="bi bi-x-lg" aria-hidden="true"></i>
+        </button>
     }
 </li>

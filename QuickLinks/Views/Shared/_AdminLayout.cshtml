@@ -1,18 +1,19 @@
 @{
     var settings = await SettingsService.GetAsync();
     var controller = ViewContext.RouteData.Values["controller"]?.ToString();
-    var menu = new (string Controller, string Label)[]
+    var menu = new (string Controller, string Label, string Icon, string Hint)[]
     {
-        ("Applications", "Aplicaciones"),
-        ("Categories", "Categorías"),
-        ("Groups", "Grupos"),
-        ("Sites", "Sitios"),
-        ("Buildings", "Edificios"),
-        ("Advices", "Avisos"),
-        ("Maintenances", "Mantenimientos"),
-        ("Users", "Usuarios"),
-        ("Settings", "Configuración")
+        ("Applications", "Aplicaciones", "bi-window-stack", "Enlaces que aparecen en el portal"),
+        ("Categories", "Categorías", "bi-tags", "Secciones de colores del portal"),
+        ("Groups", "Grupos", "bi-collection", "Agrupaciones que cruzan categorías"),
+        ("Sites", "Sitios", "bi-geo-alt", "Plantas o ubicaciones"),
+        ("Buildings", "Edificios", "bi-building", "Edificios de cada sitio"),
+        ("Advices", "Avisos", "bi-megaphone", "Mensajes de la franja de avisos"),
+        ("Maintenances", "Mantenimientos", "bi-tools", "Ventanas que bloquean una aplicación"),
+        ("Users", "Usuarios", "bi-people", "Quién puede administrar"),
+        ("Settings", "Configuración", "bi-gear", "Nombre, logo, color y zona horaria")
     };
+    var current = menu.FirstOrDefault(m => m.Controller == controller);
 }
 <!DOCTYPE html>
 <html lang="es" style="--ql-primary: @Branding.SafeColor(settings.PrimaryColor)">
@@ -22,20 +23,25 @@
     <title>@ViewData["Title"] - Administración - @settings.AppName</title>
     <partial name="_Favicon" model="settings" />
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/lib/bootstrap-icons/font/bootstrap-icons.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/admin.css" asp-append-version="true" />
 </head>
 <body class="admin">
     <header class="admin-header">
-        <button class="btn btn-sm btn-light d-lg-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#admin-menu" aria-controls="admin-menu" aria-label="Abrir menú">☰</button>
+        <button class="btn btn-sm btn-light d-lg-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#admin-menu" aria-controls="admin-menu" aria-label="Abrir menú">
+            <i class="bi bi-list fs-5" aria-hidden="true"></i>
+        </button>
         <a asp-controller="Home" asp-action="Index" class="d-flex align-items-center gap-2 text-decoration-none">
             <partial name="_Brand" model="settings" />
         </a>
-        <span class="admin-tag">Administración</span>
+        <span class="admin-tag"><i class="bi bi-shield-lock me-1" aria-hidden="true"></i>Administración</span>
         <div class="ms-auto d-flex align-items-center gap-3">
-            <span class="small text-muted d-none d-sm-inline">@User.Identity?.Name</span>
+            <span class="small text-muted d-none d-sm-inline"><i class="bi bi-person-circle me-1" aria-hidden="true"></i>@User.Identity?.Name</span>
             <form asp-controller="Account" asp-action="Logout" method="post">
-                <button type="submit" class="btn btn-sm btn-outline-secondary">Cerrar sesión</button>
+                <button type="submit" class="btn btn-sm btn-outline-secondary" title="Cerrar sesión">
+                    <i class="bi bi-box-arrow-right" aria-hidden="true"></i><span class="d-none d-md-inline ms-1">Cerrar sesión</span>
+                </button>
             </form>
         </div>
     </header>
@@ -51,21 +57,34 @@
                 {
                     <li class="nav-item">
                         <a class="nav-link @(item.Controller == controller ? "active" : "")" asp-controller="@item.Controller" asp-action="Index"
-                           aria-current="@(item.Controller == controller ? "page" : null)">@item.Label</a>
+                           title="@item.Hint" aria-current="@(item.Controller == controller ? "page" : null)">
+                            <i class="bi @item.Icon" aria-hidden="true"></i>@item.Label
+                        </a>
                     </li>
                 }
-                <li class="nav-item mt-3">
-                    <a class="nav-link" asp-controller="Home" asp-action="Index">← Ir al portal</a>
+                <li class="nav-item mt-3 border-top pt-3">
+                    <a class="nav-link" asp-controller="Home" asp-action="Index"><i class="bi bi-house" aria-hidden="true"></i>Ir al portal</a>
                 </li>
             </ul>
         </nav>
 
         <main class="admin-main" role="main">
-            <h1 class="admin-title">@ViewData["Title"]</h1>
+            <h1 class="admin-title">
+                @if (current.Icon is not null)
+                {
+                    <i class="bi @current.Icon" aria-hidden="true"></i>
+                }
+                @ViewData["Title"]
+            </h1>
+            @if (current.Hint is not null)
+            {
+                <p class="admin-subtitle">@current.Hint</p>
+            }
             @if (TempData["Success"] is string success)
             {
-                <div class="alert alert-success alert-dismissible fade show" role="status">
-                    @success
+                <div class="alert alert-success alert-dismissible fade show d-flex align-items-center gap-2" role="status">
+                    <i class="bi bi-check-circle-fill" aria-hidden="true"></i>
+                    <span>@success</span>
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>
                 </div>
             }

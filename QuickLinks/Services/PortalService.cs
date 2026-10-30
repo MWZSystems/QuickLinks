@@ -187,6 +187,7 @@ public sealed class PortalService(AppDbContext db, ISettingsService settings, IM
                 a.UserManual,
                 a.Version,
                 a.Link,
+                a.Image,
                 Images = a.CarouselImages.Where(c => c.Available).OrderBy(c => c.Id).Select(c => c.ImageName).ToList()
             })
             .FirstOrDefaultAsync(ct);
@@ -204,6 +205,7 @@ public sealed class PortalService(AppDbContext db, ISettingsService settings, IM
             app.UserManual,
             app.Version,
             app.Link,
+            string.IsNullOrEmpty(app.Image) ? null : media.GetUrl(MediaFolder.Logo, app.Image),
             app.Images.Select(i => media.GetUrl(MediaFolder.Carousel, i)).ToList());
     }
 

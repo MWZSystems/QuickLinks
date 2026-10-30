@@ -1,11 +1,11 @@
 @model string
 @{
-    var css = Model switch
+    var (css, icon) = Model switch
     {
-        "Vigente" => "text-bg-success",
-        "Programado" => "text-bg-info",
-        "Vencido" => "text-bg-light border",
-        _ => "text-bg-secondary"
+        "Vigente" => ("text-bg-success", "bi-broadcast"),
+        "Programado" => ("text-bg-info", "bi-calendar-event"),
+        "Vencido" => ("text-bg-light border", "bi-calendar-x"),
+        _ => ("text-bg-secondary", "bi-slash-circle")
     };
 }
-<span class="badge @css">@Model</span>
+<span class="badge @css"><i class="bi @icon me-1" aria-hidden="true"></i>@Model</span>

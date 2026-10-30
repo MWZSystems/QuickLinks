@@ -2,10 +2,10 @@
 @if (Model.IsSearching)
 {
     <section class="simple-block">
-        <h2 class="simple-title">Resultados de la búsqueda</h2>
+        <h2 class="simple-title"><i class="bi bi-search me-2" aria-hidden="true"></i>Resultados de la búsqueda</h2>
         @if (Model.SearchResults.Count == 0)
         {
-            <p class="empty-note">No se encontraron aplicaciones con ese nombre.</p>
+            <p class="empty-note"><i class="bi bi-emoji-frown me-1" aria-hidden="true"></i>No se encontraron aplicaciones con ese nombre.</p>
         }
         else
         {
@@ -21,10 +21,13 @@
 else
 {
     <section class="simple-block">
-        <h2 class="simple-title">Fijadas</h2>
+        <h2 class="simple-title"><i class="bi bi-pin-angle-fill me-2" aria-hidden="true"></i>Fijadas</h2>
         @if (Model.Pinned.Count == 0)
         {
-            <p class="empty-note">Aún no has fijado aplicaciones. Usa el botón de detalle (⋯) de una tarjeta para fijarla.</p>
+            <p class="empty-note">
+                Aún no has fijado aplicaciones. Entra a <strong>Ver todas las aplicaciones</strong> y usa el botón
+                <i class="bi bi-info-circle" aria-label="detalle"></i> de una tarjeta para fijarla.
+            </p>
         }
         <ul class="app-pill-list">
             @foreach (var app in Model.Pinned)
@@ -35,7 +38,7 @@ else
     </section>
 
     <section class="simple-block">
-        <h2 class="simple-title">Usadas recientemente</h2>
+        <h2 class="simple-title"><i class="bi bi-clock-history me-2" aria-hidden="true"></i>Usadas recientemente</h2>
         @if (Model.Recent.Count == 0)
         {
             <p class="empty-note">Todavía no has abierto aplicaciones desde aquí.</p>

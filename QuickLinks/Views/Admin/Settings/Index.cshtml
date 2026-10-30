@@ -7,7 +7,7 @@
 <form asp-action="Index" method="post" enctype="multipart/form-data" class="admin-card form-section">
     <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
 
-    <h2 class="h6 text-uppercase text-muted mb-3">Marca</h2>
+    <h2 class="form-heading"><i class="bi bi-palette" aria-hidden="true"></i>Marca</h2>
     <div class="row g-3">
         <div class="col-md-6">
             <label asp-for="AppName" class="form-label"></label>
@@ -45,7 +45,7 @@
         </div>
     </div>
 
-    <h2 class="h6 text-uppercase text-muted mt-4 mb-3">Reglas</h2>
+    <h2 class="form-heading mt-4"><i class="bi bi-sliders" aria-hidden="true"></i>Reglas</h2>
     <div class="row g-3">
         <div class="col-md-6">
             <label asp-for="LinkValidationRegex" class="form-label"></label>
@@ -77,7 +77,7 @@
     </div>
 
     <div class="form-actions">
-        <button type="submit" class="btn btn-brand px-4">Guardar</button>
+        <button type="submit" class="btn btn-brand px-4"><i class="bi bi-check-lg me-1" aria-hidden="true"></i>Guardar</button>
     </div>
 </form>
 

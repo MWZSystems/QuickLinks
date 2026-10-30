@@ -29,15 +29,15 @@
                     <td>
                         @if (row.IsLocked)
                         {
-                            <span class="badge text-bg-warning">Bloqueado</span>
+                            <span class="badge text-bg-warning"><i class="bi bi-lock-fill me-1" aria-hidden="true"></i>Bloqueado</span>
                         }
                         else if (row.Available)
                         {
-                            <span class="badge text-bg-success">Activo</span>
+                            <span class="badge text-bg-success"><i class="bi bi-check-circle me-1" aria-hidden="true"></i>Activo</span>
                         }
                         else
                         {
-                            <span class="badge text-bg-secondary">Inactivo</span>
+                            <span class="badge text-bg-secondary"><i class="bi bi-slash-circle me-1" aria-hidden="true"></i>Inactivo</span>
                         }
                     </td>
                     <partial name="Admin/_RowActions" model="(row.Id, row.Available)" />
@@ -45,7 +45,7 @@
             }
             @if (Model.Items.Count == 0)
             {
-                <tr><td colspan="6" class="text-center text-muted py-4">Sin registros.</td></tr>
+                <tr><td colspan="6" class="text-center text-muted py-4"><i class="bi bi-inbox fs-4 d-block mb-1" aria-hidden="true"></i>Sin registros.</td></tr>
             }
         </tbody>
     </table>

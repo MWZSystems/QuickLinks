@@ -1,7 +1,7 @@
 @model PortalViewModel
 @if (Model.Sections.Count == 0)
 {
-    <p class="empty-note mt-5">No hay aplicaciones que coincidan con los filtros seleccionados.</p>
+    <p class="empty-note mt-5"><i class="bi bi-funnel me-1" aria-hidden="true"></i>No hay aplicaciones que coincidan con los filtros seleccionados.</p>
 }
 @foreach (var block in Model.Sections)
 {

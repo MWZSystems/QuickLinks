@@ -12,6 +12,7 @@
     <title>@ViewData["Title"] - @settings.AppName</title>
     <partial name="_Favicon" model="settings" />
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/lib/bootstrap-icons/font/bootstrap-icons.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/portal.css" asp-append-version="true" />
 </head>
@@ -25,11 +26,11 @@
                 <div class="ms-auto">
                     @if (User.Identity?.IsAuthenticated == true)
                     {
-                        <a asp-controller="Applications" asp-action="Index" class="btn btn-brand px-4">Administración</a>
+                        <a asp-controller="Applications" asp-action="Index" class="btn btn-brand px-4"><i class="bi bi-gear-fill me-1" aria-hidden="true"></i> Administración</a>
                     }
                     else
                     {
-                        <a asp-controller="Account" asp-action="Login" class="btn btn-brand px-4">Iniciar sesión</a>
+                        <a asp-controller="Account" asp-action="Login" class="btn btn-brand px-4"><i class="bi bi-box-arrow-in-right me-1" aria-hidden="true"></i> Iniciar sesión</a>
                     }
                 </div>
             </div>

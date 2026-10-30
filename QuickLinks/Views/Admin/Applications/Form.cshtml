@@ -7,7 +7,7 @@
       enctype="multipart/form-data" class="admin-card form-section">
     <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
 
-    <h2 class="h6 text-uppercase text-muted mb-3">Datos generales</h2>
+    <h2 class="form-heading"><i class="bi bi-info-circle" aria-hidden="true"></i>Datos generales</h2>
     <div class="row g-3">
         <div class="col-md-8">
             <label asp-for="Name" class="form-label"></label>
@@ -45,7 +45,7 @@
         </div>
     </div>
 
-    <h2 class="h6 text-uppercase text-muted mt-4 mb-3">Imágenes</h2>
+    <h2 class="form-heading mt-4"><i class="bi bi-images" aria-hidden="true"></i>Imágenes</h2>
     <div class="row g-3">
         <div class="col-md-6">
             <label asp-for="Logo" class="form-label"></label>
@@ -90,7 +90,7 @@
         }
     </div>
 
-    <h2 class="h6 text-uppercase text-muted mt-4 mb-3">Clasificación</h2>
+    <h2 class="form-heading mt-4"><i class="bi bi-diagram-3" aria-hidden="true"></i>Clasificación</h2>
     <div class="row g-3">
         <div class="col-md-6">
             <span class="form-label d-block">Categorías <span class="text-danger">*</span></span>
@@ -149,11 +149,10 @@
     </div>
 
     <div class="form-actions">
-        <button type="submit" class="btn btn-brand px-4">Guardar</button>
-        <a asp-action="Index" class="btn btn-light border">Cancelar</a>
+        <partial name="Admin/_FormActions" />
         @if (Model.Id != 0)
         {
-            <a asp-controller="Maintenances" asp-action="Create" asp-route-applicationId="@Model.Id" class="btn btn-outline-secondary ms-auto">Programar mantenimiento</a>
+            <a asp-controller="Maintenances" asp-action="Create" asp-route-applicationId="@Model.Id" class="btn btn-outline-secondary ms-auto"><i class="bi bi-tools me-1" aria-hidden="true"></i>Programar mantenimiento</a>
         }
     </div>
 </form>
