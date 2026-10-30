@@ -21,7 +21,6 @@ public sealed class PortalService(AppDbContext db, ISettingsService settings, IM
 
     public async Task<PortalViewModel> BuildAsync(
         PortalFilter filter,
-        bool showAll,
         IReadOnlyList<int> pinnedIds,
         IReadOnlyList<int> recentIds,
         CancellationToken ct = default)
@@ -156,11 +155,9 @@ public sealed class PortalService(AppDbContext db, ISettingsService settings, IM
         return new PortalViewModel
         {
             Filter = filter,
-            ShowAll = showAll,
             Notices = notices,
             Pinned = FromIds(pinnedIds),
             Recent = FromIds(recentIds),
-            SearchResults = search.Length == 0 ? [] : apps.Where(MatchesSearch).Select(ToCard).ToList(),
             Sections = sections,
             AppCount = sections.SelectMany(s => s.Apps).Select(a => a.Id).Distinct().Count(),
             Categories = categories

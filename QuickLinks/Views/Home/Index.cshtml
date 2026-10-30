@@ -1,7 +1,6 @@
-﻿@model PortalViewModel
+@model PortalViewModel
 @{
     ViewData["Title"] = "Inicio";
-    var settings = await SettingsService.GetAsync();
     var filter = Model.Filter;
     var filtersOpen = filter.CategoryIds.Count > 0 || filter.HasLocationOrGroup;
 }
@@ -21,31 +20,26 @@
     </div>
 }
 
-<div id="portal" class="@(Model.ShowAll ? "mode-complete" : "mode-simple")"
+<div id="portal"
      data-results-url="@Url.Action("Results", "Home")"
      data-details-url="@Url.Action("Details", "Home")"
      data-maintenance-url="@Url.Action("Maintenance", "Home")"
      data-placeholder="@Url.Content("~/images/placeholder.svg")">
 
     <form id="portal-form" method="get" asp-action="Index" class="portal-form" autocomplete="off">
-        <input type="hidden" name="ShowAll" id="show-all-field" value="@(Model.ShowAll ? "true" : "false")" />
-
-        <!-- Barra superior del modo completo -->
-        <div class="complete-only portal-toolbar">
+        <div class="portal-toolbar">
             <div class="search-box">
                 <i class="bi bi-search search-icon" aria-hidden="true"></i>
                 <input type="search" class="form-control search-input" name="Search" value="@filter.Search"
-                       placeholder="Buscar aplicación..." aria-label="Buscar aplicación" data-search />
+                       placeholder="Buscar aplicación..." aria-label="Buscar aplicación" data-search autofocus />
             </div>
             <button type="button" class="btn btn-brand-outline" data-toggle-filters aria-expanded="@(filtersOpen ? "true" : "false")" aria-controls="filters-panel">
                 <i class="bi bi-funnel me-1" aria-hidden="true"></i> Filtros
             </button>
             <span class="app-count"><i class="bi bi-grid-3x3-gap me-1" aria-hidden="true"></i><span id="app-count">@Model.AppCount</span> aplicaciones</span>
-            <button type="button" class="btn btn-link ms-lg-2" data-mode="simple"><i class="bi bi-arrow-left-circle me-1" aria-hidden="true"></i>Ver menos</button>
         </div>
 
-        <!-- Panel de filtros -->
-        <div id="filters-panel" class="complete-only filters-panel" @(filtersOpen ? "" : "hidden")>
+        <div id="filters-panel" class="filters-panel" @(filtersOpen ? "" : "hidden")>
             <div class="filters-selects">
                 <label>
                     <span><i class="bi bi-geo-alt me-1" aria-hidden="true"></i>Sitio</span>
@@ -90,47 +84,39 @@
                 }
             </div>
         </div>
-
-        <!-- Portada del modo simple -->
-        <section class="simple-only simple-hero">
-            <div class="hero-brand"><partial name="_Brand" model="settings" /></div>
-            <div class="search-box search-box-lg">
-                <i class="bi bi-search search-icon" aria-hidden="true"></i>
-                <input type="search" class="form-control search-input" value="@filter.Search"
-                       placeholder="Buscar aplicación..." aria-label="Buscar aplicación" data-search data-search-mirror />
-            </div>
-        </section>
     </form>
 
-    <div class="mode-switch">
-        <div class="form-check form-switch">
-            <input class="form-check-input" type="checkbox" role="switch" id="show-all-default" data-show-all-default />
-            <label class="form-check-label" for="show-all-default"><i class="bi bi-grid-3x3-gap me-1" aria-hidden="true"></i>Abrir siempre con todas las aplicaciones</label>
+    @if (Model.Pinned.Count > 0 || Model.Recent.Count > 0)
+    {
+        <div class="quick-access">
+            @if (Model.Pinned.Count > 0)
+            {
+                <section class="quick-row" aria-label="Fijadas">
+                    <h2 class="quick-title"><i class="bi bi-pin-angle-fill" aria-hidden="true"></i>Fijadas</h2>
+                    <ul class="app-pill-list app-pill-list-start">
+                        @foreach (var app in Model.Pinned)
+                        {
+                            <partial name="_AppPill" model="app" view-data='new ViewDataDictionary(ViewData) { ["Variant"] = "solid", ["CanUnpin"] = true }' />
+                        }
+                    </ul>
+                </section>
+            }
+            @if (Model.Recent.Count > 0)
+            {
+                <section class="quick-row" aria-label="Usadas recientemente">
+                    <h2 class="quick-title"><i class="bi bi-clock-history" aria-hidden="true"></i>Recientes</h2>
+                    <ul class="app-pill-list app-pill-list-start">
+                        @foreach (var app in Model.Recent)
+                        {
+                            <partial name="_AppPill" model="app" />
+                        }
+                    </ul>
+                </section>
+            }
         </div>
-    </div>
+    }
 
-    <div class="simple-only">
-        <div id="simple-results"><partial name="_SimpleResults" model="Model" /></div>
-        <div class="text-center mt-5">
-            <button type="button" class="btn btn-brand-outline btn-lg px-5" data-mode="complete"><i class="bi bi-grid-3x3-gap-fill me-2" aria-hidden="true"></i>Ver todas las aplicaciones</button>
-        </div>
-    </div>
-
-    <div class="complete-only portal-content">
-        @if (Model.Pinned.Count > 0)
-        {
-            <section class="app-section">
-                <h2 class="section-divider" style="--section-color: var(--ql-primary)"><span><i class="bi bi-pin-angle-fill me-2" aria-hidden="true"></i>Fijadas</span></h2>
-                <ul class="app-pill-list app-pill-list-start">
-                    @foreach (var app in Model.Pinned)
-                    {
-                        <partial name="_AppPill" model="app" view-data='new ViewDataDictionary(ViewData) { ["Variant"] = "solid", ["CanUnpin"] = true }' />
-                    }
-                </ul>
-            </section>
-        }
-        <div id="complete-results"><partial name="_CompleteResults" model="Model" /></div>
-    </div>
+    <div id="complete-results"><partial name="_CompleteResults" model="Model" /></div>
 </div>
 
 <!-- Detalle de aplicación -->

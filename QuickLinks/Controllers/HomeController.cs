@@ -13,7 +13,6 @@ public class HomeController(IPortalService portal) : Controller
 {
     public const string PinnedCookie = "pinnedApps";
     public const string RecentCookie = "recentlyUsedApps";
-    public const string ShowAllCookie = "showAllDefault";
 
     [HttpGet]
     public async Task<IActionResult> Index([FromQuery] PortalFilter filter, CancellationToken ct)
@@ -22,7 +21,7 @@ public class HomeController(IPortalService portal) : Controller
         return View(model);
     }
 
-    /// <summary>Resultados para la búsqueda en vivo: modo simple, modo completo y contador en un solo fragmento.</summary>
+    /// <summary>Resultados para la búsqueda en vivo: cuadrícula de aplicaciones y contador en un solo fragmento.</summary>
     [HttpGet]
     public async Task<IActionResult> Results([FromQuery] PortalFilter filter, CancellationToken ct)
     {
@@ -50,11 +49,8 @@ public class HomeController(IPortalService portal) : Controller
         return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
     }
 
-    private Task<PortalViewModel> BuildAsync(PortalFilter filter, CancellationToken ct)
-    {
-        var showAll = filter.ShowAll ?? Request.Cookies[ShowAllCookie] == "true";
-        return portal.BuildAsync(filter, showAll, ReadIds(PinnedCookie), ReadIds(RecentCookie), ct);
-    }
+    private Task<PortalViewModel> BuildAsync(PortalFilter filter, CancellationToken ct) =>
+        portal.BuildAsync(filter, ReadIds(PinnedCookie), ReadIds(RecentCookie), ct);
 
     private List<int> ReadIds(string cookieName)
     {

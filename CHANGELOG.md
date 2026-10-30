@@ -11,7 +11,7 @@ Formato: [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/). Versionado
 
 ### Agregado
 - Réplica genérica de QuickLinks en ASP.NET Core MVC sobre .NET 10.
-- Portal público con modo simple (fijadas, recientes y búsqueda) y modo completo (tarjetas por categoría o grupo).
+- Portal público que siempre muestra todas las aplicaciones disponibles (tarjetas por categoría o grupo), con fijadas y recientes como accesos rápidos arriba.
 - Búsqueda en vivo con espera de 300 ms, filtros por categoría, sitio, edificio y grupo.
 - Detalle de aplicación con carrusel; fijadas y recientes guardadas en cookies del navegador.
 - Franja de avisos y bloqueo de aplicaciones por mantenimiento programado.

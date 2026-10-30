@@ -6,7 +6,6 @@ public interface IPortalService
 {
     Task<PortalViewModel> BuildAsync(
         PortalFilter filter,
-        bool showAll,
         IReadOnlyList<int> pinnedIds,
         IReadOnlyList<int> recentIds,
         CancellationToken ct = default);

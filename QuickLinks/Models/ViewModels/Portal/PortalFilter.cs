@@ -5,9 +5,6 @@ public sealed class PortalFilter
 {
     public string? Search { get; set; }
 
-    /// <summary>Modo completo (true) o simple (false); si es nulo se toma de la cookie showAllDefault.</summary>
-    public bool? ShowAll { get; set; }
-
     public List<int> CategoryIds { get; set; } = [];
 
     public int? SiteId { get; set; }

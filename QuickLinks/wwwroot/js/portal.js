@@ -1,4 +1,4 @@
-// Portal público: modos simple/completo, búsqueda en vivo, filtros, fijadas, recientes y modales.
+// Portal público: búsqueda en vivo, filtros, fijadas, recientes y modales.
 (() => {
     'use strict';
 
@@ -32,43 +32,15 @@
 
     const PINNED = 'pinnedApps';
     const RECENT = 'recentlyUsedApps';
-    const SHOW_ALL = 'showAllDefault';
-
-    // ---------- Modos ----------
-    const showAllField = document.getElementById('show-all-field');
-
-    function setMode(mode) {
-        const complete = mode === 'complete';
-        portal.classList.toggle('mode-complete', complete);
-        portal.classList.toggle('mode-simple', !complete);
-        showAllField.value = complete ? 'true' : 'false';
-        updateUrl();
-        const input = portal.querySelector(complete ? '.portal-toolbar [data-search]' : '[data-search-mirror]');
-        input?.focus();
-    }
-
-    document.addEventListener('click', e => {
-        const modeButton = e.target.closest('[data-mode]');
-        if (modeButton) {
-            setMode(modeButton.dataset.mode);
-        }
-    });
-
-    const showAllDefault = portal.querySelector('[data-show-all-default]');
-    showAllDefault.checked = cookies.get(SHOW_ALL) === 'true';
-    showAllDefault.addEventListener('change', () => cookies.set(SHOW_ALL, showAllDefault.checked ? 'true' : 'false', 365));
 
     // ---------- Búsqueda y filtros ----------
-    const searchInputs = [...portal.querySelectorAll('[data-search]')];
+    const searchInput = portal.querySelector('[data-search]');
     let searchTimer;
     let lastRequest;
 
-    searchInputs.forEach(input => {
-        input.addEventListener('input', () => {
-            searchInputs.filter(other => other !== input).forEach(other => { other.value = input.value; });
-            clearTimeout(searchTimer);
-            searchTimer = setTimeout(refresh, SEARCH_DELAY_MS);
-        });
+    searchInput.addEventListener('input', () => {
+        clearTimeout(searchTimer);
+        searchTimer = setTimeout(refresh, SEARCH_DELAY_MS);
     });
 
     form.addEventListener('submit', e => {
@@ -156,7 +128,6 @@
                 return; // llegó una respuesta más nueva mientras tanto
             }
             const doc = new DOMParser().parseFromString(html, 'text/html');
-            document.getElementById('simple-results').innerHTML = doc.getElementById('simple-part').innerHTML;
             document.getElementById('complete-results').innerHTML = doc.getElementById('complete-part').innerHTML;
             document.getElementById('app-count').textContent = doc.getElementById('count-part').textContent;
         } catch (error) {

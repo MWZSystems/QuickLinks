@@ -11,12 +11,6 @@
   font-size: .9rem;
 }
 
-/* ----- Modos: el contenedor #portal decide qué se ve ----- */
-.mode-simple .complete-only,
-.mode-complete .simple-only {
-  display: none !important;
-}
-
 #portal {
   width: min(1400px, 100% - 32px);
   margin: 0 auto;
@@ -81,12 +75,6 @@
   max-width: 640px;
 }
 
-.search-box-lg {
-  margin: 0 auto;
-  width: 100%;
-  max-width: 680px;
-}
-
 .search-icon {
   position: absolute;
   left: 14px;
@@ -103,54 +91,45 @@
   border: 1px solid var(--ql-border);
 }
 
-.search-box-lg .search-input {
-  padding-top: .9rem;
-  padding-bottom: .9rem;
-  font-size: 1.1rem;
-}
-
-/* ----- Modo simple ----- */
-.simple-hero {
-  text-align: center;
-  padding: 3rem 0 2rem;
-}
-
-.hero-brand {
-  display: inline-flex;
-  align-items: center;
+/* ----- Accesos rápidos: fijadas y recientes arriba de la cuadrícula ----- */
+.quick-access {
+  display: grid;
   gap: .75rem;
-  margin-bottom: 2rem;
+  padding: 1rem 1.25rem;
+  margin-top: .5rem;
+  border: 1px solid var(--ql-border);
+  border-radius: var(--ql-radius);
+  background: var(--ql-surface);
 }
 
-.hero-brand .brand-mark {
-  width: 64px;
-  height: 64px;
-  border-radius: 18px;
+.quick-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: .75rem 1rem;
 }
 
-.hero-brand .brand-mark svg {
-  width: 36px;
-  height: 36px;
+.quick-title {
+  display: flex;
+  align-items: center;
+  gap: .4rem;
+  flex: 0 0 120px;
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 600;
 }
 
-.hero-brand .brand-name {
-  font-size: 2.5rem;
+.quick-title .bi {
+  color: var(--ql-primary);
 }
 
-.hero-brand .brand-logo {
-  max-height: 110px;
-  max-width: min(520px, 90vw);
+.quick-access .app-pill {
+  padding: .5rem 1.1rem;
 }
 
-.simple-block {
-  margin-top: 1.5rem;
-}
-
-.simple-title {
-  text-align: center;
-  font-size: 1.4rem;
-  font-weight: 500;
-  margin-bottom: .75rem;
+.quick-access .app-pill-list {
+  gap: .6rem .75rem;
+  margin: 0;
 }
 
 /* ----- Botones de aplicación (fijadas, recientes, búsqueda) ----- */
@@ -273,16 +252,6 @@
 .app-count {
   color: var(--ql-muted);
   font-size: 1.05rem;
-}
-
-.mode-switch {
-  display: flex;
-  justify-content: flex-end;
-  padding-top: 1rem;
-}
-
-.mode-complete .mode-switch {
-  padding-top: 0;
 }
 
 .filters-panel {
@@ -528,7 +497,6 @@
   color: var(--ql-primary);
 }
 
-.simple-title i,
 .section-divider i {
   color: var(--ql-primary);
 }
