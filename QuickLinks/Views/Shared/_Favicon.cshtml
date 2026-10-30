@@ -1,11 +1,12 @@
 @model PortalSettings
-@* Ícono de pestaña: el logo del cliente si está configurado; si no, el de QuickLinks. *@
+@* Ícono de pestaña: el logo del cliente si está configurado; si no, el de QuickLinks en ICO, PNG y SVG. *@
 @if (Model.LogoUrl is not null)
 {
     <link rel="icon" href="@Model.LogoUrl" />
 }
 else
 {
+    <link rel="icon" href="~/favicon.ico" sizes="any" asp-append-version="true" />
+    <link rel="icon" href="~/favicon-32.png" type="image/png" sizes="32x32" asp-append-version="true" />
     <link rel="icon" href="~/favicon.svg" type="image/svg+xml" asp-append-version="true" />
 }
-<link rel="alternate icon" href="~/favicon.ico" />
