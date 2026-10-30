@@ -20,6 +20,7 @@ Formato: [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/). Versionado
 - Marca configurable por cliente: nombre, logo, color principal y zona horaria.
 - Esquema con los nombres del original (`CT_`, `SC_`, `SY_`) más índices únicos y fechas en UTC.
 - Hospedaje `OutOfProcess` sin `apphost.exe`, como las demás aplicaciones .NET 10 del mismo hosting.
+- El acceso de administradores está en un menú discreto (⋮) del encabezado del portal, para que los usuarios no lo confundan con un inicio de sesión propio.
 - Íconos (Bootstrap Icons, servidos localmente) en el portal, el login y la administración: botones, menú, encabezados, estados y acciones.
 - El detalle de una aplicación sin carrusel muestra su logo.
 - Los formularios solo exigen los campos marcados como obligatorios; editar una aplicación ya no pide imágenes de carrusel.

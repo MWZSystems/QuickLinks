@@ -23,15 +23,38 @@
                 <a class="navbar-brand d-flex align-items-center gap-2" asp-controller="Home" asp-action="Index">
                     <partial name="_Brand" model="settings" />
                 </a>
-                <div class="ms-auto">
-                    @if (User.Identity?.IsAuthenticated == true)
-                    {
-                        <a asp-controller="Applications" asp-action="Index" class="btn btn-brand px-4"><i class="bi bi-gear-fill me-1" aria-hidden="true"></i> Administración</a>
-                    }
-                    else
-                    {
-                        <a asp-controller="Account" asp-action="Login" class="btn btn-brand px-4"><i class="bi bi-box-arrow-in-right me-1" aria-hidden="true"></i> Iniciar sesión</a>
-                    }
+                @* Acceso de administradores discreto: los usuarios del portal no necesitan iniciar sesión. *@
+                <div class="ms-auto dropdown">
+                    <button type="button" class="btn btn-admin-menu" data-bs-toggle="dropdown" aria-expanded="false"
+                            aria-label="Opciones" title="Opciones">
+                        <i class="bi bi-three-dots-vertical" aria-hidden="true"></i>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end shadow-sm">
+                        @if (User.Identity?.IsAuthenticated == true)
+                        {
+                            <li><h6 class="dropdown-header"><i class="bi bi-person-circle me-1" aria-hidden="true"></i>@User.Identity.Name</h6></li>
+                            <li>
+                                <a class="dropdown-item" asp-controller="Applications" asp-action="Index">
+                                    <i class="bi bi-gear me-2" aria-hidden="true"></i>Administración
+                                </a>
+                            </li>
+                            <li><hr class="dropdown-divider" /></li>
+                            <li>
+                                <form asp-controller="Account" asp-action="Logout" method="post">
+                                    <button type="submit" class="dropdown-item"><i class="bi bi-box-arrow-right me-2" aria-hidden="true"></i>Cerrar sesión</button>
+                                </form>
+                            </li>
+                        }
+                        else
+                        {
+                            <li><h6 class="dropdown-header">Solo para administradores</h6></li>
+                            <li>
+                                <a class="dropdown-item" asp-controller="Account" asp-action="Login">
+                                    <i class="bi bi-shield-lock me-2" aria-hidden="true"></i>Iniciar sesión
+                                </a>
+                            </li>
+                        }
+                    </ul>
                 </div>
             </div>
         </nav>
