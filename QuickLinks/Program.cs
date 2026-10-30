@@ -111,6 +111,15 @@ app.UseStaticFiles(new StaticFileOptions
     }
 });
 
+// Un archivo de medios inexistente responde 404 en lugar de caer en la autorización y redirigir al login.
+app.MapWhen(
+    context => context.Request.Path.StartsWithSegments(mediaOptions.RequestPath),
+    branch => branch.Run(context =>
+    {
+        context.Response.StatusCode = StatusCodes.Status404NotFound;
+        return Task.CompletedTask;
+    }));
+
 app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();

@@ -164,6 +164,16 @@
         }
     }
 
+    // ---------- Logos que no cargan: la tarjeta queda solo con el nombre ----------
+    // Los eventos error de <img> no burbujean; se escuchan en fase de captura.
+    document.addEventListener('error', e => {
+        const img = e.target;
+        if (img instanceof HTMLImageElement && img.classList.contains('app-card-logo')) {
+            img.nextElementSibling?.classList.add('app-card-name-only');
+            img.remove();
+        }
+    }, true);
+
     // ---------- Apertura de aplicaciones, recientes y mantenimiento ----------
     const maintenanceModal = new bootstrap.Modal(document.getElementById('maintenance-modal'));
 

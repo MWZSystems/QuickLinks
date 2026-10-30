@@ -15,9 +15,15 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <!-- Logs y archivos subidos no forman parte del código publicado. -->
+    <!-- Los logs nunca se publican ni se versionan. -->
     <Content Remove="App_Data\**;Logs\**" />
     <None Remove="App_Data\**;Logs\**" />
+    <!--
+      Las imágenes subidas desde esta máquina sí se publican: desarrollo y producción comparten la base de datos,
+      así que los registros apuntan a los mismos archivos. El perfil Web Deploy usa SkipExtraFilesOnServer,
+      por lo que las imágenes subidas directamente en el servidor no se borran.
+    -->
+    <Content Include="App_Data\media\**" CopyToPublishDirectory="PreserveNewest" CopyToOutputDirectory="Never" />
   </ItemGroup>
 
   <ItemGroup>
