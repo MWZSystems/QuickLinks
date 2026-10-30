@@ -1,0 +1,118 @@
+/* Estilos compartidos entre el portal y la administración. --ql-primary viene de CT_Settings. */
+:root {
+  --ql-primary: #0D4D84;
+  --ql-primary-contrast: #fff;
+  --ql-text: #1f2937;
+  --ql-muted: #6b7280;
+  --ql-border: #d1d5db;
+  --ql-surface: #f8fafc;
+  --ql-radius: 12px;
+  --ql-font: "Segoe UI", system-ui, -apple-system, Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+html {
+  font-size: 15px;
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  font-family: var(--ql-font);
+  color: var(--ql-text);
+  background: #fff;
+}
+
+.btn:focus-visible,
+.form-control:focus,
+.form-select:focus,
+.form-check-input:focus {
+  box-shadow: 0 0 0 .2rem color-mix(in srgb, var(--ql-primary) 35%, transparent);
+  border-color: var(--ql-primary);
+}
+
+.btn-brand {
+  background: var(--ql-primary);
+  border-color: var(--ql-primary);
+  color: var(--ql-primary-contrast);
+}
+
+.btn-brand:hover,
+.btn-brand:focus-visible {
+  background: color-mix(in srgb, var(--ql-primary) 85%, #000);
+  border-color: color-mix(in srgb, var(--ql-primary) 85%, #000);
+  color: var(--ql-primary-contrast);
+}
+
+.btn-brand-outline {
+  background: #fff;
+  border: 1px solid var(--ql-primary);
+  color: var(--ql-primary);
+}
+
+.btn-brand-outline:hover,
+.btn-brand-outline:focus-visible {
+  background: color-mix(in srgb, var(--ql-primary) 8%, #fff);
+  color: var(--ql-primary);
+  border-color: var(--ql-primary);
+}
+
+.form-check-input:checked {
+  background-color: var(--ql-primary);
+  border-color: var(--ql-primary);
+}
+
+.brand-logo {
+  max-height: 40px;
+  max-width: 220px;
+  object-fit: contain;
+}
+
+.brand-mark {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  background: var(--ql-primary);
+  color: #fff;
+}
+
+.brand-name {
+  font-weight: 700;
+  font-size: 1.25rem;
+  color: var(--ql-text);
+  letter-spacing: -.01em;
+}
+
+.login-wrapper {
+  min-height: calc(100vh - 160px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 1rem;
+  background: var(--ql-surface);
+}
+
+.login-card {
+  width: min(400px, 100%);
+  background: #fff;
+  border: 1px solid var(--ql-border);
+  border-radius: 16px;
+  padding: 2rem;
+  box-shadow: 0 10px 30px rgba(15, 23, 42, .08);
+}
+
+.login-brand {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: .6rem;
+  margin-bottom: 1rem;
+}
+
+.empty-note {
+  text-align: center;
+  color: var(--ql-muted);
+  margin: .5rem 0 1rem;
+}

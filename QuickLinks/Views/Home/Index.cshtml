@@ -1,0 +1,212 @@
+﻿@model PortalViewModel
+@{
+    ViewData["Title"] = "Inicio";
+    var settings = await SettingsService.GetAsync();
+    var filter = Model.Filter;
+    var filtersOpen = filter.CategoryIds.Count > 0 || filter.HasLocationOrGroup;
+}
+
+@if (Model.Notices.Count > 0)
+{
+    <div class="news-ticker" role="region" aria-label="Avisos">
+        <span class="news-label">Avisos</span>
+        <div class="news-track">
+            <div class="news-items">
+                @foreach (var notice in Model.Notices)
+                {
+                    <span class="news-item">@notice</span>
+                }
+            </div>
+        </div>
+    </div>
+}
+
+<div id="portal" class="@(Model.ShowAll ? "mode-complete" : "mode-simple")"
+     data-results-url="@Url.Action("Results", "Home")"
+     data-details-url="@Url.Action("Details", "Home")"
+     data-maintenance-url="@Url.Action("Maintenance", "Home")"
+     data-placeholder="@Url.Content("~/images/placeholder.svg")">
+
+    <form id="portal-form" method="get" asp-action="Index" class="portal-form" autocomplete="off">
+        <input type="hidden" name="ShowAll" id="show-all-field" value="@(Model.ShowAll ? "true" : "false")" />
+
+        <!-- Barra superior del modo completo -->
+        <div class="complete-only portal-toolbar">
+            <div class="search-box">
+                <span class="search-icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="11" cy="11" r="7" /><path d="m20 20-3.5-3.5" /></svg>
+                </span>
+                <input type="search" class="form-control search-input" name="Search" value="@filter.Search"
+                       placeholder="Buscar aplicación..." aria-label="Buscar aplicación" data-search />
+            </div>
+            <button type="button" class="btn btn-brand-outline" data-toggle-filters aria-expanded="@(filtersOpen ? "true" : "false")" aria-controls="filters-panel">
+                Filtros
+            </button>
+            <span class="app-count"><span id="app-count">@Model.AppCount</span> aplicaciones</span>
+            <button type="button" class="btn btn-link ms-lg-2" data-mode="simple">Ver menos</button>
+        </div>
+
+        <!-- Panel de filtros -->
+        <div id="filters-panel" class="complete-only filters-panel" @(filtersOpen ? "" : "hidden")>
+            <div class="filters-selects">
+                <label>
+                    <span>Sitio</span>
+                    <select name="SiteId" class="form-select" data-filter data-site-select>
+                        <option value="">Todos</option>
+                        @foreach (var site in Model.Sites)
+                        {
+                            <option value="@site.Id" selected="@(filter.SiteId == site.Id)">@site.Name</option>
+                        }
+                    </select>
+                </label>
+                <label>
+                    <span>Edificio</span>
+                    <select name="BuildingId" class="form-select" data-filter data-building-select>
+                        <option value="">Todos</option>
+                        @foreach (var building in Model.Buildings)
+                        {
+                            <option value="@building.Id" data-site="@building.ParentId" selected="@(filter.BuildingId == building.Id)">@building.Name</option>
+                        }
+                    </select>
+                </label>
+                <label>
+                    <span>Grupo</span>
+                    <select name="GroupId" class="form-select" data-filter>
+                        <option value="">Ninguno</option>
+                        @foreach (var group in Model.Groups)
+                        {
+                            <option value="@group.Id" selected="@(filter.GroupId == group.Id)">@group.Name</option>
+                        }
+                    </select>
+                </label>
+            </div>
+            <div class="filters-chips" role="group" aria-label="Categorías">
+                <button type="button" class="chip chip-clear" data-clear-filters>Limpiar</button>
+                @foreach (var category in Model.Categories)
+                {
+                    <label class="chip">
+                        <input type="checkbox" name="CategoryIds" value="@category.Id" data-filter
+                               checked="@filter.CategoryIds.Contains(category.Id)" />
+                        <span>@category.Name</span>
+                    </label>
+                }
+            </div>
+        </div>
+
+        <!-- Portada del modo simple -->
+        <section class="simple-only simple-hero">
+            <div class="hero-brand"><partial name="_Brand" model="settings" /></div>
+            <div class="search-box search-box-lg">
+                <span class="search-icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="11" cy="11" r="7" /><path d="m20 20-3.5-3.5" /></svg>
+                </span>
+                <input type="search" class="form-control search-input" value="@filter.Search"
+                       placeholder="Buscar aplicación..." aria-label="Buscar aplicación" data-search data-search-mirror />
+            </div>
+        </section>
+    </form>
+
+    <div class="mode-switch">
+        <div class="form-check form-switch">
+            <input class="form-check-input" type="checkbox" role="switch" id="show-all-default" data-show-all-default />
+            <label class="form-check-label" for="show-all-default">Mostrar todo por defecto</label>
+        </div>
+    </div>
+
+    <div class="simple-only">
+        <div id="simple-results"><partial name="_SimpleResults" model="Model" /></div>
+        <div class="text-center mt-5">
+            <button type="button" class="btn btn-brand-outline btn-lg px-5" data-mode="complete">Ver todas las aplicaciones</button>
+        </div>
+    </div>
+
+    <div class="complete-only portal-content">
+        @if (Model.Pinned.Count > 0)
+        {
+            <section class="app-section">
+                <h2 class="section-divider" style="--section-color: var(--ql-primary)"><span>Fijadas</span></h2>
+                <ul class="app-pill-list app-pill-list-start">
+                    @foreach (var app in Model.Pinned)
+                    {
+                        <partial name="_AppPill" model="app" view-data='new ViewDataDictionary(ViewData) { ["Variant"] = "solid", ["CanUnpin"] = true }' />
+                    }
+                </ul>
+            </section>
+        }
+        <div id="complete-results"><partial name="_CompleteResults" model="Model" /></div>
+    </div>
+</div>
+
+<!-- Detalle de aplicación -->
+<div class="modal fade" id="details-modal" tabindex="-1" aria-labelledby="details-title" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title fs-5" id="details-title"></h2>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+            </div>
+            <div class="modal-body details-body">
+                <div id="details-carousel" class="carousel slide details-carousel" data-bs-ride="carousel">
+                    <div class="carousel-indicators"></div>
+                    <div class="carousel-inner"></div>
+                </div>
+                <dl class="details-info">
+                    <dt>Descripción</dt>
+                    <dd data-field="description"></dd>
+                    <dt>Responsable (SME)</dt>
+                    <dd data-field="sme"></dd>
+                    <dt>Manual de usuario</dt>
+                    <dd data-field="userManual"></dd>
+                    <dt>Versión</dt>
+                    <dd data-field="version"></dd>
+                </dl>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-brand-outline" data-pin-toggle></button>
+                <a href="#" class="btn btn-success ms-auto app-link" target="_blank" rel="noopener noreferrer" data-open-app>Abrir aplicación</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Aplicación en mantenimiento -->
+<div class="modal fade" id="maintenance-modal" tabindex="-1" aria-labelledby="maintenance-title" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title fs-5" id="maintenance-title"></h2>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+            </div>
+            <div class="modal-body text-center">
+                <div class="maintenance-icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" width="72" height="72" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a4 4 0 0 0-5.4 5.4L3 18l3 3 6.3-6.3a4 4 0 0 0 5.4-5.4l-2.5 2.5-2.4-.6-.6-2.4z" /></svg>
+                </div>
+                <p class="mt-3 mb-0" data-maintenance-message></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-brand px-4" data-bs-dismiss="modal">Entendido</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Confirmación para quitar de fijadas -->
+<div class="modal fade" id="unpin-modal" tabindex="-1" aria-labelledby="unpin-title" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title fs-5" id="unpin-title">Quitar de fijadas</h2>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+            </div>
+            <div class="modal-body">¿Quieres quitar esta aplicación de tus fijadas?</div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-danger" data-confirm-unpin>Quitar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/js/portal.js" asp-append-version="true"></script>
+}

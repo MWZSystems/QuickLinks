@@ -1,0 +1,16 @@
+@model ScheduleForm
+<div class="col-md-6">
+    <label asp-for="StartDate" class="form-label"></label>
+    <input asp-for="StartDate" type="datetime-local" class="form-control" />
+    <span asp-validation-for="StartDate" class="text-danger small"></span>
+</div>
+<div class="col-md-6">
+    <label asp-for="EndDate" class="form-label"></label>
+    <input asp-for="EndDate" type="datetime-local" class="form-control" />
+    <span asp-validation-for="EndDate" class="text-danger small"></span>
+    <div class="form-text">Sin fecha de fin, sigue vigente hasta que se desactive.</div>
+</div>
+<div class="col-12 form-check form-switch ms-2">
+    <input asp-for="Available" class="form-check-input" role="switch" />
+    <label asp-for="Available" class="form-check-label"></label>
+</div>

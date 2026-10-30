@@ -1,0 +1,50 @@
+@model PortalViewModel
+@if (Model.IsSearching)
+{
+    <section class="simple-block">
+        <h2 class="simple-title">Resultados de la búsqueda</h2>
+        @if (Model.SearchResults.Count == 0)
+        {
+            <p class="empty-note">No se encontraron aplicaciones con ese nombre.</p>
+        }
+        else
+        {
+            <ul class="app-pill-list">
+                @foreach (var app in Model.SearchResults)
+                {
+                    <partial name="_AppPill" model="app" view-data='new ViewDataDictionary(ViewData) { ["Variant"] = "solid" }' />
+                }
+            </ul>
+        }
+    </section>
+}
+else
+{
+    <section class="simple-block">
+        <h2 class="simple-title">Fijadas</h2>
+        @if (Model.Pinned.Count == 0)
+        {
+            <p class="empty-note">Aún no has fijado aplicaciones. Usa el botón de detalle (⋯) de una tarjeta para fijarla.</p>
+        }
+        <ul class="app-pill-list">
+            @foreach (var app in Model.Pinned)
+            {
+                <partial name="_AppPill" model="app" view-data='new ViewDataDictionary(ViewData) { ["Variant"] = "solid", ["CanUnpin"] = true }' />
+            }
+        </ul>
+    </section>
+
+    <section class="simple-block">
+        <h2 class="simple-title">Usadas recientemente</h2>
+        @if (Model.Recent.Count == 0)
+        {
+            <p class="empty-note">Todavía no has abierto aplicaciones desde aquí.</p>
+        }
+        <ul class="app-pill-list">
+            @foreach (var app in Model.Recent)
+            {
+                <partial name="_AppPill" model="app" />
+            }
+        </ul>
+    </section>
+}

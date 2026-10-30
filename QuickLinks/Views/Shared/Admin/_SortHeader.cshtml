@@ -1,0 +1,10 @@
+@model SortHeader
+<th scope="col" aria-sort="@(Model.IsActive ? (Model.Query.Desc ? "descending" : "ascending") : "none")">
+    <a class="sort-link" asp-all-route-data="Model.Query.ToRoute(Model.Column, Model.NextDesc, 1)">
+        @Model.Label
+        @if (Model.IsActive)
+        {
+            <span aria-hidden="true">@(Model.Query.Desc ? "▼" : "▲")</span>
+        }
+    </a>
+</th>

@@ -1,0 +1,37 @@
+@model BuildingForm
+@{
+    ViewData["Title"] = Model.Id == 0 ? "Nuevo edificio" : "Editar edificio";
+}
+<form asp-action="@(Model.Id == 0 ? "Create" : "Edit")" asp-route-id="@(Model.Id == 0 ? null : Model.Id)" method="post" class="admin-card form-section">
+    <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
+    @if (Model.Sites.Count == 0)
+    {
+        <div class="alert alert-warning">Primero da de alta un <a asp-controller="Sites" asp-action="Create">sitio</a>.</div>
+    }
+    <div class="row g-3">
+        <div class="col-md-6">
+            <label asp-for="SiteId" class="form-label"></label>
+            <select asp-for="SiteId" asp-items="Model.Sites" class="form-select">
+                <option value="0">Selecciona...</option>
+            </select>
+            <span asp-validation-for="SiteId" class="text-danger small"></span>
+        </div>
+        <div class="col-md-6">
+            <label asp-for="Name" class="form-label"></label>
+            <input asp-for="Name" class="form-control" />
+            <span asp-validation-for="Name" class="text-danger small"></span>
+        </div>
+        <div class="col-12 form-check form-switch ms-2">
+            <input asp-for="Available" class="form-check-input" role="switch" />
+            <label asp-for="Available" class="form-check-label"></label>
+        </div>
+    </div>
+    <div class="form-actions">
+        <button type="submit" class="btn btn-brand px-4">Guardar</button>
+        <a asp-action="Index" class="btn btn-light border">Cancelar</a>
+    </div>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

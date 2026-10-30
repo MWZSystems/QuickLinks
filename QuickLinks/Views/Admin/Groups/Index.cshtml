@@ -1,0 +1,39 @@
+@model PagedList<NamedRow>
+@{
+    ViewData["Title"] = "Grupos";
+    ViewData["NewLabel"] = "Nuevo grupo";
+    var q = Model.Query;
+}
+<p class="text-muted">Un grupo reúne aplicaciones de distintas categorías; en el portal se elige desde los filtros.</p>
+<partial name="Admin/_SearchBar" model="q" view-data="ViewData" />
+
+<div class="admin-card p-0 table-responsive">
+    <table class="table admin-table table-hover">
+        <thead>
+            <tr>
+                <partial name="Admin/_SortHeader" model='new SortHeader(q, "name", "Nombre")' />
+                <th scope="col">Aplicaciones</th>
+                <partial name="Admin/_SortHeader" model='new SortHeader(q, "updated", "Actualizado")' />
+                <partial name="Admin/_SortHeader" model='new SortHeader(q, "status", "Estado")' />
+                <th scope="col"><span class="visually-hidden">Acciones</span></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var row in Model.Items)
+            {
+                <tr>
+                    <td>@row.Name</td>
+                    <td>@row.ApplicationCount</td>
+                    <td><local-time value="row.LastUpdated" /></td>
+                    <partial name="Admin/_StatusBadge" model="row.Available" />
+                    <partial name="Admin/_RowActions" model="(row.Id, row.Available)" />
+                </tr>
+            }
+            @if (Model.Items.Count == 0)
+            {
+                <tr><td colspan="5" class="text-center text-muted py-4">Sin registros.</td></tr>
+            }
+        </tbody>
+    </table>
+</div>
+<partial name="Admin/_Pager" model="(q, Model.TotalPages, Model.TotalCount)" />

@@ -1,0 +1,44 @@
+@model PagedList<NamedRow>
+@{
+    ViewData["Title"] = "Edificios";
+    ViewData["NewLabel"] = "Nuevo edificio";
+    var q = Model.Query;
+    var sites = (IReadOnlyList<Microsoft.AspNetCore.Mvc.Rendering.SelectListItem>)ViewBag.Sites;
+    ViewData["ExtraFilters"] = (Func<object?, Microsoft.AspNetCore.Html.IHtmlContent>)(_ =>
+        Html.DropDownList("SiteId", sites.Select(s => new Microsoft.AspNetCore.Mvc.Rendering.SelectListItem(s.Text, s.Value, s.Value == q.SiteId?.ToString())),
+            "Todos los sitios", new { @class = "form-select w-auto", aria_label = "Sitio" }));
+}
+<partial name="Admin/_SearchBar" model="q" view-data="ViewData" />
+
+<div class="admin-card p-0 table-responsive">
+    <table class="table admin-table table-hover">
+        <thead>
+            <tr>
+                <partial name="Admin/_SortHeader" model='new SortHeader(q, "name", "Nombre")' />
+                <partial name="Admin/_SortHeader" model='new SortHeader(q, "site", "Sitio")' />
+                <th scope="col">Aplicaciones</th>
+                <partial name="Admin/_SortHeader" model='new SortHeader(q, "updated", "Actualizado")' />
+                <partial name="Admin/_SortHeader" model='new SortHeader(q, "status", "Estado")' />
+                <th scope="col"><span class="visually-hidden">Acciones</span></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var row in Model.Items)
+            {
+                <tr>
+                    <td>@row.Name</td>
+                    <td>@row.Detail</td>
+                    <td>@row.ApplicationCount</td>
+                    <td><local-time value="row.LastUpdated" /></td>
+                    <partial name="Admin/_StatusBadge" model="row.Available" />
+                    <partial name="Admin/_RowActions" model="(row.Id, row.Available)" />
+                </tr>
+            }
+            @if (Model.Items.Count == 0)
+            {
+                <tr><td colspan="6" class="text-center text-muted py-4">Sin registros.</td></tr>
+            }
+        </tbody>
+    </table>
+</div>
+<partial name="Admin/_Pager" model="(q, Model.TotalPages, Model.TotalCount)" />

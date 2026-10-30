@@ -1,0 +1,50 @@
+@model UserForm
+@{
+    ViewData["Title"] = Model.Id == 0 ? "Nuevo usuario" : "Editar usuario";
+}
+<form asp-action="@(Model.Id == 0 ? "Create" : "Edit")" asp-route-id="@(Model.Id == 0 ? null : Model.Id)" method="post" class="admin-card form-section" autocomplete="off">
+    <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
+    <div class="row g-3">
+        <div class="col-md-6">
+            <label asp-for="Name" class="form-label"></label>
+            <input asp-for="Name" class="form-control" />
+            <span asp-validation-for="Name" class="text-danger small"></span>
+        </div>
+        <div class="col-md-6">
+            <label asp-for="UserName" class="form-label"></label>
+            <input asp-for="UserName" class="form-control" autocomplete="off" />
+            <span asp-validation-for="UserName" class="text-danger small"></span>
+        </div>
+        <div class="col-md-6">
+            <label asp-for="RoleId" class="form-label"></label>
+            <select asp-for="RoleId" asp-items="Model.Roles" class="form-select"></select>
+            <span asp-validation-for="RoleId" class="text-danger small"></span>
+        </div>
+        <div class="col-12"><hr class="my-1" /></div>
+        <div class="col-md-6">
+            <label asp-for="Password" class="form-label"></label>
+            <input asp-for="Password" class="form-control" autocomplete="new-password" />
+            <span asp-validation-for="Password" class="text-danger small"></span>
+            <div class="form-text">
+                Mínimo @UserForm.MinPasswordLength caracteres.@(Model.Id == 0 ? "" : " Déjala vacía para conservar la actual.")
+            </div>
+        </div>
+        <div class="col-md-6">
+            <label asp-for="ConfirmPassword" class="form-label"></label>
+            <input asp-for="ConfirmPassword" class="form-control" autocomplete="new-password" />
+            <span asp-validation-for="ConfirmPassword" class="text-danger small"></span>
+        </div>
+        <div class="col-12 form-check form-switch ms-2">
+            <input asp-for="Available" class="form-check-input" role="switch" />
+            <label asp-for="Available" class="form-check-label"></label>
+        </div>
+    </div>
+    <div class="form-actions">
+        <button type="submit" class="btn btn-brand px-4">Guardar</button>
+        <a asp-action="Index" class="btn btn-light border">Cancelar</a>
+    </div>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

@@ -1,0 +1,43 @@
+@model PagedList<ScheduleRow>
+@{
+    ViewData["Title"] = "Mantenimientos";
+    ViewData["NewLabel"] = "Programar mantenimiento";
+    var q = Model.Query;
+}
+<p class="text-muted">Un mantenimiento que bloquea la aplicación la muestra deshabilitada en el portal y publica su mensaje en la franja de avisos. No impide entrar directamente a la URL de la aplicación.</p>
+<partial name="Admin/_SearchBar" model="q" view-data="ViewData" />
+
+<div class="admin-card p-0 table-responsive">
+    <table class="table admin-table table-hover">
+        <thead>
+            <tr>
+                <partial name="Admin/_SortHeader" model='new SortHeader(q, "app", "Aplicación")' />
+                <th scope="col">Mensaje</th>
+                <partial name="Admin/_SortHeader" model='new SortHeader(q, "start", "Inicio")' />
+                <th scope="col">Fin</th>
+                <th scope="col">Bloquea</th>
+                <th scope="col">Estado</th>
+                <th scope="col"><span class="visually-hidden">Acciones</span></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var row in Model.Items)
+            {
+                <tr>
+                    <td class="fw-semibold">@row.Title</td>
+                    <td class="text-truncate" style="max-width: 320px">@row.Detail</td>
+                    <td><local-time value="row.StartDate" /></td>
+                    <td><local-time value="row.EndDate" /></td>
+                    <td>@(row.Flag ? "Sí" : "No")</td>
+                    <td><partial name="Admin/_ScheduleBadge" model="row.Status" /></td>
+                    <partial name="Admin/_RowActions" model="(row.Id, row.Available)" />
+                </tr>
+            }
+            @if (Model.Items.Count == 0)
+            {
+                <tr><td colspan="7" class="text-center text-muted py-4">Sin registros.</td></tr>
+            }
+        </tbody>
+    </table>
+</div>
+<partial name="Admin/_Pager" model="(q, Model.TotalPages, Model.TotalCount)" />

@@ -1,0 +1,53 @@
+@model PagedList<UserRow>
+@{
+    ViewData["Title"] = "Usuarios";
+    ViewData["NewLabel"] = "Nuevo usuario";
+    var q = Model.Query;
+}
+<partial name="Admin/_SearchBar" model="q" view-data="ViewData" />
+
+<div class="admin-card p-0 table-responsive">
+    <table class="table admin-table table-hover">
+        <thead>
+            <tr>
+                <partial name="Admin/_SortHeader" model='new SortHeader(q, "name", "Nombre")' />
+                <partial name="Admin/_SortHeader" model='new SortHeader(q, "username", "Usuario")' />
+                <th scope="col">Rol</th>
+                <partial name="Admin/_SortHeader" model='new SortHeader(q, "login", "Último acceso")' />
+                <partial name="Admin/_SortHeader" model='new SortHeader(q, "status", "Estado")' />
+                <th scope="col"><span class="visually-hidden">Acciones</span></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var row in Model.Items)
+            {
+                <tr>
+                    <td>@row.Name</td>
+                    <td><code>@row.UserName</code></td>
+                    <td>@row.Role</td>
+                    <td><local-time value="row.LastLogin" /></td>
+                    <td>
+                        @if (row.IsLocked)
+                        {
+                            <span class="badge text-bg-warning">Bloqueado</span>
+                        }
+                        else if (row.Available)
+                        {
+                            <span class="badge text-bg-success">Activo</span>
+                        }
+                        else
+                        {
+                            <span class="badge text-bg-secondary">Inactivo</span>
+                        }
+                    </td>
+                    <partial name="Admin/_RowActions" model="(row.Id, row.Available)" />
+                </tr>
+            }
+            @if (Model.Items.Count == 0)
+            {
+                <tr><td colspan="6" class="text-center text-muted py-4">Sin registros.</td></tr>
+            }
+        </tbody>
+    </table>
+</div>
+<partial name="Admin/_Pager" model="(q, Model.TotalPages, Model.TotalCount)" />

@@ -1,0 +1,17 @@
+@model ListQuery
+@{
+    var newLabel = ViewData["NewLabel"] as string ?? "Nuevo";
+}
+<div class="d-flex flex-wrap gap-2 align-items-center mb-3">
+    <form method="get" class="d-flex flex-wrap gap-2 flex-grow-1" role="search">
+        <input type="hidden" name="Sort" value="@Model.Sort" />
+        <input type="hidden" name="Desc" value="@(Model.Desc ? "true" : "false")" />
+        @if (ViewData["ExtraFilters"] is Func<object?, Microsoft.AspNetCore.Html.IHtmlContent> extra)
+        {
+            @extra(null)
+        }
+        <input type="search" name="Search" value="@Model.Search" class="form-control admin-search" placeholder="Buscar..." aria-label="Buscar" />
+        <button type="submit" class="btn btn-light border">Buscar</button>
+    </form>
+    <a asp-action="Create" class="btn btn-brand">+ @newLabel</a>
+</div>

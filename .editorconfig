@@ -1,0 +1,66 @@
+root = true
+
+[*]
+indent_style = space
+indent_size = 4
+end_of_line = crlf
+charset = utf-8
+trim_trailing_whitespace = true
+insert_final_newline = true
+
+[*.{json,yml,yaml,css,js,cshtml,html,xml,csproj,props}]
+indent_size = 2
+
+[*.{cshtml,js,css}]
+indent_size = 4
+
+[*.md]
+trim_trailing_whitespace = false
+
+[*.cs]
+csharp_style_namespace_declarations = file_scoped:warning
+csharp_prefer_braces = true:warning
+csharp_style_var_when_type_is_apparent = true:suggestion
+dotnet_style_predefined_type_for_locals_parameters_members = true:warning
+dotnet_style_predefined_type_for_member_access = true:warning
+dotnet_sort_system_directives_first = true
+
+# Campos privados: _camelCase
+dotnet_naming_rule.private_fields_underscore.symbols  = private_fields
+dotnet_naming_rule.private_fields_underscore.style    = underscore_camel
+dotnet_naming_rule.private_fields_underscore.severity = warning
+dotnet_naming_symbols.private_fields.applicable_kinds = field
+dotnet_naming_symbols.private_fields.applicable_accessibilities = private
+dotnet_naming_style.underscore_camel.capitalization  = camel_case
+dotnet_naming_style.underscore_camel.required_prefix = _
+
+# Constantes en PascalCase (prioridad sobre la regla anterior)
+dotnet_naming_rule.constants_pascal.symbols  = constants
+dotnet_naming_rule.constants_pascal.style    = pascal
+dotnet_naming_rule.constants_pascal.severity = warning
+dotnet_naming_symbols.constants.applicable_kinds = field
+dotnet_naming_symbols.constants.required_modifiers = const
+dotnet_naming_style.pascal.capitalization = pascal_case
+
+# Métodos async con sufijo Async
+dotnet_naming_rule.async_methods_end_in_async.symbols  = async_methods
+dotnet_naming_rule.async_methods_end_in_async.style    = end_in_async
+dotnet_naming_rule.async_methods_end_in_async.severity = suggestion
+dotnet_naming_symbols.async_methods.applicable_kinds   = method
+dotnet_naming_symbols.async_methods.required_modifiers = async
+dotnet_naming_style.end_in_async.capitalization  = pascal_case
+dotnet_naming_style.end_in_async.required_suffix = Async
+
+# --- Ajustes de analizadores (justificados) ---
+# CA1848/CA1873: LoggerMessage compilado solo compensa en rutas de alto volumen; aquí se prioriza legibilidad.
+dotnet_diagnostic.CA1848.severity = suggestion
+dotnet_diagnostic.CA1873.severity = suggestion
+# CA1305: la cultura de la aplicación se fija explícitamente en Program.cs (es-MX).
+dotnet_diagnostic.CA1305.severity = suggestion
+# CA1000: PagedList<T>.CreateAsync es una fábrica intencional.
+dotnet_diagnostic.CA1000.severity = suggestion
+
+# Migraciones de EF Core: código generado.
+[**/Migrations/*.cs]
+generated_code = true
+dotnet_diagnostic.CA1861.severity = none

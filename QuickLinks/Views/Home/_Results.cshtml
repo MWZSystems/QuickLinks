@@ -1,0 +1,5 @@
+@model PortalViewModel
+@* Respuesta de la búsqueda en vivo: portal.js toma cada parte por su id. *@
+<div id="simple-part"><partial name="_SimpleResults" model="Model" /></div>
+<div id="complete-part"><partial name="_CompleteResults" model="Model" /></div>
+<span id="count-part">@Model.AppCount</span>

@@ -1,0 +1,40 @@
+@model PagedList<CategoryRow>
+@{
+    ViewData["Title"] = "Categorías";
+    ViewData["NewLabel"] = "Nueva categoría";
+    var q = Model.Query;
+}
+<partial name="Admin/_SearchBar" model="q" view-data="ViewData" />
+
+<div class="admin-card p-0 table-responsive">
+    <table class="table admin-table table-hover">
+        <thead>
+            <tr>
+                <partial name="Admin/_SortHeader" model='new SortHeader(q, "name", "Nombre")' />
+                <th scope="col">Color</th>
+                <th scope="col">Aplicaciones</th>
+                <partial name="Admin/_SortHeader" model='new SortHeader(q, "updated", "Actualizada")' />
+                <partial name="Admin/_SortHeader" model='new SortHeader(q, "status", "Estado")' />
+                <th scope="col"><span class="visually-hidden">Acciones</span></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var row in Model.Items)
+            {
+                <tr>
+                    <td>@row.Name</td>
+                    <td><span class="color-swatch" style="background: @Branding.SafeColor(row.Color)"></span>@row.Color</td>
+                    <td>@row.ApplicationCount</td>
+                    <td><local-time value="row.LastUpdated" /></td>
+                    <partial name="Admin/_StatusBadge" model="row.Available" />
+                    <partial name="Admin/_RowActions" model="(row.Id, row.Available)" />
+                </tr>
+            }
+            @if (Model.Items.Count == 0)
+            {
+                <tr><td colspan="6" class="text-center text-muted py-4">Sin registros.</td></tr>
+            }
+        </tbody>
+    </table>
+</div>
+<partial name="Admin/_Pager" model="(q, Model.TotalPages, Model.TotalCount)" />

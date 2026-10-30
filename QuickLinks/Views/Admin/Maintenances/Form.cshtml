@@ -1,0 +1,37 @@
+@model MaintenanceForm
+@{
+    ViewData["Title"] = Model.Id == 0 ? "Programar mantenimiento" : "Editar mantenimiento";
+    var settings = await SettingsService.GetAsync();
+}
+<form asp-action="@(Model.Id == 0 ? "Create" : "Edit")" asp-route-id="@(Model.Id == 0 ? null : Model.Id)" method="post" class="admin-card form-section">
+    <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
+    <div class="row g-3">
+        <div class="col-12">
+            <label asp-for="ApplicationId" class="form-label"></label>
+            <select asp-for="ApplicationId" asp-items="Model.Applications" class="form-select">
+                <option value="0">Selecciona...</option>
+            </select>
+            <span asp-validation-for="ApplicationId" class="text-danger small"></span>
+        </div>
+        <div class="col-12">
+            <label asp-for="CustomMessage" class="form-label"></label>
+            <textarea asp-for="CustomMessage" class="form-control" rows="3"></textarea>
+            <span asp-validation-for="CustomMessage" class="text-danger small"></span>
+            <div class="form-text">Si lo dejas vacío se genera con el nombre de la aplicación y las fechas.</div>
+        </div>
+        <partial name="Admin/_ScheduleFields" model="Model" />
+        <div class="col-12 form-check form-switch ms-2">
+            <input asp-for="DisableApplication" class="form-check-input" role="switch" />
+            <label asp-for="DisableApplication" class="form-check-label"></label>
+        </div>
+    </div>
+    <p class="form-text mt-3">Horario en la zona @settings.TimeZone.Id.</p>
+    <div class="form-actions">
+        <button type="submit" class="btn btn-brand px-4">Guardar</button>
+        <a asp-action="Index" class="btn btn-light border">Cancelar</a>
+    </div>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

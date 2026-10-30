@@ -1,0 +1,14 @@
+@model AppCard
+@{
+    var canUnpin = ViewData["CanUnpin"] as bool? ?? false;
+    var variant = ViewData["Variant"] as string ?? "outline";
+}
+<li class="app-pill-item">
+    <a href="@Model.Link" target="_blank" rel="noopener noreferrer"
+       class="app-pill app-pill-@variant app-link @(Model.IsBlocked ? "is-blocked" : "")"
+       data-app-id="@Model.Id" data-app-name="@Model.Name">@Model.Name</a>
+    @if (canUnpin)
+    {
+        <button type="button" class="app-pill-unpin" data-unpin="@Model.Id" aria-label="Quitar @Model.Name de fijadas">&minus;</button>
+    }
+</li>

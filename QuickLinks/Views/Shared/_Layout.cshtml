@@ -1,0 +1,49 @@
+﻿@{
+    var settings = await SettingsService.GetAsync();
+    var footer = string.IsNullOrWhiteSpace(settings.CompanyName)
+        ? settings.AppName
+        : $"{settings.CompanyName} · {settings.AppName}";
+}
+<!DOCTYPE html>
+<html lang="es" style="--ql-primary: @Branding.SafeColor(settings.PrimaryColor)">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - @settings.AppName</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/portal.css" asp-append-version="true" />
+</head>
+<body class="portal" data-base-url="@Url.Content("~/")">
+    <header>
+        <nav class="navbar navbar-expand-sm bg-white border-bottom px-3 px-lg-5">
+            <div class="container-fluid">
+                <a class="navbar-brand d-flex align-items-center gap-2" asp-controller="Home" asp-action="Index">
+                    <partial name="_Brand" model="settings" />
+                </a>
+                <div class="ms-auto">
+                    @if (User.Identity?.IsAuthenticated == true)
+                    {
+                        <a asp-controller="Applications" asp-action="Index" class="btn btn-brand px-4">Administración</a>
+                    }
+                    else
+                    {
+                        <a asp-controller="Account" asp-action="Login" class="btn btn-brand px-4">Iniciar sesión</a>
+                    }
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main role="main" class="pb-5">
+        @RenderBody()
+    </main>
+
+    <footer class="portal-footer">
+        <div class="container text-center">@footer @AppInfo.Version</div>
+    </footer>
+
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

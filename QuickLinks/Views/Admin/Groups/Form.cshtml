@@ -1,0 +1,24 @@
+@model NamedForm
+@{
+    ViewData["Title"] = Model.Id == 0 ? "Nuevo grupo" : "Editar grupo";
+}
+<form asp-action="@(Model.Id == 0 ? "Create" : "Edit")" asp-route-id="@(Model.Id == 0 ? null : Model.Id)" method="post" class="admin-card form-section">
+    <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
+    <div class="mb-3">
+        <label asp-for="Name" class="form-label"></label>
+        <input asp-for="Name" class="form-control" />
+        <span asp-validation-for="Name" class="text-danger small"></span>
+    </div>
+    <div class="form-check form-switch">
+        <input asp-for="Available" class="form-check-input" role="switch" />
+        <label asp-for="Available" class="form-check-label"></label>
+    </div>
+    <div class="form-actions">
+        <button type="submit" class="btn btn-brand px-4">Guardar</button>
+        <a asp-action="Index" class="btn btn-light border">Cancelar</a>
+    </div>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

@@ -1,0 +1,9 @@
+@model (int Id, bool Available)
+<td class="text-end text-nowrap">
+    <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-sm btn-brand-outline">Editar</a>
+    <form asp-action="ToggleAvailable" asp-route-id="@Model.Id" method="post" class="d-inline">
+        <button type="submit" class="btn btn-sm @(Model.Available ? "btn-outline-danger" : "btn-outline-success")">
+            @(Model.Available ? "Desactivar" : "Activar")
+        </button>
+    </form>
+</td>

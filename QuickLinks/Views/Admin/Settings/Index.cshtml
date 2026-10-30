@@ -1,0 +1,86 @@
+@model SettingsForm
+@{
+    ViewData["Title"] = "Configuración";
+}
+<p class="text-muted">Personaliza el portal para este cliente. Los cambios se aplican en todas las páginas.</p>
+
+<form asp-action="Index" method="post" enctype="multipart/form-data" class="admin-card form-section">
+    <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
+
+    <h2 class="h6 text-uppercase text-muted mb-3">Marca</h2>
+    <div class="row g-3">
+        <div class="col-md-6">
+            <label asp-for="AppName" class="form-label"></label>
+            <input asp-for="AppName" class="form-control" />
+            <span asp-validation-for="AppName" class="text-danger small"></span>
+        </div>
+        <div class="col-md-6">
+            <label asp-for="CompanyName" class="form-label"></label>
+            <input asp-for="CompanyName" class="form-control" />
+            <span asp-validation-for="CompanyName" class="text-danger small"></span>
+        </div>
+        <div class="col-md-6">
+            <label asp-for="PrimaryColor" class="form-label"></label>
+            <div class="input-group">
+                <input type="color" class="form-control form-control-color" value="@Model.PrimaryColor" data-color-input="#PrimaryColor" aria-label="Selector de color" />
+                <input asp-for="PrimaryColor" class="form-control" />
+            </div>
+            <span asp-validation-for="PrimaryColor" class="text-danger small"></span>
+        </div>
+        <div class="col-md-6">
+            <label asp-for="Logo" class="form-label"></label>
+            @if (Model.CurrentLogoUrl is not null)
+            {
+                <div class="d-flex align-items-center gap-3 mb-2">
+                    <img src="@Model.CurrentLogoUrl" alt="Logo actual" class="brand-logo" />
+                    <div class="form-check">
+                        <input asp-for="RemoveLogo" class="form-check-input" />
+                        <label asp-for="RemoveLogo" class="form-check-label">Quitar logo</label>
+                    </div>
+                </div>
+            }
+            <input asp-for="Logo" type="file" class="form-control" accept=".png,.jpg,.jpeg,.gif,.webp,.svg" />
+            <span asp-validation-for="Logo" class="text-danger small"></span>
+            <div class="form-text">Sin logo se muestra el nombre de la aplicación.</div>
+        </div>
+    </div>
+
+    <h2 class="h6 text-uppercase text-muted mt-4 mb-3">Reglas</h2>
+    <div class="row g-3">
+        <div class="col-md-6">
+            <label asp-for="LinkValidationRegex" class="form-label"></label>
+            <input asp-for="LinkValidationRegex" class="form-control font-monospace" />
+            <span asp-validation-for="LinkValidationRegex" class="text-danger small"></span>
+            <div class="form-text">Por defecto <code>^(https?://).+</code>: exige http o https.</div>
+        </div>
+        <div class="col-md-6">
+            <label asp-for="TimeZone" class="form-label"></label>
+            <input asp-for="TimeZone" class="form-control" list="time-zones" />
+            <datalist id="time-zones">
+                <option value="America/Mexico_City"></option>
+                <option value="America/Chihuahua"></option>
+                <option value="America/Monterrey"></option>
+                <option value="America/Tijuana"></option>
+                <option value="America/Bogota"></option>
+                <option value="America/Lima"></option>
+                <option value="America/Santiago"></option>
+                <option value="America/Argentina/Buenos_Aires"></option>
+                <option value="America/New_York"></option>
+                <option value="America/Chicago"></option>
+                <option value="America/Los_Angeles"></option>
+                <option value="Europe/Madrid"></option>
+                <option value="UTC"></option>
+            </datalist>
+            <span asp-validation-for="TimeZone" class="text-danger small"></span>
+            <div class="form-text">Se usa para las fechas de avisos y mantenimientos (formato IANA).</div>
+        </div>
+    </div>
+
+    <div class="form-actions">
+        <button type="submit" class="btn btn-brand px-4">Guardar</button>
+    </div>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

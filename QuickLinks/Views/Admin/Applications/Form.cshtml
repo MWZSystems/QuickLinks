@@ -1,0 +1,163 @@
+@model ApplicationForm
+@{
+    ViewData["Title"] = Model.Id == 0 ? "Nueva aplicación" : "Editar aplicación";
+    var o = Model.Options;
+}
+<form asp-action="@(Model.Id == 0 ? "Create" : "Edit")" asp-route-id="@(Model.Id == 0 ? null : Model.Id)" method="post"
+      enctype="multipart/form-data" class="admin-card form-section">
+    <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
+
+    <h2 class="h6 text-uppercase text-muted mb-3">Datos generales</h2>
+    <div class="row g-3">
+        <div class="col-md-8">
+            <label asp-for="Name" class="form-label"></label>
+            <input asp-for="Name" class="form-control" />
+            <span asp-validation-for="Name" class="text-danger small"></span>
+        </div>
+        <div class="col-md-4">
+            <label asp-for="Version" class="form-label"></label>
+            <input asp-for="Version" class="form-control" />
+            <span asp-validation-for="Version" class="text-danger small"></span>
+        </div>
+        <div class="col-12">
+            <label asp-for="Link" class="form-label"></label>
+            <input asp-for="Link" class="form-control" type="url" placeholder="https://" />
+            <span asp-validation-for="Link" class="text-danger small"></span>
+        </div>
+        <div class="col-12">
+            <label asp-for="Description" class="form-label"></label>
+            <textarea asp-for="Description" class="form-control" rows="3"></textarea>
+            <span asp-validation-for="Description" class="text-danger small"></span>
+        </div>
+        <div class="col-md-6">
+            <label asp-for="Sme" class="form-label"></label>
+            <input asp-for="Sme" class="form-control" />
+            <span asp-validation-for="Sme" class="text-danger small"></span>
+        </div>
+        <div class="col-md-6">
+            <label asp-for="UserManual" class="form-label"></label>
+            <input asp-for="UserManual" class="form-control" />
+            <span asp-validation-for="UserManual" class="text-danger small"></span>
+        </div>
+        <div class="col-12 form-check form-switch ms-2">
+            <input asp-for="Available" class="form-check-input" role="switch" />
+            <label asp-for="Available" class="form-check-label"></label>
+        </div>
+    </div>
+
+    <h2 class="h6 text-uppercase text-muted mt-4 mb-3">Imágenes</h2>
+    <div class="row g-3">
+        <div class="col-md-6">
+            <label asp-for="Logo" class="form-label"></label>
+            @if (Model.CurrentLogoUrl is not null)
+            {
+                <div class="d-flex align-items-center gap-3 mb-2">
+                    <img src="@Model.CurrentLogoUrl" alt="Logo actual" class="thumb" style="width: 64px; height: 64px" />
+                    <div class="form-check">
+                        <input asp-for="RemoveLogo" class="form-check-input" />
+                        <label asp-for="RemoveLogo" class="form-check-label">Quitar logo</label>
+                    </div>
+                </div>
+            }
+            <input asp-for="Logo" type="file" class="form-control" accept=".png,.jpg,.jpeg,.gif,.webp,.svg" />
+            <span asp-validation-for="Logo" class="text-danger small"></span>
+            <div class="form-text">PNG, JPG, GIF, WEBP o SVG, máximo 2 MB.</div>
+        </div>
+        <div class="col-md-6">
+            <label asp-for="CarouselFiles" class="form-label"></label>
+            <input asp-for="CarouselFiles" type="file" class="form-control" multiple accept=".png,.jpg,.jpeg,.gif,.webp" />
+            <span asp-validation-for="CarouselFiles" class="text-danger small"></span>
+            <div class="form-text">Se muestran en el detalle de la aplicación. Máximo @ApplicationForm.MaxCarouselImages.</div>
+        </div>
+        @if (Model.CurrentCarousel.Count > 0)
+        {
+            <div class="col-12">
+                <span class="form-label d-block">Carrusel actual (marca las que quieras quitar)</span>
+                <div class="carousel-thumbs">
+                    @foreach (var (id, url) in Model.CurrentCarousel)
+                    {
+                        <figure>
+                            <img src="@url" alt="" />
+                            <figcaption class="form-check d-inline-block mt-1">
+                                <input class="form-check-input" type="checkbox" name="RemoveCarouselIds" value="@id" id="rm-@id"
+                                       checked="@Model.RemoveCarouselIds.Contains(id)" />
+                                <label class="form-check-label small" for="rm-@id">Quitar</label>
+                            </figcaption>
+                        </figure>
+                    }
+                </div>
+            </div>
+        }
+    </div>
+
+    <h2 class="h6 text-uppercase text-muted mt-4 mb-3">Clasificación</h2>
+    <div class="row g-3">
+        <div class="col-md-6">
+            <span class="form-label d-block">Categorías <span class="text-danger">*</span></span>
+            <div class="check-grid">
+                @foreach (var c in o.Categories)
+                {
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" name="CategoryIds" value="@c.Id" id="cat-@c.Id" checked="@Model.CategoryIds.Contains(c.Id)" />
+                        <label class="form-check-label" for="cat-@c.Id">@c.Name</label>
+                    </div>
+                }
+                @if (o.Categories.Count == 0)
+                {
+                    <span class="text-muted small">No hay categorías. <a asp-controller="Categories" asp-action="Create">Crea una</a>.</span>
+                }
+            </div>
+            <span asp-validation-for="CategoryIds" class="text-danger small"></span>
+        </div>
+        <div class="col-md-6">
+            <span class="form-label d-block">Grupos</span>
+            <div class="check-grid">
+                @foreach (var g in o.Groups)
+                {
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" name="GroupIds" value="@g.Id" id="grp-@g.Id" checked="@Model.GroupIds.Contains(g.Id)" />
+                        <label class="form-check-label" for="grp-@g.Id">@g.Name</label>
+                    </div>
+                }
+                @if (o.Groups.Count == 0)
+                {
+                    <span class="text-muted small">Sin grupos (opcional).</span>
+                }
+            </div>
+        </div>
+        <div class="col-12">
+            <span class="form-label d-block">Disponible en edificios <span class="text-danger">*</span></span>
+            <div class="check-grid">
+                @foreach (var site in o.Sites)
+                {
+                    <span class="check-grid-title">@site.Name</span>
+                    @foreach (var b in o.Buildings.Where(b => b.ParentId == site.Id))
+                    {
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" name="BuildingIds" value="@b.Id" id="bld-@b.Id" checked="@Model.BuildingIds.Contains(b.Id)" />
+                            <label class="form-check-label" for="bld-@b.Id">@b.Name</label>
+                        </div>
+                    }
+                }
+                @if (o.Buildings.Count == 0)
+                {
+                    <span class="text-muted small">No hay edificios. <a asp-controller="Buildings" asp-action="Create">Crea uno</a>.</span>
+                }
+            </div>
+            <span asp-validation-for="BuildingIds" class="text-danger small"></span>
+        </div>
+    </div>
+
+    <div class="form-actions">
+        <button type="submit" class="btn btn-brand px-4">Guardar</button>
+        <a asp-action="Index" class="btn btn-light border">Cancelar</a>
+        @if (Model.Id != 0)
+        {
+            <a asp-controller="Maintenances" asp-action="Create" asp-route-applicationId="@Model.Id" class="btn btn-outline-secondary ms-auto">Programar mantenimiento</a>
+        }
+    </div>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

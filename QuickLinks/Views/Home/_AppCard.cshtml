@@ -1,0 +1,22 @@
+@model AppCard
+<a href="@Model.Link" target="_blank" rel="noopener noreferrer"
+   class="app-card app-link @(Model.IsBlocked ? "is-blocked" : "")"
+   data-app-id="@Model.Id" data-app-name="@Model.Name">
+    @* span y no button: un elemento interactivo no puede ir dentro de un enlace. *@
+    <span class="app-card-more" role="button" tabindex="0" data-details="@Model.Id" aria-label="Ver detalle de @Model.Name">
+        <svg viewBox="0 0 24 6" width="18" height="6" aria-hidden="true"><circle cx="3" cy="3" r="2.4" /><circle cx="12" cy="3" r="2.4" /><circle cx="21" cy="3" r="2.4" /></svg>
+    </span>
+    @if (Model.ImageUrl is not null)
+    {
+        <img class="app-card-logo" src="@Model.ImageUrl" alt="" loading="lazy" />
+        <span class="app-card-name">@Model.Name</span>
+    }
+    else
+    {
+        <span class="app-card-name app-card-name-only">@Model.Name</span>
+    }
+    @if (Model.IsBlocked)
+    {
+        <span class="app-card-badge">En mantenimiento</span>
+    }
+</a>

@@ -1,0 +1,19 @@
+# Compilación
+bin/
+obj/
+publish/
+*.user
+.vs/
+.vscode/
+.idea/
+
+# Datos en tiempo de ejecución
+**/Logs/
+**/App_Data/
+
+# Secretos: la configuración de producción se publica pero nunca se sube al repositorio
+appsettings.Production.json
+appsettings.*.local.json
+*.pubxml.user
+*.pfx
+.env

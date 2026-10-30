@@ -1,0 +1,81 @@
+@{
+    var settings = await SettingsService.GetAsync();
+    var controller = ViewContext.RouteData.Values["controller"]?.ToString();
+    var menu = new (string Controller, string Label)[]
+    {
+        ("Applications", "Aplicaciones"),
+        ("Categories", "Categorías"),
+        ("Groups", "Grupos"),
+        ("Sites", "Sitios"),
+        ("Buildings", "Edificios"),
+        ("Advices", "Avisos"),
+        ("Maintenances", "Mantenimientos"),
+        ("Users", "Usuarios"),
+        ("Settings", "Configuración")
+    };
+}
+<!DOCTYPE html>
+<html lang="es" style="--ql-primary: @Branding.SafeColor(settings.PrimaryColor)">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Administración - @settings.AppName</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/admin.css" asp-append-version="true" />
+</head>
+<body class="admin">
+    <header class="admin-header">
+        <button class="btn btn-sm btn-light d-lg-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#admin-menu" aria-controls="admin-menu" aria-label="Abrir menú">☰</button>
+        <a asp-controller="Home" asp-action="Index" class="d-flex align-items-center gap-2 text-decoration-none">
+            <partial name="_Brand" model="settings" />
+        </a>
+        <span class="admin-tag">Administración</span>
+        <div class="ms-auto d-flex align-items-center gap-3">
+            <span class="small text-muted d-none d-sm-inline">@User.Identity?.Name</span>
+            <form asp-controller="Account" asp-action="Logout" method="post">
+                <button type="submit" class="btn btn-sm btn-outline-secondary">Cerrar sesión</button>
+            </form>
+        </div>
+    </header>
+
+    <div class="admin-shell">
+        <nav id="admin-menu" class="offcanvas-lg offcanvas-start admin-nav" tabindex="-1" aria-label="Catálogos">
+            <div class="offcanvas-header d-lg-none">
+                <span class="fw-bold">Menú</span>
+                <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#admin-menu" aria-label="Cerrar"></button>
+            </div>
+            <ul class="nav flex-column">
+                @foreach (var item in menu)
+                {
+                    <li class="nav-item">
+                        <a class="nav-link @(item.Controller == controller ? "active" : "")" asp-controller="@item.Controller" asp-action="Index"
+                           aria-current="@(item.Controller == controller ? "page" : null)">@item.Label</a>
+                    </li>
+                }
+                <li class="nav-item mt-3">
+                    <a class="nav-link" asp-controller="Home" asp-action="Index">← Ir al portal</a>
+                </li>
+            </ul>
+        </nav>
+
+        <main class="admin-main" role="main">
+            <h1 class="admin-title">@ViewData["Title"]</h1>
+            @if (TempData["Success"] is string success)
+            {
+                <div class="alert alert-success alert-dismissible fade show" role="status">
+                    @success
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>
+                </div>
+            }
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="admin-footer">@settings.AppName @AppInfo.Version</footer>
+
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/admin.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

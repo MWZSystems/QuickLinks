@@ -1,0 +1,60 @@
+@model PagedList<ApplicationRow>
+@inject IMediaStorage Media
+@{
+    ViewData["Title"] = "Aplicaciones";
+    ViewData["NewLabel"] = "Nueva aplicación";
+    var q = Model.Query;
+    var options = (ApplicationFormOptions)ViewBag.Options;
+    ViewData["ExtraFilters"] = (Func<object?, Microsoft.AspNetCore.Html.IHtmlContent>)(_ =>
+        new Microsoft.AspNetCore.Html.HtmlContentBuilder()
+            .AppendHtml(Html.DropDownList("SiteId",
+                options.Sites.Select(s => new Microsoft.AspNetCore.Mvc.Rendering.SelectListItem(s.Name, s.Id.ToString(), s.Id == q.SiteId)),
+                "Todos los sitios", new { @class = "form-select w-auto", aria_label = "Sitio" }))
+            .AppendHtml(Html.DropDownList("BuildingId",
+                options.Buildings.Select(b => new Microsoft.AspNetCore.Mvc.Rendering.SelectListItem(b.Name, b.Id.ToString(), b.Id == q.BuildingId)),
+                "Todos los edificios", new { @class = "form-select w-auto", aria_label = "Edificio" })));
+}
+<partial name="Admin/_SearchBar" model="q" view-data="ViewData" />
+
+<div class="admin-card p-0 table-responsive">
+    <table class="table admin-table table-hover">
+        <thead>
+            <tr>
+                <th scope="col"><span class="visually-hidden">Logo</span></th>
+                <partial name="Admin/_SortHeader" model='new SortHeader(q, "name", "Nombre")' />
+                <th scope="col">Categorías</th>
+                <th scope="col">Versión</th>
+                <partial name="Admin/_SortHeader" model='new SortHeader(q, "updated", "Actualizada")' />
+                <partial name="Admin/_SortHeader" model='new SortHeader(q, "status", "Estado")' />
+                <th scope="col"><span class="visually-hidden">Acciones</span></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var row in Model.Items)
+            {
+                <tr>
+                    <td>
+                        @if (row.Image is not null)
+                        {
+                            <img class="thumb" src="@Media.GetUrl(MediaFolder.Logo, row.Image)" alt="" loading="lazy" />
+                        }
+                    </td>
+                    <td>
+                        <div class="fw-semibold">@row.Name</div>
+                        <a href="@row.Link" target="_blank" rel="noopener noreferrer" class="small text-muted text-break">@row.Link</a>
+                    </td>
+                    <td class="small">@string.Join(", ", row.Categories)</td>
+                    <td>@row.Version</td>
+                    <td><local-time value="row.LastUpdated" /></td>
+                    <partial name="Admin/_StatusBadge" model="row.Available" />
+                    <partial name="Admin/_RowActions" model="(row.Id, row.Available)" />
+                </tr>
+            }
+            @if (Model.Items.Count == 0)
+            {
+                <tr><td colspan="7" class="text-center text-muted py-4">Sin registros.</td></tr>
+            }
+        </tbody>
+    </table>
+</div>
+<partial name="Admin/_Pager" model="(q, Model.TotalPages, Model.TotalCount)" />
