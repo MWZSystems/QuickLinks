@@ -2,6 +2,11 @@
 
 Formato: [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/). Versionado: [SemVer](https://semver.org/lang/es/).
 
+## [1.0.1] - 2026-10-30
+
+### Corregido
+- El sitio publicado respondía error 500: la aplicación ahora corre fuera del proceso de IIS (`OutOfProcess`, sin `apphost.exe`), igual que las demás aplicaciones .NET 10 del mismo hosting.
+
 ## [1.0.0] - 2026-10-29
 
 | Componente | Versión |
