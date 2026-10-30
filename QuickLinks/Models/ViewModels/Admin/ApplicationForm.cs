@@ -45,7 +45,7 @@ public sealed class ApplicationForm
     public bool RemoveLogo { get; set; }
 
     [Display(Name = "Agregar imágenes al carrusel")]
-    public List<IFormFile> CarouselFiles { get; set; } = [];
+    public List<IFormFile>? CarouselFiles { get; set; }
 
     public List<int> RemoveCarouselIds { get; set; } = [];
 

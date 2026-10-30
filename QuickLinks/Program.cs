@@ -23,6 +23,10 @@ builder.Host.UseSerilog((context, configuration) => configuration.ReadFrom.Confi
 builder.Services.AddControllersWithViews(options =>
 {
     options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());
+
+    // Solo son obligatorios los campos con [Required] explícito y mensaje en español; sin esto,
+    // cualquier propiedad no anulable (por ejemplo la lista de imágenes del carrusel) se vuelve obligatoria.
+    options.SuppressImplicitRequiredAttributeForNonNullableReferenceTypes = true;
 });
 
 // Las vistas de los catálogos viven en Views/Admin/{Controller}.

@@ -20,6 +20,7 @@ Formato: [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/). Versionado
 - Marca configurable por cliente: nombre, logo, color principal y zona horaria.
 - Esquema con los nombres del original (`CT_`, `SC_`, `SY_`) más índices únicos y fechas en UTC.
 - Hospedaje `OutOfProcess` sin `apphost.exe`, como las demás aplicaciones .NET 10 del mismo hosting.
+- Los formularios solo exigen los campos marcados como obligatorios; editar una aplicación ya no pide imágenes de carrusel.
 - Las imágenes de `App_Data/media` se incluyen en el publish; un archivo de medios inexistente responde 404 y el portal muestra solo el nombre si un logo no carga.
 
 ### Cambiado respecto al sistema original

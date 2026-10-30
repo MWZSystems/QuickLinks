@@ -180,7 +180,7 @@ public class ApplicationsController(
                 app.Image = null;
             }
 
-            foreach (var file in form.CarouselFiles.Where(f => f.Length > 0))
+            foreach (var file in (form.CarouselFiles ?? []).Where(f => f.Length > 0))
             {
                 var (fileName, error) = await media.SaveImageAsync(file, MediaFolder.Carousel, ct);
                 if (error is not null)
@@ -276,7 +276,7 @@ public class ApplicationsController(
             ModelState.AddModelError(nameof(form.BuildingIds), "Selecciona al menos un edificio.");
         }
 
-        var newImages = form.CarouselFiles.Count(f => f.Length > 0);
+        var newImages = form.CarouselFiles?.Count(f => f.Length > 0) ?? 0;
         if (existingCarouselCount + newImages > ApplicationForm.MaxCarouselImages)
         {
             ModelState.AddModelError(nameof(form.CarouselFiles), $"El carrusel admite hasta {ApplicationForm.MaxCarouselImages} imágenes.");
