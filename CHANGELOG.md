@@ -2,12 +2,7 @@
 
 Formato: [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/). Versionado: [SemVer](https://semver.org/lang/es/).
 
-## [1.0.1] - 2026-10-30
-
-### Corregido
-- El sitio publicado respondía error 500: la aplicación ahora corre fuera del proceso de IIS (`OutOfProcess`, sin `apphost.exe`), igual que las demás aplicaciones .NET 10 del mismo hosting.
-
-## [1.0.0] - 2026-10-29
+## [1.0.0] - 2026-10-30
 
 | Componente | Versión |
 |---|---|
@@ -24,6 +19,7 @@ Formato: [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/). Versionado
 - Inicio de sesión con cuentas locales (hash PBKDF2, bloqueo tras 5 intentos fallidos).
 - Marca configurable por cliente: nombre, logo, color principal y zona horaria.
 - Esquema con los nombres del original (`CT_`, `SC_`, `SY_`) más índices únicos y fechas en UTC.
+- Hospedaje `OutOfProcess` sin `apphost.exe`, como las demás aplicaciones .NET 10 del mismo hosting.
 
 ### Cambiado respecto al sistema original
 - La autenticación con el servicio corporativo se sustituyó por cuentas locales.

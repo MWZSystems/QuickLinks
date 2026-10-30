@@ -5,7 +5,7 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <UserSecretsId>17c9c341-e95b-420e-8e83-1de2dd0cf047</UserSecretsId>
-    <Version>1.0.1</Version>
+    <Version>1.0.0</Version>
     <!-- Igual que WFMCore y Trainify en el mismo hosting (site4now): proceso separado detrás de IIS. -->
     <AspNetCoreHostingModel>OutOfProcess</AspNetCoreHostingModel>
     <UseAppHost>false</UseAppHost>
