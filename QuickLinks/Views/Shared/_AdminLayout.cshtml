@@ -11,7 +11,7 @@
         ("Advices", "Avisos", "bi-megaphone", "Mensajes de la franja de avisos"),
         ("Maintenances", "Mantenimientos", "bi-tools", "Ventanas que bloquean una aplicación"),
         ("Users", "Usuarios", "bi-people", "Quién puede administrar"),
-        ("Settings", "Configuración", "bi-gear", "Nombre, logo, color y zona horaria")
+        ("Settings", "Configuración", "bi-gear", "Marca, portal, avisos, seguridad, imágenes y regional")
     };
     var current = menu.FirstOrDefault(m => m.Controller == controller);
 }
@@ -60,6 +60,21 @@
                            title="@item.Hint" aria-current="@(item.Controller == controller ? "page" : null)">
                             <i class="bi @item.Icon" aria-hidden="true"></i>@item.Label
                         </a>
+                        @if (item.Controller == "Settings" && controller == "Settings")
+                        {
+                            var action = ViewContext.RouteData.Values["action"]?.ToString();
+                            <ul class="nav flex-column admin-subnav">
+                                @foreach (var part in SettingsSection.All)
+                                {
+                                    <li class="nav-item">
+                                        <a class="nav-link @(part.Action == action ? "active" : "")" asp-controller="Settings" asp-action="@part.Action"
+                                           aria-current="@(part.Action == action ? "page" : null)">
+                                            <i class="bi @part.Icon" aria-hidden="true"></i>@part.Title
+                                        </a>
+                                    </li>
+                                }
+                            </ul>
+                        }
                     </li>
                 }
                 <li class="nav-item mt-3 border-top pt-3">

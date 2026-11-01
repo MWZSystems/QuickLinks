@@ -3,12 +3,13 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using QuickLinks.Models.ViewModels;
+using QuickLinks.Services;
 using QuickLinks.Services.Auth;
 
 namespace QuickLinks.Controllers;
 
 [AllowAnonymous]
-public class AccountController(IAuthService auth) : Controller
+public class AccountController(IAuthService auth, ISettingsService settings) : Controller
 {
     [HttpGet]
     public IActionResult Login(string? returnUrl = null)
@@ -37,7 +38,15 @@ public class AccountController(IAuthService auth) : Controller
             return View(model);
         }
 
-        await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, result.Principal!);
+        // La renovación deslizante conserva este intervalo: la sesión vence tras ese tiempo sin actividad.
+        var sessionMinutes = (await settings.GetAsync(ct)).Security.SessionMinutes;
+        var now = DateTimeOffset.UtcNow;
+        await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, result.Principal!, new AuthenticationProperties
+        {
+            IssuedUtc = now,
+            ExpiresUtc = now.AddMinutes(sessionMinutes),
+            AllowRefresh = true
+        });
         return RedirectToLocal(model.ReturnUrl);
     }
 

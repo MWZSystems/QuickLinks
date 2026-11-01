@@ -1,0 +1,43 @@
+@model NoticeSettingsForm
+@{
+    ViewData["Title"] = "Configuración · Avisos";
+}
+<partial name="_SectionHeader" model="@("Notices")" />
+
+<form asp-action="Notices" method="post" class="admin-card form-section">
+    <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
+
+    <div class="row g-3">
+        <div class="col-md-4">
+            <label asp-for="Label" class="form-label"></label>
+            <input asp-for="Label" class="form-control" />
+            <span asp-validation-for="Label" class="text-danger small"></span>
+            <div class="form-text">Texto del recuadro a la izquierda de la franja.</div>
+        </div>
+        <div class="col-md-4">
+            <label asp-for="Color" class="form-label"></label>
+            <div class="input-group">
+                <input type="color" class="form-control form-control-color" value="@Model.Color" data-color-input="#Color" aria-label="Selector de color" />
+                <input asp-for="Color" class="form-control" />
+            </div>
+            <span asp-validation-for="Color" class="text-danger small"></span>
+            <div class="form-text">Usa un tono claro: el texto de la franja es oscuro.</div>
+        </div>
+        <div class="col-md-4">
+            <label asp-for="SpeedSeconds" class="form-label"></label>
+            <input asp-for="SpeedSeconds" class="form-control" type="number" min="@SettingLimits.NoticesSpeedMin" max="@SettingLimits.NoticesSpeedMax" />
+            <span asp-validation-for="SpeedSeconds" class="text-danger small"></span>
+            <div class="form-text">Más segundos, desplazamiento más lento.</div>
+        </div>
+    </div>
+
+    <p class="form-text mt-3">Los avisos se crean y programan en <a asp-controller="Advices" asp-action="Index">Avisos</a>.</p>
+
+    <div class="form-actions">
+        <partial name="Admin/_FormActions" />
+    </div>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

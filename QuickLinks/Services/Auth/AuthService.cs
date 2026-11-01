@@ -13,10 +13,9 @@ namespace QuickLinks.Services.Auth;
 public sealed class AuthService(
     AppDbContext db,
     IPasswordHasher<User> passwordHasher,
+    ISettingsService settings,
     ILogger<AuthService> logger) : IAuthService
 {
-    private const int MaxFailedAttempts = 5;
-    private static readonly TimeSpan LockoutDuration = TimeSpan.FromMinutes(15);
     private const string InvalidCredentials = "Usuario o contraseña incorrectos.";
 
     public async Task<LoginResult> SignInAsync(string userName, string password, CancellationToken ct = default)
@@ -39,10 +38,11 @@ public sealed class AuthService(
         var verification = passwordHasher.VerifyHashedPassword(user, user.PasswordHash, password);
         if (verification == PasswordVerificationResult.Failed)
         {
+            var security = (await settings.GetAsync(ct)).Security;
             user.AccessFailedCount++;
-            if (user.AccessFailedCount >= MaxFailedAttempts)
+            if (user.AccessFailedCount >= security.MaxFailedAttempts)
             {
-                user.LockoutEnd = now.Add(LockoutDuration);
+                user.LockoutEnd = now.AddMinutes(security.LockoutMinutes);
                 user.AccessFailedCount = 0;
             }
 

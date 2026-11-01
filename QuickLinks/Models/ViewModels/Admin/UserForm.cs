@@ -6,8 +6,6 @@ namespace QuickLinks.Models.ViewModels.Admin;
 
 public sealed class UserForm
 {
-    public const int MinPasswordLength = 12;
-
     public int Id { get; set; }
 
     [Required(ErrorMessage = "El nombre es obligatorio.")]
@@ -26,7 +24,8 @@ public sealed class UserForm
     public int RoleId { get; set; } = Entities.Role.AdministratorId;
 
     [DataType(DataType.Password)]
-    [StringLength(100, MinimumLength = MinPasswordLength, ErrorMessage = "La contraseña debe tener al menos {2} caracteres.")]
+    // La longitud mínima se valida en el controlador con el valor de Configuración > Seguridad.
+    [StringLength(100, ErrorMessage = "Máximo {1} caracteres.")]
     [Display(Name = "Contraseña")]
     public string? Password { get; set; }
 

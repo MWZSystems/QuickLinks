@@ -9,6 +9,4 @@ public sealed class MediaOptions
 
     /// <summary>Ruta pública bajo la que se sirven los archivos.</summary>
     public string RequestPath { get; set; } = "/media";
-
-    public int MaxFileSizeKb { get; set; } = 2048;
 }

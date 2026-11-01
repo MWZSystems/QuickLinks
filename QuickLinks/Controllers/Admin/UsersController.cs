@@ -4,11 +4,12 @@ using Microsoft.EntityFrameworkCore;
 using QuickLinks.Data;
 using QuickLinks.Models.Entities;
 using QuickLinks.Models.ViewModels.Admin;
+using QuickLinks.Services;
 using QuickLinks.Services.Auth;
 
 namespace QuickLinks.Controllers.Admin;
 
-public class UsersController(AppDbContext db, IAuthService auth) : AdminController
+public class UsersController(AppDbContext db, IAuthService auth, ISettingsService settings) : AdminController
 {
     [HttpGet]
     public async Task<IActionResult> Index([FromQuery] ListQuery query, CancellationToken ct)
@@ -153,6 +154,12 @@ public class UsersController(AppDbContext db, IAuthService auth) : AdminControll
 
     private async Task<bool> ValidateAsync(UserForm form, CancellationToken ct)
     {
+        var minLength = (await settings.GetAsync(ct)).Security.PasswordMinLength;
+        if (!string.IsNullOrEmpty(form.Password) && form.Password.Length < minLength)
+        {
+            ModelState.AddModelError(nameof(form.Password), $"La contraseña debe tener al menos {minLength} caracteres.");
+        }
+
         if (!ModelState.IsValid)
         {
             return false;

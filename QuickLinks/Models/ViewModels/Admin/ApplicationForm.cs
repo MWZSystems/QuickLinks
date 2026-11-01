@@ -5,8 +5,6 @@ namespace QuickLinks.Models.ViewModels.Admin;
 
 public sealed class ApplicationForm
 {
-    public const int MaxCarouselImages = 10;
-
     public int Id { get; set; }
 
     [Required(ErrorMessage = "El nombre es obligatorio.")]

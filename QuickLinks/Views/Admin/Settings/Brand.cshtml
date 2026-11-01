@@ -1,0 +1,57 @@
+@model BrandSettingsForm
+@{
+    ViewData["Title"] = "Configuración · Marca";
+}
+<partial name="_SectionHeader" model="@("Brand")" />
+
+<form asp-action="Brand" method="post" enctype="multipart/form-data" class="admin-card form-section">
+    <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
+
+    <div class="row g-3">
+        <div class="col-md-6">
+            <label asp-for="AppName" class="form-label"></label>
+            <input asp-for="AppName" class="form-control" />
+            <span asp-validation-for="AppName" class="text-danger small"></span>
+            <div class="form-text">Aparece en el encabezado y en la pestaña del navegador.</div>
+        </div>
+        <div class="col-md-6">
+            <label asp-for="CompanyName" class="form-label"></label>
+            <input asp-for="CompanyName" class="form-control" />
+            <span asp-validation-for="CompanyName" class="text-danger small"></span>
+            <div class="form-text">Opcional; se muestra junto al nombre en el pie de página.</div>
+        </div>
+        <div class="col-md-6">
+            <label asp-for="PrimaryColor" class="form-label"></label>
+            <div class="input-group">
+                <input type="color" class="form-control form-control-color" value="@Model.PrimaryColor" data-color-input="#PrimaryColor" aria-label="Selector de color" />
+                <input asp-for="PrimaryColor" class="form-control" />
+            </div>
+            <span asp-validation-for="PrimaryColor" class="text-danger small"></span>
+            <div class="form-text">Botones, encabezados y pie de página.</div>
+        </div>
+        <div class="col-md-6">
+            <label asp-for="Logo" class="form-label"></label>
+            @if (Model.CurrentLogoUrl is not null)
+            {
+                <div class="d-flex align-items-center gap-3 mb-2">
+                    <img src="@Model.CurrentLogoUrl" alt="Logo actual" class="brand-logo" />
+                    <div class="form-check">
+                        <input asp-for="RemoveLogo" class="form-check-input" />
+                        <label asp-for="RemoveLogo" class="form-check-label">Quitar logo</label>
+                    </div>
+                </div>
+            }
+            <input asp-for="Logo" type="file" class="form-control" accept=".png,.jpg,.jpeg,.gif,.webp,.svg" />
+            <span asp-validation-for="Logo" class="text-danger small"></span>
+            <div class="form-text">Sin logo se muestra el nombre de la aplicación.</div>
+        </div>
+    </div>
+
+    <div class="form-actions">
+        <partial name="Admin/_FormActions" />
+    </div>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

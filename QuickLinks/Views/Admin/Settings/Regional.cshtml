@@ -1,0 +1,47 @@
+@model RegionalSettingsForm
+@{
+    ViewData["Title"] = "Configuración · Regional";
+}
+<partial name="_SectionHeader" model="@("Regional")" />
+
+<form asp-action="Regional" method="post" class="admin-card form-section">
+    <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
+
+    <div class="row g-3">
+        <div class="col-md-6">
+            <label asp-for="TimeZone" class="form-label"></label>
+            <input asp-for="TimeZone" class="form-control" list="time-zones" />
+            <datalist id="time-zones">
+                <option value="America/Mexico_City"></option>
+                <option value="America/Chihuahua"></option>
+                <option value="America/Monterrey"></option>
+                <option value="America/Tijuana"></option>
+                <option value="America/Bogota"></option>
+                <option value="America/Lima"></option>
+                <option value="America/Santiago"></option>
+                <option value="America/Argentina/Buenos_Aires"></option>
+                <option value="America/New_York"></option>
+                <option value="America/Chicago"></option>
+                <option value="America/Los_Angeles"></option>
+                <option value="Europe/Madrid"></option>
+                <option value="UTC"></option>
+            </datalist>
+            <span asp-validation-for="TimeZone" class="text-danger small"></span>
+            <div class="form-text">Para las fechas de avisos y mantenimientos (formato IANA).</div>
+        </div>
+        <div class="col-md-6">
+            <label asp-for="LinkValidationRegex" class="form-label"></label>
+            <input asp-for="LinkValidationRegex" class="form-control font-monospace" />
+            <span asp-validation-for="LinkValidationRegex" class="text-danger small"></span>
+            <div class="form-text">Regla que deben cumplir los enlaces de las aplicaciones. Por defecto <code>^(https?://).+</code>: exige http o https.</div>
+        </div>
+    </div>
+
+    <div class="form-actions">
+        <partial name="Admin/_FormActions" />
+    </div>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

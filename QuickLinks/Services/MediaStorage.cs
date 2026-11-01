@@ -33,7 +33,7 @@ public sealed class MediaStorage : IMediaStorage
 
     public string PhysicalRoot { get; }
 
-    public async Task<(string? FileName, string? Error)> SaveImageAsync(IFormFile file, MediaFolder folder, CancellationToken ct = default)
+    public async Task<(string? FileName, string? Error)> SaveImageAsync(IFormFile file, MediaFolder folder, int maxSizeKb, CancellationToken ct = default)
     {
         var extension = Path.GetExtension(file.FileName);
         if (!Signatures.TryGetValue(extension, out var signatures))
@@ -41,9 +41,9 @@ public sealed class MediaStorage : IMediaStorage
             return (null, "Formato no permitido. Usa PNG, JPG, GIF, WEBP o SVG.");
         }
 
-        if (file.Length == 0 || file.Length > _options.MaxFileSizeKb * 1024L)
+        if (file.Length == 0 || file.Length > maxSizeKb * 1024L)
         {
-            return (null, $"La imagen debe pesar menos de {_options.MaxFileSizeKb / 1024.0:0.#} MB.");
+            return (null, $"La imagen debe pesar menos de {maxSizeKb} KB.");
         }
 
         await using var stream = file.OpenReadStream();

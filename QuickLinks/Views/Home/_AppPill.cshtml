@@ -2,11 +2,12 @@
 @{
     var canUnpin = ViewData["CanUnpin"] as bool? ?? false;
     var variant = ViewData["Variant"] as string ?? "outline";
+    var target = (await SettingsService.GetAsync()).Portal.OpenInNewTab ? "_blank" : "_self";
 }
 <li class="app-pill-item">
-    <a href="@Model.Link" target="_blank" rel="noopener noreferrer"
+    <a href="@Model.Link" target="@target" rel="noopener noreferrer"
        class="app-pill app-pill-@variant app-link @(Model.IsBlocked ? "is-blocked" : "")"
-       data-app-id="@Model.Id" data-app-name="@Model.Name" title="Abrir @Model.Name en una pestaña nueva">
+       data-app-id="@Model.Id" data-app-name="@Model.Name" title="Abrir @Model.Name">
         @if (Model.ImageUrl is not null)
         {
             <img class="app-pill-logo" src="@Model.ImageUrl" alt="" loading="lazy" />

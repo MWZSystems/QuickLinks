@@ -1,5 +1,8 @@
 @model AppCard
-<a href="@Model.Link" target="_blank" rel="noopener noreferrer"
+@{
+    var target = (await SettingsService.GetAsync()).Portal.OpenInNewTab ? "_blank" : "_self";
+}
+<a href="@Model.Link" target="@target" rel="noopener noreferrer"
    class="app-card app-link @(Model.IsBlocked ? "is-blocked" : "")"
    data-app-id="@Model.Id" data-app-name="@Model.Name">
     @* span y no button: un elemento interactivo no puede ir dentro de un enlace. *@

@@ -21,7 +21,7 @@ internal sealed class SettingConfiguration : IEntityTypeConfiguration<Setting>
 
         builder.ConfigureAudit(updaterForeignKeyName: null);
 
-        builder.HasData(SettingKeys.Defaults.Select((d, index) => new Setting
+        builder.HasData(SettingKeys.InitialSeed.Select((d, index) => new Setting
         {
             Id = index + 1,
             Name = d.Key,

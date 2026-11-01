@@ -33,7 +33,7 @@
 .news-ticker {
   display: flex;
   align-items: stretch;
-  background: #fcd34d;
+  background: var(--news-bg, #fcd34d);
   color: #111;
   font-weight: 600;
   overflow: hidden;
@@ -60,7 +60,7 @@
   gap: 6rem;
   white-space: nowrap;
   padding-left: 100%;
-  animation: news-scroll 30s linear infinite;
+  animation: news-scroll var(--news-duration, 30s) linear infinite;
 }
 
 .news-ticker:hover .news-items {

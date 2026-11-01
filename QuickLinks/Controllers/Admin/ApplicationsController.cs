@@ -155,11 +155,13 @@ public class ApplicationsController(
         var uploaded = new List<(MediaFolder Folder, string Name)>();
         var obsolete = new List<(MediaFolder Folder, string Name)>();
 
+        var maxSizeKb = (await settings.GetAsync(ct)).Media.MaxFileSizeKb;
+
         try
         {
             if (form.Logo is { Length: > 0 })
             {
-                var (fileName, error) = await media.SaveImageAsync(form.Logo, MediaFolder.Logo, ct);
+                var (fileName, error) = await media.SaveImageAsync(form.Logo, MediaFolder.Logo, maxSizeKb, ct);
                 if (error is not null)
                 {
                     ModelState.AddModelError(nameof(form.Logo), error);
@@ -182,7 +184,7 @@ public class ApplicationsController(
 
             foreach (var file in (form.CarouselFiles ?? []).Where(f => f.Length > 0))
             {
-                var (fileName, error) = await media.SaveImageAsync(file, MediaFolder.Carousel, ct);
+                var (fileName, error) = await media.SaveImageAsync(file, MediaFolder.Carousel, maxSizeKb, ct);
                 if (error is not null)
                 {
                     ModelState.AddModelError(nameof(form.CarouselFiles), $"{file.FileName}: {error}");
@@ -276,15 +278,15 @@ public class ApplicationsController(
             ModelState.AddModelError(nameof(form.BuildingIds), "Selecciona al menos un edificio.");
         }
 
+        var portal = await settings.GetAsync(ct);
         var newImages = form.CarouselFiles?.Count(f => f.Length > 0) ?? 0;
-        if (existingCarouselCount + newImages > ApplicationForm.MaxCarouselImages)
+        if (existingCarouselCount + newImages > portal.Media.CarouselMaxImages)
         {
-            ModelState.AddModelError(nameof(form.CarouselFiles), $"El carrusel admite hasta {ApplicationForm.MaxCarouselImages} imágenes.");
+            ModelState.AddModelError(nameof(form.CarouselFiles), $"El carrusel admite hasta {portal.Media.CarouselMaxImages} imágenes.");
         }
 
         if (!string.IsNullOrWhiteSpace(form.Link))
         {
-            var portal = await settings.GetAsync(ct);
             if (!IsValidLink(form.Link.Trim(), portal.LinkValidationRegex))
             {
                 ModelState.AddModelError(nameof(form.Link), "El enlace no tiene un formato válido (por ejemplo https://servidor/app).");

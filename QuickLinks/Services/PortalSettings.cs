@@ -7,7 +7,11 @@ public sealed record PortalSettings(
     string PrimaryColor,
     string? LogoUrl,
     string LinkValidationRegex,
-    TimeZoneInfo TimeZone)
+    TimeZoneInfo TimeZone,
+    PortalDisplaySettings Portal,
+    NoticeSettings Notices,
+    SecuritySettings Security,
+    MediaSettings Media)
 {
     /// <summary>Convierte una fecha UTC de la base de datos a la hora local configurada.</summary>
     public DateTime ToLocal(DateTime utc) =>

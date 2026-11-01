@@ -9,8 +9,12 @@
 
     const form = document.getElementById('portal-form');
     const basePath = document.body.dataset.baseUrl || '/';
-    const MAX_RECENT = 5;
-    const SEARCH_DELAY_MS = 300;
+    // Valores de Configuración > Portal; los respaldos son los de fábrica.
+    const setting = (name, fallback) => Number(portal.dataset[name]) || fallback;
+    const MAX_RECENT = setting('recentMax', 5);
+    const RECENT_DAYS = setting('recentDays', 30);
+    const PINNED_DAYS = setting('pinnedDays', 150);
+    const SEARCH_DELAY_MS = setting('searchDelay', 300);
 
     // ---------- Cookies ----------
     const cookies = {
@@ -90,7 +94,7 @@
 
     const filtersToggle = portal.querySelector('[data-toggle-filters]');
     const filtersPanel = document.getElementById('filters-panel');
-    filtersToggle.addEventListener('click', () => {
+    filtersToggle?.addEventListener('click', () => {
         filtersPanel.hidden = !filtersPanel.hidden;
         filtersToggle.setAttribute('aria-expanded', String(!filtersPanel.hidden));
     });
@@ -156,7 +160,7 @@
     function registerRecent(appId) {
         const recent = cookies.getIds(RECENT).filter(id => id !== appId);
         recent.unshift(appId);
-        cookies.setIds(RECENT, recent.slice(0, MAX_RECENT), 30);
+        cookies.setIds(RECENT, recent.slice(0, MAX_RECENT), RECENT_DAYS);
     }
 
     async function showMaintenance(link) {
@@ -287,7 +291,7 @@
         const appId = Number(pinButton.dataset.appId);
         const pinned = cookies.getIds(PINNED);
         const updated = pinned.includes(appId) ? pinned.filter(id => id !== appId) : [...pinned, appId];
-        cookies.setIds(PINNED, updated, 150);
+        cookies.setIds(PINNED, updated, PINNED_DAYS);
         location.reload();
     });
 
@@ -304,7 +308,7 @@
 
     confirmUnpin.addEventListener('click', () => {
         const appId = Number(confirmUnpin.dataset.appId);
-        cookies.setIds(PINNED, cookies.getIds(PINNED).filter(id => id !== appId), 150);
+        cookies.setIds(PINNED, cookies.getIds(PINNED).filter(id => id !== appId), PINNED_DAYS);
         location.reload();
     });
 })();

@@ -9,7 +9,7 @@ namespace QuickLinks.Controllers;
 
 /// <summary>Portal público de aplicaciones.</summary>
 [AllowAnonymous]
-public class HomeController(IPortalService portal) : Controller
+public class HomeController(IPortalService portal, ISettingsService settings) : Controller
 {
     public const string PinnedCookie = "pinnedApps";
     public const string RecentCookie = "recentlyUsedApps";
@@ -49,8 +49,17 @@ public class HomeController(IPortalService portal) : Controller
         return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
     }
 
-    private Task<PortalViewModel> BuildAsync(PortalFilter filter, CancellationToken ct) =>
-        portal.BuildAsync(filter, ReadIds(PinnedCookie), ReadIds(RecentCookie), ct);
+    private async Task<PortalViewModel> BuildAsync(PortalFilter filter, CancellationToken ct)
+    {
+        var options = (await settings.GetAsync(ct)).Portal;
+        if (!options.ShowQuickAccess)
+        {
+            return await portal.BuildAsync(filter, [], [], ct);
+        }
+
+        var recent = ReadIds(RecentCookie).Take(options.RecentMax).ToList();
+        return await portal.BuildAsync(filter, ReadIds(PinnedCookie), recent, ct);
+    }
 
     private List<int> ReadIds(string cookieName)
     {

@@ -1,0 +1,48 @@
+@model SecuritySettingsForm
+@{
+    ViewData["Title"] = "Configuración · Seguridad";
+}
+<partial name="_SectionHeader" model="@("Security")" />
+
+<form asp-action="Security" method="post" class="admin-card form-section">
+    <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
+
+    <h2 class="form-heading"><i class="bi bi-lock" aria-hidden="true"></i>Inicio de sesión</h2>
+    <div class="row g-3">
+        <div class="col-md-6">
+            <label asp-for="MaxFailedAttempts" class="form-label"></label>
+            <input asp-for="MaxFailedAttempts" class="form-control" type="number" min="@SettingLimits.MaxFailedMin" max="@SettingLimits.MaxFailedMax" />
+            <span asp-validation-for="MaxFailedAttempts" class="text-danger small"></span>
+        </div>
+        <div class="col-md-6">
+            <label asp-for="LockoutMinutes" class="form-label"></label>
+            <input asp-for="LockoutMinutes" class="form-control" type="number" min="@SettingLimits.LockoutMinutesMin" max="@SettingLimits.LockoutMinutesMax" />
+            <span asp-validation-for="LockoutMinutes" class="text-danger small"></span>
+            <div class="form-text">Tiempo que la cuenta queda bloqueada tras agotar los intentos.</div>
+        </div>
+        <div class="col-md-6">
+            <label asp-for="SessionMinutes" class="form-label"></label>
+            <input asp-for="SessionMinutes" class="form-control" type="number" min="@SettingLimits.SessionMinutesMin" max="@SettingLimits.SessionMinutesMax" />
+            <span asp-validation-for="SessionMinutes" class="text-danger small"></span>
+            <div class="form-text">Aplica a las sesiones que se inicien después de guardar.</div>
+        </div>
+    </div>
+
+    <h2 class="form-heading mt-4"><i class="bi bi-key" aria-hidden="true"></i>Contraseñas</h2>
+    <div class="row g-3">
+        <div class="col-md-6">
+            <label asp-for="PasswordMinLength" class="form-label"></label>
+            <input asp-for="PasswordMinLength" class="form-control" type="number" min="@SettingLimits.PasswordMinLengthMin" max="@SettingLimits.PasswordMinLengthMax" />
+            <span asp-validation-for="PasswordMinLength" class="text-danger small"></span>
+            <div class="form-text">Se exige al crear un usuario o cambiar su contraseña; no afecta las contraseñas actuales.</div>
+        </div>
+    </div>
+
+    <div class="form-actions">
+        <partial name="Admin/_FormActions" />
+    </div>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

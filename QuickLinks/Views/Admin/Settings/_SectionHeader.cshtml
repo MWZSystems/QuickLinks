@@ -1,0 +1,10 @@
+@model string
+@{
+    var part = SettingsSection.All.First(s => s.Action == Model);
+}
+<nav class="settings-breadcrumb" aria-label="Ruta">
+    <a asp-action="Index"><i class="bi bi-gear me-1" aria-hidden="true"></i>Configuración</a>
+    <i class="bi bi-chevron-right" aria-hidden="true"></i>
+    <span aria-current="page"><i class="bi @part.Icon me-1" aria-hidden="true"></i>@part.Title</span>
+</nav>
+<p class="text-muted">@part.Description</p>

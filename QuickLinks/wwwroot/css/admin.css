@@ -232,3 +232,118 @@
   gap: .5rem;
   margin-top: 1.5rem;
 }
+
+/* ----- Menú de configuración ----- */
+.admin-subnav {
+  margin: 2px 0 6px 1.6rem;
+  border-left: 2px solid var(--ql-border);
+  padding-left: .35rem;
+}
+
+.admin-nav .admin-subnav .nav-link {
+  padding: .35rem .7rem;
+  font-size: .92rem;
+}
+
+.admin-nav .admin-subnav .nav-link.active {
+  background: none;
+}
+
+.settings-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.25rem;
+}
+
+.settings-card {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 1.25rem;
+  background: #fff;
+  border: 1px solid var(--ql-border);
+  border-radius: var(--ql-radius);
+  color: var(--ql-text);
+  text-decoration: none;
+  transition: box-shadow .15s ease, border-color .15s ease;
+}
+
+.settings-card:hover,
+.settings-card:focus-visible {
+  color: var(--ql-text);
+  border-color: var(--ql-primary);
+  box-shadow: 0 4px 14px rgba(15, 23, 42, .08);
+}
+
+.settings-card-head {
+  display: flex;
+  gap: .9rem;
+}
+
+.settings-card-icon {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  border-radius: 12px;
+  background: color-mix(in srgb, var(--ql-primary) 12%, #fff);
+  color: var(--ql-primary);
+  font-size: 1.35rem;
+}
+
+.settings-card-title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin: 0 0 .2rem;
+}
+
+.settings-card-text {
+  margin: 0;
+  color: var(--ql-muted);
+  font-size: .9rem;
+}
+
+.settings-summary {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: .5rem 1rem;
+  margin: 0;
+  padding-top: .9rem;
+  border-top: 1px solid var(--ql-border);
+  flex: 1;
+}
+
+.settings-summary dt {
+  font-size: .75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: .03em;
+  color: var(--ql-muted);
+}
+
+.settings-summary dd {
+  margin: 0;
+  font-size: .92rem;
+  overflow-wrap: anywhere;
+}
+
+.settings-card-action {
+  color: var(--ql-primary);
+  font-weight: 600;
+  font-size: .92rem;
+}
+
+.settings-breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+  font-size: .9rem;
+  margin-bottom: .25rem;
+}
+
+.settings-breadcrumb .bi-chevron-right {
+  font-size: .75rem;
+  color: var(--ql-muted);
+}

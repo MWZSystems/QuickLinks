@@ -1,0 +1,32 @@
+@model MediaSettingsForm
+@{
+    ViewData["Title"] = "Configuración · Imágenes";
+}
+<partial name="_SectionHeader" model="@("Media")" />
+
+<form asp-action="Media" method="post" class="admin-card form-section">
+    <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
+
+    <div class="row g-3">
+        <div class="col-md-6">
+            <label asp-for="MaxFileSizeKb" class="form-label"></label>
+            <input asp-for="MaxFileSizeKb" class="form-control" type="number" step="64" min="@SettingLimits.MediaMaxKbMin" max="@SettingLimits.MediaMaxKbMax" />
+            <span asp-validation-for="MaxFileSizeKb" class="text-danger small"></span>
+            <div class="form-text">Aplica a logos, imágenes del carrusel y logo del cliente. 1024 KB = 1 MB.</div>
+        </div>
+        <div class="col-md-6">
+            <label asp-for="CarouselMaxImages" class="form-label"></label>
+            <input asp-for="CarouselMaxImages" class="form-control" type="number" min="@SettingLimits.CarouselMaxMin" max="@SettingLimits.CarouselMaxMax" />
+            <span asp-validation-for="CarouselMaxImages" class="text-danger small"></span>
+            <div class="form-text">Por aplicación. En un mismo guardado se pueden subir hasta 30 MB en total.</div>
+        </div>
+    </div>
+
+    <div class="form-actions">
+        <partial name="Admin/_FormActions" />
+    </div>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

@@ -16,8 +16,8 @@ Formato: [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/). Versionado
 - Detalle de aplicación con carrusel; fijadas y recientes guardadas en cookies del navegador.
 - Franja de avisos y bloqueo de aplicaciones por mantenimiento programado.
 - Administración de aplicaciones, categorías, grupos, sitios, edificios, avisos, mantenimientos, usuarios y configuración.
-- Inicio de sesión con cuentas locales (hash PBKDF2, bloqueo tras 5 intentos fallidos).
-- Marca configurable por cliente: nombre, logo, color principal y zona horaria.
+- Inicio de sesión con cuentas locales (hash PBKDF2, bloqueo por intentos fallidos).
+- Menú de configuración por cliente con seis apartados: Marca (nombre, empresa, color, logo), Portal (texto del buscador, filtros, contador, fijadas y recientes, pestaña nueva, espera de búsqueda), Avisos (etiqueta, color y velocidad de la franja), Seguridad (intentos y minutos de bloqueo, duración de sesión, longitud mínima de contraseña), Imágenes (peso máximo y tamaño del carrusel) y Regional (zona horaria y validación de enlaces). Las claves nuevas de `CT_Settings` se crean al guardar por primera vez; sin fila usan su valor por defecto.
 - Esquema con los nombres del original (`CT_`, `SC_`, `SY_`) más índices únicos y fechas en UTC.
 - Hospedaje `OutOfProcess` sin `apphost.exe`, como las demás aplicaciones .NET 10 del mismo hosting.
 - El acceso de administradores está en un menú discreto (⋮) del encabezado del portal, para que los usuarios no lo confundan con un inicio de sesión propio.

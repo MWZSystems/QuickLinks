@@ -1,0 +1,77 @@
+@model PortalSettingsForm
+@{
+    ViewData["Title"] = "Configuración · Portal";
+}
+<partial name="_SectionHeader" model="@("Portal")" />
+
+<form asp-action="Portal" method="post" class="admin-card form-section">
+    <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
+
+    <h2 class="form-heading"><i class="bi bi-eye" aria-hidden="true"></i>Qué se muestra</h2>
+    <div class="row g-3">
+        <div class="col-md-6">
+            <label asp-for="SearchPlaceholder" class="form-label"></label>
+            <input asp-for="SearchPlaceholder" class="form-control" />
+            <span asp-validation-for="SearchPlaceholder" class="text-danger small"></span>
+            <div class="form-text">Texto de ayuda dentro del cuadro de búsqueda.</div>
+        </div>
+        <div class="col-md-6 d-flex flex-column gap-2 justify-content-center">
+            <div class="form-check form-switch">
+                <input asp-for="ShowFilters" class="form-check-input" role="switch" />
+                <label asp-for="ShowFilters" class="form-check-label"></label>
+            </div>
+            <div class="form-check form-switch">
+                <input asp-for="ShowAppCount" class="form-check-input" role="switch" />
+                <label asp-for="ShowAppCount" class="form-check-label"></label>
+            </div>
+            <div class="form-check form-switch">
+                <input asp-for="ShowQuickAccess" class="form-check-input" role="switch" />
+                <label asp-for="ShowQuickAccess" class="form-check-label"></label>
+            </div>
+            <div class="form-check form-switch">
+                <input asp-for="OpenInNewTab" class="form-check-input" role="switch" />
+                <label asp-for="OpenInNewTab" class="form-check-label"></label>
+            </div>
+        </div>
+    </div>
+
+    <h2 class="form-heading mt-4"><i class="bi bi-clock-history" aria-hidden="true"></i>Fijadas y recientes</h2>
+    <div class="row g-3">
+        <div class="col-md-4">
+            <label asp-for="RecentMax" class="form-label"></label>
+            <input asp-for="RecentMax" class="form-control" type="number" min="@SettingLimits.RecentMaxMin" max="@SettingLimits.RecentMaxMax" />
+            <span asp-validation-for="RecentMax" class="text-danger small"></span>
+        </div>
+        <div class="col-md-4">
+            <label asp-for="RecentDays" class="form-label"></label>
+            <input asp-for="RecentDays" class="form-control" type="number" min="@SettingLimits.CookieDaysMin" max="@SettingLimits.CookieDaysMax" />
+            <span asp-validation-for="RecentDays" class="text-danger small"></span>
+        </div>
+        <div class="col-md-4">
+            <label asp-for="PinnedDays" class="form-label"></label>
+            <input asp-for="PinnedDays" class="form-control" type="number" min="@SettingLimits.CookieDaysMin" max="@SettingLimits.CookieDaysMax" />
+            <span asp-validation-for="PinnedDays" class="text-danger small"></span>
+        </div>
+        <div class="col-12">
+            <div class="form-text">Se guardan en el navegador de cada usuario; los días cuentan desde la última vez que se actualizaron.</div>
+        </div>
+    </div>
+
+    <h2 class="form-heading mt-4"><i class="bi bi-search" aria-hidden="true"></i>Búsqueda</h2>
+    <div class="row g-3">
+        <div class="col-md-4">
+            <label asp-for="SearchDelayMs" class="form-label"></label>
+            <input asp-for="SearchDelayMs" class="form-control" type="number" step="50" min="@SettingLimits.SearchDelayMin" max="@SettingLimits.SearchDelayMax" />
+            <span asp-validation-for="SearchDelayMs" class="text-danger small"></span>
+            <div class="form-text">Tiempo que espera tras la última tecla antes de buscar.</div>
+        </div>
+    </div>
+
+    <div class="form-actions">
+        <partial name="Admin/_FormActions" />
+    </div>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

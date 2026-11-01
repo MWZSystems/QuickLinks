@@ -2,13 +2,16 @@
 @{
     ViewData["Title"] = "Inicio";
     var filter = Model.Filter;
-    var filtersOpen = filter.CategoryIds.Count > 0 || filter.HasLocationOrGroup;
+    var options = (await SettingsService.GetAsync()).Portal;
+    var notices = (await SettingsService.GetAsync()).Notices;
+    var filtersOpen = options.ShowFilters && (filter.CategoryIds.Count > 0 || filter.HasLocationOrGroup);
 }
 
 @if (Model.Notices.Count > 0)
 {
-    <div class="news-ticker" role="region" aria-label="Avisos">
-        <span class="news-label"><i class="bi bi-megaphone-fill me-1" aria-hidden="true"></i> Avisos</span>
+    <div class="news-ticker" role="region" aria-label="@notices.Label"
+         style="--news-bg: @Branding.SafeColor(notices.Color, "#FCD34D"); --news-duration: @(notices.SpeedSeconds)s">
+        <span class="news-label"><i class="bi bi-megaphone-fill me-1" aria-hidden="true"></i> @notices.Label</span>
         <div class="news-track">
             <div class="news-items">
                 @foreach (var notice in Model.Notices)
@@ -24,21 +27,30 @@
      data-results-url="@Url.Action("Results", "Home")"
      data-details-url="@Url.Action("Details", "Home")"
      data-maintenance-url="@Url.Action("Maintenance", "Home")"
-     data-placeholder="@Url.Content("~/images/placeholder.svg")">
+     data-placeholder="@Url.Content("~/images/placeholder.svg")"
+     data-recent-max="@options.RecentMax"
+     data-recent-days="@options.RecentDays"
+     data-pinned-days="@options.PinnedDays"
+     data-search-delay="@options.SearchDelayMs"
+     data-new-tab="@(options.OpenInNewTab ? "true" : "false")">
 
     <form id="portal-form" method="get" asp-action="Index" class="portal-form" autocomplete="off">
         <div class="portal-toolbar">
             <div class="search-box">
                 <i class="bi bi-search search-icon" aria-hidden="true"></i>
                 <input type="search" class="form-control search-input" name="Search" value="@filter.Search"
-                       placeholder="Buscar aplicación..." aria-label="Buscar aplicación" data-search autofocus />
+                       placeholder="@options.SearchPlaceholder" aria-label="@options.SearchPlaceholder" data-search autofocus />
             </div>
-            <button type="button" class="btn btn-brand-outline" data-toggle-filters aria-expanded="@(filtersOpen ? "true" : "false")" aria-controls="filters-panel">
-                <i class="bi bi-funnel me-1" aria-hidden="true"></i> Filtros
-            </button>
-            <span class="app-count"><i class="bi bi-grid-3x3-gap me-1" aria-hidden="true"></i><span id="app-count">@Model.AppCount</span> aplicaciones</span>
+            @if (options.ShowFilters)
+            {
+                <button type="button" class="btn btn-brand-outline" data-toggle-filters aria-expanded="@(filtersOpen ? "true" : "false")" aria-controls="filters-panel">
+                    <i class="bi bi-funnel me-1" aria-hidden="true"></i> Filtros
+                </button>
+            }
+            <span class="app-count" @(options.ShowAppCount ? "" : "hidden")><i class="bi bi-grid-3x3-gap me-1" aria-hidden="true"></i><span id="app-count">@Model.AppCount</span> aplicaciones</span>
         </div>
 
+        @* Sin el botón, el panel sigue en el formulario (oculto) para que la búsqueda en vivo funcione igual. *@
         <div id="filters-panel" class="filters-panel" @(filtersOpen ? "" : "hidden")>
             <div class="filters-selects">
                 <label>
@@ -145,7 +157,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-brand-outline" data-pin-toggle></button>
-                <a href="#" class="btn btn-success ms-auto app-link" target="_blank" rel="noopener noreferrer" data-open-app><i class="bi bi-box-arrow-up-right me-2" aria-hidden="true"></i>Abrir aplicación</a>
+                <a href="#" class="btn btn-success ms-auto app-link" target="@(options.OpenInNewTab ? "_blank" : "_self")" rel="noopener noreferrer" data-open-app><i class="bi bi-box-arrow-up-right me-2" aria-hidden="true"></i>Abrir aplicación</a>
             </div>
         </div>
     </div>

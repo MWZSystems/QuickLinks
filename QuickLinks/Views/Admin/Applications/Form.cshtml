@@ -2,6 +2,7 @@
 @{
     ViewData["Title"] = Model.Id == 0 ? "Nueva aplicación" : "Editar aplicación";
     var o = Model.Options;
+    var media = (await SettingsService.GetAsync()).Media;
 }
 <form asp-action="@(Model.Id == 0 ? "Create" : "Edit")" asp-route-id="@(Model.Id == 0 ? null : Model.Id)" method="post"
       enctype="multipart/form-data" class="admin-card form-section">
@@ -61,13 +62,13 @@
             }
             <input asp-for="Logo" type="file" class="form-control" accept=".png,.jpg,.jpeg,.gif,.webp,.svg" />
             <span asp-validation-for="Logo" class="text-danger small"></span>
-            <div class="form-text">PNG, JPG, GIF, WEBP o SVG, máximo 2 MB.</div>
+            <div class="form-text">PNG, JPG, GIF, WEBP o SVG, máximo @media.MaxFileSizeKb KB.</div>
         </div>
         <div class="col-md-6">
             <label asp-for="CarouselFiles" class="form-label"></label>
             <input asp-for="CarouselFiles" type="file" class="form-control" multiple accept=".png,.jpg,.jpeg,.gif,.webp" />
             <span asp-validation-for="CarouselFiles" class="text-danger small"></span>
-            <div class="form-text">Se muestran en el detalle de la aplicación. Máximo @ApplicationForm.MaxCarouselImages.</div>
+            <div class="form-text">Se muestran en el detalle de la aplicación. Máximo @media.CarouselMaxImages, de hasta @media.MaxFileSizeKb KB cada una.</div>
         </div>
         @if (Model.CurrentCarousel.Count > 0)
         {
