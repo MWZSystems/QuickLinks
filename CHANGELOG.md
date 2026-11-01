@@ -23,6 +23,7 @@ Formato: [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/). Versionado
 - El acceso de administradores está en un menú discreto (⋮) del encabezado del portal, para que los usuarios no lo confundan con un inicio de sesión propio.
 - Íconos (Bootstrap Icons, servidos localmente) en el portal, el login y la administración: botones, menú, encabezados, estados y acciones.
 - El detalle de una aplicación sin carrusel muestra su logo.
+- Guía de uso en PowerPoint (`wwwroot/docs/QuickLinks-Guia-de-uso.pptx`) con capturas y explicación de cada botón para usuarios y administradores; se descarga desde el menú ⋮ del portal y desde el menú de administración.
 - Los formularios solo exigen los campos marcados como obligatorios; editar una aplicación ya no pide imágenes de carrusel.
 - Las imágenes de `App_Data/media` se incluyen en el publish; un archivo de medios inexistente responde 404 y el portal muestra solo el nombre si un logo no carga.
 

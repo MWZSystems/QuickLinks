@@ -30,6 +30,12 @@
                         <i class="bi bi-three-dots-vertical" aria-hidden="true"></i>
                     </button>
                     <ul class="dropdown-menu dropdown-menu-end shadow-sm">
+                        <li>
+                            <a class="dropdown-item" href="~/docs/QuickLinks-Guia-de-uso.pptx" download>
+                                <i class="bi bi-file-earmark-slides me-2" aria-hidden="true"></i>Guía de uso (PowerPoint)
+                            </a>
+                        </li>
+                        <li><hr class="dropdown-divider" /></li>
                         @if (User.Identity?.IsAuthenticated == true)
                         {
                             <li><h6 class="dropdown-header"><i class="bi bi-person-circle me-1" aria-hidden="true"></i>@User.Identity.Name</h6></li>
