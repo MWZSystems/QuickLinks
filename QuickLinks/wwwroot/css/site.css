@@ -67,6 +67,19 @@ body {
   object-fit: contain;
 }
 
+.app-version {
+  display: inline-block;
+  font-size: .72rem;
+  font-weight: 600;
+  line-height: 1;
+  padding: .25rem .45rem;
+  border-radius: 999px;
+  border: 1px solid var(--ql-border, #dee2e6);
+  color: var(--ql-muted, #6c757d);
+  background: #fff;
+  white-space: nowrap;
+}
+
 .brand-mark {
   display: inline-flex;
   align-items: center;
