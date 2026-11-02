@@ -3,7 +3,6 @@
     ViewData["Title"] = Model.Id == 0 ? "Nuevo edificio" : "Editar edificio";
 }
 <form asp-action="@(Model.Id == 0 ? "Create" : "Edit")" asp-route-id="@(Model.Id == 0 ? null : Model.Id)" method="post" class="admin-card form-section">
-    <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
     @if (Model.Sites.Count == 0)
     {
         <div class="alert alert-warning">Primero da de alta un <a asp-controller="Sites" asp-action="Create">sitio</a>.</div>

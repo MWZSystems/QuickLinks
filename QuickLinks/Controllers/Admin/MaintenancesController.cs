@@ -66,7 +66,7 @@ public class MaintenancesController(AppDbContext db, ISettingsService settings) 
             UpdatedByUserId = CurrentUserId
         });
         await db.SaveChangesAsync(ct);
-        Notify("Mantenimiento programado.");
+        this.Success("Mantenimiento programado.");
         return RedirectToAction(nameof(Index));
     }
 
@@ -118,7 +118,7 @@ public class MaintenancesController(AppDbContext db, ISettingsService settings) 
         maintenance.Available = form.Available;
         maintenance.UpdatedByUserId = CurrentUserId;
         await db.SaveChangesAsync(ct);
-        Notify("Mantenimiento actualizado.");
+        this.Success("Mantenimiento actualizado.");
         return RedirectToAction(nameof(Index));
     }
 
@@ -134,7 +134,7 @@ public class MaintenancesController(AppDbContext db, ISettingsService settings) 
         maintenance.Available = !maintenance.Available;
         maintenance.UpdatedByUserId = CurrentUserId;
         await db.SaveChangesAsync(ct);
-        Notify(maintenance.Available ? "Mantenimiento activado." : "Mantenimiento desactivado.");
+        this.Success(maintenance.Available ? "Mantenimiento activado." : "Mantenimiento desactivado.");
         return RedirectToAction(nameof(Index));
     }
 

@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using QuickLinks.Data;
 using QuickLinks.Models.Entities;
 using QuickLinks.Models.ViewModels.Admin;
+using QuickLinks.Services;
 
 namespace QuickLinks.Controllers.Admin;
 
@@ -110,7 +111,10 @@ public class CategoriesController(AppDbContext db) : AdminController
         category.Available = !category.Available;
         category.UpdatedByUserId = CurrentUserId;
         await db.SaveChangesAsync(ct);
-        Notify(category.Available ? "Categoría activada." : "Categoría desactivada.");
+        var shown = category.Available ? 0 : await db.Categories.Where(c => c.Id == id).SelectMany(c => c.Applications)
+            .CountAsync(r => r.Available && r.Application.Available, ct);
+        NotifyToggled(category.Available, "Categoría activada.", "Categoría desactivada.",
+            shown > 0 ? $"{AppsNoLongerShown(shown)} en esta categoría." : null);
         return RedirectToAction(nameof(Index));
     }
 
@@ -137,7 +141,7 @@ public class CategoriesController(AppDbContext db) : AdminController
             return View("Form", form);
         }
 
-        Notify(message);
+        this.Success(message);
         return RedirectToAction(nameof(Index));
     }
 }

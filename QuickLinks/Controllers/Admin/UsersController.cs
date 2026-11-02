@@ -138,14 +138,14 @@ public class UsersController(AppDbContext db, IAuthService auth, ISettingsServic
 
         if (user.Available && user.RoleId == Role.AdministratorId && !await AnotherActiveAdminExistsAsync(id, ct))
         {
-            Notify("No se puede desactivar: debe quedar al menos un administrador activo.");
+            this.Error("No se puede desactivar: debe quedar al menos un administrador activo.");
             return RedirectToAction(nameof(Index));
         }
 
         user.Available = !user.Available;
         user.UpdatedByUserId = CurrentUserId;
         await db.SaveChangesAsync(ct);
-        Notify(user.Available ? "Usuario activado." : "Usuario desactivado.");
+        this.Success(user.Available ? "Usuario activado." : "Usuario desactivado.");
         return RedirectToAction(nameof(Index));
     }
 
@@ -192,7 +192,7 @@ public class UsersController(AppDbContext db, IAuthService auth, ISettingsServic
             return View("Form", form);
         }
 
-        Notify(message);
+        this.Success(message);
         return RedirectToAction(nameof(Index));
     }
 

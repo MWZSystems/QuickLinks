@@ -24,6 +24,9 @@ Formato: [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/). Versionado
 - Íconos (Bootstrap Icons, servidos localmente) en el portal, el login y la administración: botones, menú, encabezados, estados y acciones.
 - El detalle de una aplicación sin carrusel muestra su logo.
 - La versión de la aplicación se muestra siempre junto a la marca (portal, login y administración) y en el pie de página.
+- Avisos emergentes de éxito, información, advertencia y error en todo el sistema (`this.Success(...)` en los controladores y `QuickLinks.toast(...)` en JavaScript), con pila arriba a la derecha, cierre automático salvo los errores y pausa al pasar el cursor. Sustituyen la franja fija de la administración y el resumen de validación de los formularios. Desactivar una categoría, grupo, edificio o sitio que todavía se usa avisa como advertencia; no poder desactivar al último administrador avisa como error; iniciar y cerrar sesión, fijar y quitar fijadas también avisan. Un error inesperado al guardar vuelve a la pantalla anterior con un aviso amable.
+- Pruebas unitarias en `QuickLinks.Tests` (servicio de avisos).
+- En el teléfono, la administración ya no se ensancha más que la pantalla (encabezado y tablas).
 - Guía de uso en PowerPoint (`wwwroot/docs/QuickLinks-Guia-de-uso.pptx`) con capturas y explicación de cada botón para usuarios y administradores; se descarga desde el menú ⋮ del portal y desde el menú de administración.
 - Los formularios solo exigen los campos marcados como obligatorios; editar una aplicación ya no pide imágenes de carrusel.
 - Las imágenes de `App_Data/media` se incluyen en el publish; un archivo de medios inexistente responde 404 y el portal muestra solo el nombre si un logo no carga.

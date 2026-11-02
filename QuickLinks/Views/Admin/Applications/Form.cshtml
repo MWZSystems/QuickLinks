@@ -6,7 +6,6 @@
 }
 <form asp-action="@(Model.Id == 0 ? "Create" : "Edit")" asp-route-id="@(Model.Id == 0 ? null : Model.Id)" method="post"
       enctype="multipart/form-data" class="admin-card form-section">
-    <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
 
     <h2 class="form-heading"><i class="bi bi-info-circle" aria-hidden="true"></i>Datos generales</h2>
     <div class="row g-3">

@@ -136,6 +136,7 @@
             document.getElementById('app-count').textContent = doc.getElementById('count-part').textContent;
         } catch (error) {
             console.error('No se pudieron actualizar los resultados', error);
+            QuickLinks.toast('error', 'No se pudo actualizar la búsqueda. Revisa tu conexión e intenta de nuevo.');
         }
     }
 
@@ -267,6 +268,7 @@
             detailsModal.show();
         } catch (error) {
             console.error('No se pudo cargar el detalle de la aplicación', error);
+            QuickLinks.toast('error', 'No se pudo abrir el detalle de la aplicación. Intenta de nuevo.');
         }
     }
 
@@ -290,8 +292,10 @@
     pinButton.addEventListener('click', () => {
         const appId = Number(pinButton.dataset.appId);
         const pinned = cookies.getIds(PINNED);
-        const updated = pinned.includes(appId) ? pinned.filter(id => id !== appId) : [...pinned, appId];
+        const wasPinned = pinned.includes(appId);
+        const updated = wasPinned ? pinned.filter(id => id !== appId) : [...pinned, appId];
         cookies.setIds(PINNED, updated, PINNED_DAYS);
+        QuickLinks.toastAfterReload('success', wasPinned ? 'Aplicación quitada de fijadas.' : 'Aplicación fijada en inicio.');
         location.reload();
     });
 
@@ -309,6 +313,7 @@
     confirmUnpin.addEventListener('click', () => {
         const appId = Number(confirmUnpin.dataset.appId);
         cookies.setIds(PINNED, cookies.getIds(PINNED).filter(id => id !== appId), PINNED_DAYS);
+        QuickLinks.toastAfterReload('success', 'Aplicación quitada de fijadas.');
         location.reload();
     });
 })();

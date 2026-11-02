@@ -142,7 +142,7 @@ public class ApplicationsController(
         app.Available = !app.Available;
         app.UpdatedByUserId = CurrentUserId;
         await db.SaveChangesAsync(ct);
-        Notify(app.Available ? "Aplicación activada." : "Aplicación desactivada.");
+        this.Success(app.Available ? "Aplicación activada." : "Aplicación desactivada.");
         return RedirectToAction(nameof(Index));
     }
 
@@ -231,7 +231,7 @@ public class ApplicationsController(
 
         DeleteFiles(obsolete);
         logger.LogInformation("Aplicación {ApplicationId} guardada por {UserId}", app.Id, CurrentUserId);
-        Notify(isNew ? "Aplicación creada." : "Aplicación actualizada.");
+        this.Success(isNew ? "Aplicación creada." : "Aplicación actualizada.");
         return RedirectToAction(nameof(Index));
     }
 

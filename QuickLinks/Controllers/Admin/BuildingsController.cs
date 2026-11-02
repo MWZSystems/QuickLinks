@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using QuickLinks.Data;
 using QuickLinks.Models.Entities;
 using QuickLinks.Models.ViewModels.Admin;
+using QuickLinks.Services;
 
 namespace QuickLinks.Controllers.Admin;
 
@@ -121,7 +122,10 @@ public class BuildingsController(AppDbContext db) : AdminController
         building.Available = !building.Available;
         building.UpdatedByUserId = CurrentUserId;
         await db.SaveChangesAsync(ct);
-        Notify(building.Available ? "Edificio activado." : "Edificio desactivado.");
+        var linked = building.Available ? 0 : await db.Buildings.Where(b => b.Id == id).SelectMany(b => b.Applications)
+            .CountAsync(r => r.Available && r.Application.Available, ct);
+        NotifyToggled(building.Available, "Edificio activado.", "Edificio desactivado.",
+            linked > 0 ? $"Ya no aparece en los filtros del portal; tenía {linked} {(linked == 1 ? "aplicación" : "aplicaciones")}." : null);
         return RedirectToAction(nameof(Index));
     }
 
@@ -160,7 +164,7 @@ public class BuildingsController(AppDbContext db) : AdminController
             return View("Form", form);
         }
 
-        Notify(message);
+        this.Success(message);
         return RedirectToAction(nameof(Index));
     }
 

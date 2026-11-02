@@ -146,6 +146,12 @@
   padding: 1.25rem;
 }
 
+/* Contenedor de las tablas: los textos ocultos para lectores de pantalla (posición absoluta) quedan dentro
+   del área con desplazamiento y no ensanchan la página en el teléfono. */
+.table-responsive {
+  position: relative;
+}
+
 .admin-table {
   margin: 0;
   vertical-align: middle;

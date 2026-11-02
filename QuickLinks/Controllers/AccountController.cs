@@ -47,6 +47,7 @@ public class AccountController(IAuthService auth, ISettingsService settings) : C
             ExpiresUtc = now.AddMinutes(sessionMinutes),
             AllowRefresh = true
         });
+        this.Success("Sesión iniciada.");
         return RedirectToLocal(model.ReturnUrl);
     }
 
@@ -54,6 +55,7 @@ public class AccountController(IAuthService auth, ISettingsService settings) : C
     public async Task<IActionResult> Logout()
     {
         await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+        this.Success("Sesión cerrada.");
         return RedirectToAction("Index", "Home");
     }
 

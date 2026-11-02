@@ -23,6 +23,8 @@ builder.Host.UseSerilog((context, configuration) => configuration.ReadFrom.Confi
 builder.Services.AddControllersWithViews(options =>
 {
     options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());
+    // Errores inesperados al guardar: aviso de error en la pantalla anterior en lugar de la página de error.
+    options.Filters.Add<UiExceptionFilter>();
 
     // Solo son obligatorios los campos con [Required] explícito y mensaje en español; sin esto,
     // cualquier propiedad no anulable (por ejemplo la lista de imágenes del carrusel) se vuelve obligatoria.

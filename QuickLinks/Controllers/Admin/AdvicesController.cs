@@ -117,7 +117,7 @@ public class AdvicesController(AppDbContext db, ISettingsService settings) : Adm
         advice.Available = !advice.Available;
         advice.UpdatedByUserId = CurrentUserId;
         await db.SaveChangesAsync(ct);
-        Notify(advice.Available ? "Aviso activado." : "Aviso desactivado.");
+        this.Success(advice.Available ? "Aviso activado." : "Aviso desactivado.");
         return RedirectToAction(nameof(Index));
     }
 
@@ -160,7 +160,7 @@ public class AdvicesController(AppDbContext db, ISettingsService settings) : Adm
             return View("Form", form);
         }
 
-        Notify(message);
+        this.Success(message);
         return RedirectToAction(nameof(Index));
     }
 }

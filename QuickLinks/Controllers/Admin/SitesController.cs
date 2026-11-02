@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using QuickLinks.Data;
 using QuickLinks.Models.Entities;
 using QuickLinks.Models.ViewModels.Admin;
+using QuickLinks.Services;
 
 namespace QuickLinks.Controllers.Admin;
 
@@ -104,7 +105,9 @@ public class SitesController(AppDbContext db) : AdminController
         site.Available = !site.Available;
         site.UpdatedByUserId = CurrentUserId;
         await db.SaveChangesAsync(ct);
-        Notify(site.Available ? "Sitio activado." : "Sitio desactivado.");
+        var buildings = site.Available ? 0 : await db.Buildings.CountAsync(b => b.SiteId == id && b.Available, ct);
+        NotifyToggled(site.Available, "Sitio activado.", "Sitio desactivado.",
+            buildings > 0 ? $"Sus {buildings} {(buildings == 1 ? "edificio ya no aparece" : "edificios ya no aparecen")} en los filtros del portal." : null);
         return RedirectToAction(nameof(Index));
     }
 
@@ -131,7 +134,7 @@ public class SitesController(AppDbContext db) : AdminController
             return View("Form", form);
         }
 
-        Notify(message);
+        this.Success(message);
         return RedirectToAction(nameof(Index));
     }
 }

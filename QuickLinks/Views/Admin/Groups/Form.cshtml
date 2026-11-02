@@ -3,7 +3,6 @@
     ViewData["Title"] = Model.Id == 0 ? "Nuevo grupo" : "Editar grupo";
 }
 <form asp-action="@(Model.Id == 0 ? "Create" : "Edit")" asp-route-id="@(Model.Id == 0 ? null : Model.Id)" method="post" class="admin-card form-section">
-    <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
     <div class="mb-3">
         <label asp-for="Name" class="form-label"></label>
         <input asp-for="Name" class="form-control" />

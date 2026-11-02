@@ -264,7 +264,7 @@ public class SettingsController(ISettingsService settings, IMediaStorage media) 
 
     private RedirectToActionResult Saved(string section)
     {
-        Notify($"Configuración de {section} guardada.");
+        this.Success($"Configuración de {section} guardada.");
         return RedirectToAction(nameof(Index));
     }
 

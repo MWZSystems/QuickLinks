@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using QuickLinks.Data;
 using QuickLinks.Models.Entities;
 using QuickLinks.Models.ViewModels.Admin;
+using QuickLinks.Services;
 
 namespace QuickLinks.Controllers.Admin;
 
@@ -92,7 +93,10 @@ public class GroupsController(AppDbContext db) : AdminController
         group.Available = !group.Available;
         group.UpdatedByUserId = CurrentUserId;
         await db.SaveChangesAsync(ct);
-        Notify(group.Available ? "Grupo activado." : "Grupo desactivado.");
+        var shown = group.Available ? 0 : await db.Groups.Where(g => g.Id == id).SelectMany(g => g.Applications)
+            .CountAsync(r => r.Available && r.Application.Available, ct);
+        NotifyToggled(group.Available, "Grupo activado.", "Grupo desactivado.",
+            shown > 0 ? $"{AppsNoLongerShown(shown)} en este grupo." : null);
         return RedirectToAction(nameof(Index));
     }
 
@@ -119,7 +123,7 @@ public class GroupsController(AppDbContext db) : AdminController
             return View("Form", form);
         }
 
-        Notify(message);
+        this.Success(message);
         return RedirectToAction(nameof(Index));
     }
 }
