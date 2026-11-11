@@ -2,7 +2,9 @@
 
 Revisión del 11 de noviembre de 2026. El código, las vistas, los estilos y las imágenes de QuickLinks son propios. Los componentes de terceros que se distribuyen con la aplicación tienen licencias permisivas que permiten el uso comercial; ninguno requiere suscripción ni clave. Se conservan sus archivos y cabeceras de licencia, que es la condición que imponen.
 
-## Interfaz (archivos locales en `wwwroot/lib`, sin CDN ni fuentes externas)
+## Interfaz (llega con el paquete propio `MWZSystem.Ui`, sin CDN ni fuentes externas)
+
+El paquete `MWZSystem.Ui` es de MWZSystems. Trae estas librerías y los tipos de letra; su detalle y versiones están en el `THIRD-PARTY-NOTICES.md` de ese repositorio.
 
 | Componente | Licencia |
 |---|---|
@@ -11,6 +13,9 @@ Revisión del 11 de noviembre de 2026. El código, las vistas, los estilos y las
 | jQuery | MIT |
 | jQuery Validation | MIT |
 | jQuery Validation Unobtrusive | MIT |
+| Select2 y su tema para Bootstrap 5 | MIT |
+| DataTables y DataTables Responsive | MIT |
+| Tipos de letra del paquete (Atkinson Hyperlegible y otros) | SIL Open Font License 1.1 |
 
 ## Paquetes NuGet directos
 

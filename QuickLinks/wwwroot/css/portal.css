@@ -4,29 +4,9 @@
   min-height: calc(100vh - 140px);
 }
 
-.btn-admin-menu {
-  color: var(--ql-muted);
-  border: 0;
-  font-size: 1.25rem;
-  padding: .25rem .5rem;
-}
-
-.btn-admin-menu:hover,
-.btn-admin-menu[aria-expanded="true"] {
-  color: var(--ql-text);
-  background: var(--ql-surface);
-}
-
-.portal-footer {
-  background: var(--ql-primary);
-  color: #fff;
-  padding: .75rem 0;
-  font-size: .9rem;
-}
-
 #portal {
   width: min(1400px, 100% - 32px);
-  margin: 0 auto;
+  margin: 1rem auto 2rem;
 }
 
 /* ----- Franja de avisos ----- */

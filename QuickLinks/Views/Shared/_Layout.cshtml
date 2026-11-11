@@ -1,83 +1,71 @@
-﻿@{
+﻿@* Portal público: estructura común de MWZSystem.Ui sin menú lateral; el contenido conserva su diseño propio. *@
+@{
     var settings = await SettingsService.GetAsync();
-    var footer = string.IsNullOrWhiteSpace(settings.CompanyName)
-        ? settings.AppName
-        : $"{settings.CompanyName} · {settings.AppName}";
+    ViewData[MwzShell.ViewDataKey] = new MwzShell
+    {
+        AppName = settings.AppName,
+        Theme = "quicklinks",
+        PrimaryColor = Branding.SafeColor(settings.PrimaryColor),
+        HomeUrl = Url.Action("Index", "Home")!,
+        LoginUrl = Url.Action("Login", "Account"),
+        Footer = (string.IsNullOrWhiteSpace(settings.CompanyName) ? settings.AppName : $"{settings.CompanyName} · {settings.AppName}")
+            + $" · Versión {AppInfo.Version}",
+        Notices = Feedback.ToNotices(TempData, ViewData.ModelState),
+        BodyClass = "portal",
+        FullWidth = true
+    };
+    Layout = MwzShell.Layout;
 }
-<!DOCTYPE html>
-<html lang="es" style="--ql-primary: @Branding.SafeColor(settings.PrimaryColor)">
-<head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - @settings.AppName</title>
+@section Head {
     <partial name="_Favicon" model="settings" />
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/lib/bootstrap-icons/font/bootstrap-icons.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/portal.css" asp-append-version="true" />
-</head>
-<body class="portal" data-base-url="@Url.Content("~/")">
-    <header>
-        <nav class="navbar navbar-expand-sm bg-white border-bottom px-3 px-lg-5">
-            <div class="container-fluid">
-                <a class="navbar-brand d-flex align-items-center gap-2" asp-controller="Home" asp-action="Index">
-                    <partial name="_Brand" model="settings" />
+}
+@section Brand {
+    <partial name="_Brand" model="settings" />
+}
+@section Topbar {
+    @* Acceso de administradores discreto: los usuarios del portal no necesitan iniciar sesión. *@
+    <div class="dropdown">
+        <button type="button" class="mwz-icon-btn" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Opciones" title="Opciones">
+            <i class="bi bi-three-dots-vertical" aria-hidden="true"></i>
+        </button>
+        <ul class="dropdown-menu dropdown-menu-end shadow-sm">
+            <li>
+                <a class="dropdown-item" href="~/docs/QuickLinks-Guia-de-uso.pptx" download>
+                    <i class="bi bi-file-earmark-slides me-2" aria-hidden="true"></i>Guía de uso (PowerPoint)
                 </a>
-                @* Acceso de administradores discreto: los usuarios del portal no necesitan iniciar sesión. *@
-                <div class="ms-auto dropdown">
-                    <button type="button" class="btn btn-admin-menu" data-bs-toggle="dropdown" aria-expanded="false"
-                            aria-label="Opciones" title="Opciones">
-                        <i class="bi bi-three-dots-vertical" aria-hidden="true"></i>
-                    </button>
-                    <ul class="dropdown-menu dropdown-menu-end shadow-sm">
-                        <li>
-                            <a class="dropdown-item" href="~/docs/QuickLinks-Guia-de-uso.pptx" download>
-                                <i class="bi bi-file-earmark-slides me-2" aria-hidden="true"></i>Guía de uso (PowerPoint)
-                            </a>
-                        </li>
-                        <li><hr class="dropdown-divider" /></li>
-                        @if (User.Identity?.IsAuthenticated == true)
-                        {
-                            <li><h6 class="dropdown-header"><i class="bi bi-person-circle me-1" aria-hidden="true"></i>@User.Identity.Name</h6></li>
-                            <li>
-                                <a class="dropdown-item" asp-controller="Applications" asp-action="Index">
-                                    <i class="bi bi-gear me-2" aria-hidden="true"></i>Administración
-                                </a>
-                            </li>
-                            <li><hr class="dropdown-divider" /></li>
-                            <li>
-                                <form asp-controller="Account" asp-action="Logout" method="post">
-                                    <button type="submit" class="dropdown-item"><i class="bi bi-box-arrow-right me-2" aria-hidden="true"></i>Cerrar sesión</button>
-                                </form>
-                            </li>
-                        }
-                        else
-                        {
-                            <li><h6 class="dropdown-header">Solo para administradores</h6></li>
-                            <li>
-                                <a class="dropdown-item" asp-controller="Account" asp-action="Login">
-                                    <i class="bi bi-shield-lock me-2" aria-hidden="true"></i>Iniciar sesión
-                                </a>
-                            </li>
-                        }
-                    </ul>
-                </div>
-            </div>
-        </nav>
-    </header>
-
-    <main role="main" class="pb-5">
-        @RenderBody()
-    </main>
-
-    <partial name="_Feedback" />
-
-    <footer class="portal-footer">
-        <div class="container text-center">@footer · Versión @AppInfo.Version</div>
-    </footer>
-
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+            </li>
+            <li><hr class="dropdown-divider" /></li>
+            @if (User.Identity?.IsAuthenticated == true)
+            {
+                <li><h2 class="dropdown-header"><i class="bi bi-person-circle me-1" aria-hidden="true"></i>@User.Identity.Name</h2></li>
+                <li>
+                    <a class="dropdown-item" asp-controller="Applications" asp-action="Index">
+                        <i class="bi bi-gear me-2" aria-hidden="true"></i>Administración
+                    </a>
+                </li>
+                <li><hr class="dropdown-divider" /></li>
+                <li>
+                    <form asp-controller="Account" asp-action="Logout" method="post" data-mwz-sin-carga>
+                        <button type="submit" class="dropdown-item"><i class="bi bi-box-arrow-right me-2" aria-hidden="true"></i>Cerrar sesión</button>
+                    </form>
+                </li>
+            }
+            else
+            {
+                <li><h2 class="dropdown-header">Solo para administradores</h2></li>
+                <li>
+                    <a class="dropdown-item" asp-controller="Account" asp-action="Login">
+                        <i class="bi bi-shield-lock me-2" aria-hidden="true"></i>Iniciar sesión
+                    </a>
+                </li>
+            }
+        </ul>
+    </div>
+}
+@RenderBody()
+@section Scripts {
     <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
-</body>
-</html>
+}

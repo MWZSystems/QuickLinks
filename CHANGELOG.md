@@ -2,6 +2,22 @@
 
 Formato: [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/). Versionado: [SemVer](https://semver.org/lang/es/).
 
+## [1.0.0] - 2026-11-11 (interfaz común)
+
+### Cambiado
+- QuickLinks adopta `MWZSystem.Ui` 1.0.0, la base de interfaz común de las aplicaciones de MWZSystems: misma estructura de página, letra base de 18 px (antes 15 px) con Atkinson Hyperlegible, campos y botones más altos para usarse con el dedo, indicador de carga al navegar y al guardar, y un solo envío por formulario.
+- Los avisos emergentes los muestra el paquete (mismos cuatro tipos y duraciones); `QuickLinks.toast` y `this.Success/Info/Warning/Error` siguen funcionando igual.
+- La confirmación al desactivar un registro es una ventana de la aplicación en lugar del cuadro del navegador.
+- El menú de administración y la barra superior son los de la estructura común; en teléfono el menú se abre con un botón.
+- Página de error común para 403, 404 y 500, con número de referencia.
+
+### Eliminado
+- Copias locales de Bootstrap, Bootstrap Icons y jQuery en `wwwroot/lib` y `libman.json`: llegan con el paquete.
+- Estilos y script propios de avisos y de la estructura de administración, sustituidos por los del paquete.
+
+### Sin verificar
+- Las pantallas de administración tras iniciar sesión no se revisaron en el navegador.
+
 ## [1.0.0] - 2026-11-11
 
 ### Documentación

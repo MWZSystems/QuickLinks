@@ -46,7 +46,7 @@ public class HomeController(IPortalService portal, ISettingsService settings) : 
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     public IActionResult Error()
     {
-        return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        return View(new MWZSystem.Ui.MwzError(Response.StatusCode is 403 or 404 ? Response.StatusCode : 500, Activity.Current?.Id ?? HttpContext.TraceIdentifier));
     }
 
     private async Task<PortalViewModel> BuildAsync(PortalFilter filter, CancellationToken ct)

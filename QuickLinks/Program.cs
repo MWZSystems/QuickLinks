@@ -92,6 +92,9 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
+// 403 y 404 sin contenido muestran la página de error común en lugar de una página en blanco.
+app.UseStatusCodePagesWithReExecute("/Home/Error");
+
 app.UseMiddleware<SecurityHeadersMiddleware>();
 app.UseSerilogRequestLogging();
 app.UseHttpsRedirection();

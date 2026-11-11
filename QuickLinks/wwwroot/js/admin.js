@@ -1,13 +1,6 @@
-// Administración: confirmación antes de desactivar y vista previa de color.
+// Administración: vista previa de color. La confirmación al desactivar la hace MWZSystem.Ui (data-mwz-confirmar).
 (() => {
     'use strict';
-
-    document.addEventListener('submit', e => {
-        const button = e.submitter;
-        if (button?.classList.contains('btn-outline-danger') && !confirm('¿Seguro que quieres desactivar este registro?')) {
-            e.preventDefault();
-        }
-    });
 
     document.querySelectorAll('[data-color-input]').forEach(input => {
         const text = document.querySelector(input.dataset.colorInput);

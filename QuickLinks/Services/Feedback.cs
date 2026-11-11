@@ -1,6 +1,8 @@
 using System.Text.Json;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
+using MWZSystem.Ui;
 
 namespace QuickLinks.Services;
 
@@ -16,6 +18,7 @@ public record FeedbackMessage(FeedbackKind Kind, string Text);
 /// Avisos emergentes que se muestran en la siguiente pantalla, normalmente después de guardar y redirigir.
 /// Uso en un controlador: <c>this.Success("Categoría creada.")</c>, <c>this.Info(...)</c>, <c>this.Warning(...)</c>
 /// o <c>this.Error(...)</c>. En JavaScript: <c>QuickLinks.toast('success' | 'info' | 'warning' | 'error', texto)</c>.
+/// La página los muestra con los avisos de MWZSystem.Ui (<see cref="ToNotices"/>).
 /// </summary>
 public static class Feedback
 {
@@ -59,6 +62,32 @@ public static class Feedback
         }
 
         return list.OrderByDescending(m => m.Kind).ToList();
+    }
+
+    /// <summary>
+    /// Avisos de la página en el formato de MWZSystem.Ui. Un formulario devuelto con datos inválidos también avisa:
+    /// los errores generales (sin campo, como «usuario o contraseña incorrectos») se muestran tal cual; si solo hay
+    /// errores de campo se pide revisar el formulario, porque el detalle ya está junto a cada campo.
+    /// </summary>
+    public static List<MwzNotice> ToNotices(ITempDataDictionary tempData, ModelStateDictionary modelState)
+    {
+        var messages = Take(tempData);
+        if (!modelState.IsValid && messages.All(m => m.Kind != FeedbackKind.Error))
+        {
+            var general = modelState.Where(e => e.Key == "").SelectMany(e => e.Value!.Errors)
+                .Select(e => e.ErrorMessage).Where(t => t != "").Distinct().ToList();
+            messages.InsertRange(0, general.Count > 0
+                ? general.Select(t => new FeedbackMessage(FeedbackKind.Error, t))
+                : [new(FeedbackKind.Error, "Revisa los datos marcados en el formulario.")]);
+        }
+
+        return messages.Select(m => new MwzNotice(m.Kind switch
+        {
+            FeedbackKind.Success => MwzNoticeKind.Success,
+            FeedbackKind.Info => MwzNoticeKind.Info,
+            FeedbackKind.Warning => MwzNoticeKind.Warning,
+            _ => MwzNoticeKind.Error
+        }, m.Text)).ToList();
     }
 
     private static List<FeedbackMessage> Read(string? json)

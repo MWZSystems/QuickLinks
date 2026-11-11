@@ -1,116 +1,82 @@
+﻿@* Administración: estructura común de MWZSystem.Ui con el menú de catálogos. *@
 @{
     var settings = await SettingsService.GetAsync();
     var controller = ViewContext.RouteData.Values["controller"]?.ToString();
+    var action = ViewContext.RouteData.Values["action"]?.ToString();
     var menu = new (string Controller, string Label, string Icon, string Hint)[]
     {
-        ("Applications", "Aplicaciones", "bi-window-stack", "Enlaces que aparecen en el portal"),
-        ("Categories", "Categorías", "bi-tags", "Secciones de colores del portal"),
-        ("Groups", "Grupos", "bi-collection", "Agrupaciones que cruzan categorías"),
-        ("Sites", "Sitios", "bi-geo-alt", "Plantas o ubicaciones"),
-        ("Buildings", "Edificios", "bi-building", "Edificios de cada sitio"),
-        ("Advices", "Avisos", "bi-megaphone", "Mensajes de la franja de avisos"),
-        ("Maintenances", "Mantenimientos", "bi-tools", "Ventanas que bloquean una aplicación"),
-        ("Users", "Usuarios", "bi-people", "Quién puede administrar"),
-        ("Settings", "Configuración", "bi-gear", "Marca, portal, avisos, seguridad, imágenes y regional")
+        ("Applications", "Aplicaciones", "window-stack", "Enlaces que aparecen en el portal"),
+        ("Categories", "Categorías", "tags", "Secciones de colores del portal"),
+        ("Groups", "Grupos", "collection", "Agrupaciones que cruzan categorías"),
+        ("Sites", "Sitios", "geo-alt", "Plantas o ubicaciones"),
+        ("Buildings", "Edificios", "building", "Edificios de cada sitio"),
+        ("Advices", "Avisos", "megaphone", "Mensajes de la franja de avisos"),
+        ("Maintenances", "Mantenimientos", "tools", "Ventanas que bloquean una aplicación"),
+        ("Users", "Usuarios", "people", "Quién puede administrar"),
+        ("Settings", "Configuración", "gear", "Marca, portal, avisos, seguridad, imágenes y regional")
     };
     var current = menu.FirstOrDefault(m => m.Controller == controller);
+    var pageTitle = ViewData["Title"] as string;
+
+    var items = menu.Select(m => new MwzMenuItem(m.Label, Url.Action("Index", m.Controller)!, m.Icon, m.Controller == controller)
+    {
+        Hint = m.Hint,
+        // Las secciones de configuración solo se despliegan mientras se está en Configuración.
+        Children = m.Controller == "Settings" && controller == "Settings"
+            ? SettingsSection.All
+                .Select(p => new MwzMenuItem(p.Title, Url.Action(p.Action, "Settings")!, p.Icon.Replace("bi-", ""), p.Action == action))
+                .ToList()
+            : []
+    }).ToList();
+    items.Add(new("Ir al portal", Url.Action("Index", "Home")!, "house") { SeparatorBefore = true });
+    items.Add(new("Guía de uso", "~/docs/QuickLinks-Guia-de-uso.pptx", "file-earmark-slides")
+    {
+        Download = true,
+        Hint = "Presentación con capturas para usuarios y administradores"
+    });
+
+    ViewData[MwzShell.ViewDataKey] = new MwzShell
+    {
+        AppName = settings.AppName,
+        Theme = "quicklinks",
+        PrimaryColor = Branding.SafeColor(settings.PrimaryColor),
+        HomeUrl = Url.Action("Index", "Home")!,
+        Menu = items,
+        UserName = User.Identity?.Name,
+        LogoutUrl = Url.Action("Logout", "Account"),
+        LoginUrl = Url.Action("Login", "Account"),
+        Footer = $"{settings.AppName} · Versión {AppInfo.Version}",
+        Notices = Feedback.ToNotices(TempData, ViewData.ModelState),
+        BodyClass = "admin"
+    };
+    ViewData["Title"] = $"{pageTitle} - Administración";
+    Layout = MwzShell.Layout;
 }
-<!DOCTYPE html>
-<html lang="es" style="--ql-primary: @Branding.SafeColor(settings.PrimaryColor)">
-<head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - Administración - @settings.AppName</title>
+@section Head {
     <partial name="_Favicon" model="settings" />
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/lib/bootstrap-icons/font/bootstrap-icons.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/admin.css" asp-append-version="true" />
-</head>
-<body class="admin">
-    <header class="admin-header">
-        <button class="btn btn-sm btn-light d-lg-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#admin-menu" aria-controls="admin-menu" aria-label="Abrir menú">
-            <i class="bi bi-list fs-5" aria-hidden="true"></i>
-        </button>
-        <a asp-controller="Home" asp-action="Index" class="d-flex align-items-center gap-2 text-decoration-none">
-            <partial name="_Brand" model="settings" />
-        </a>
-        <span class="admin-tag d-none d-sm-inline"><i class="bi bi-shield-lock me-1" aria-hidden="true"></i>Administración</span>
-        <div class="ms-auto d-flex align-items-center gap-3">
-            <span class="small text-muted d-none d-sm-inline"><i class="bi bi-person-circle me-1" aria-hidden="true"></i>@User.Identity?.Name</span>
-            <form asp-controller="Account" asp-action="Logout" method="post">
-                <button type="submit" class="btn btn-sm btn-outline-secondary" title="Cerrar sesión">
-                    <i class="bi bi-box-arrow-right" aria-hidden="true"></i><span class="d-none d-md-inline ms-1">Cerrar sesión</span>
-                </button>
-            </form>
-        </div>
-    </header>
-
-    <div class="admin-shell">
-        <nav id="admin-menu" class="offcanvas-lg offcanvas-start admin-nav" tabindex="-1" aria-label="Catálogos">
-            <div class="offcanvas-header d-lg-none">
-                <span class="fw-bold">Menú</span>
-                <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#admin-menu" aria-label="Cerrar"></button>
-            </div>
-            <ul class="nav flex-column">
-                @foreach (var item in menu)
-                {
-                    <li class="nav-item">
-                        <a class="nav-link @(item.Controller == controller ? "active" : "")" asp-controller="@item.Controller" asp-action="Index"
-                           title="@item.Hint" aria-current="@(item.Controller == controller ? "page" : null)">
-                            <i class="bi @item.Icon" aria-hidden="true"></i>@item.Label
-                        </a>
-                        @if (item.Controller == "Settings" && controller == "Settings")
-                        {
-                            var action = ViewContext.RouteData.Values["action"]?.ToString();
-                            <ul class="nav flex-column admin-subnav">
-                                @foreach (var part in SettingsSection.All)
-                                {
-                                    <li class="nav-item">
-                                        <a class="nav-link @(part.Action == action ? "active" : "")" asp-controller="Settings" asp-action="@part.Action"
-                                           aria-current="@(part.Action == action ? "page" : null)">
-                                            <i class="bi @part.Icon" aria-hidden="true"></i>@part.Title
-                                        </a>
-                                    </li>
-                                }
-                            </ul>
-                        }
-                    </li>
-                }
-                <li class="nav-item mt-3 border-top pt-3">
-                    <a class="nav-link" asp-controller="Home" asp-action="Index"><i class="bi bi-house" aria-hidden="true"></i>Ir al portal</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="~/docs/QuickLinks-Guia-de-uso.pptx" download title="Presentación con capturas para usuarios y administradores">
-                        <i class="bi bi-file-earmark-slides" aria-hidden="true"></i>Guía de uso
-                    </a>
-                </li>
-            </ul>
-        </nav>
-
-        <main class="admin-main" role="main">
-            <h1 class="admin-title">
-                @if (current.Icon is not null)
-                {
-                    <i class="bi @current.Icon" aria-hidden="true"></i>
-                }
-                @ViewData["Title"]
-            </h1>
-            @if (current.Hint is not null)
-            {
-                <p class="admin-subtitle">@current.Hint</p>
-            }
-            @RenderBody()
-        </main>
-    </div>
-
-    <partial name="_Feedback" />
-
-    <footer class="admin-footer">@settings.AppName · Versión @AppInfo.Version</footer>
-
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+}
+@section Brand {
+    <partial name="_Brand" model="settings" />
+}
+@section Topbar {
+    <span class="admin-tag d-none d-sm-inline"><i class="bi bi-shield-lock me-1" aria-hidden="true"></i>Administración</span>
+}
+<h1 class="admin-title">
+    @if (current.Icon is not null)
+    {
+        <i class="bi bi-@current.Icon" aria-hidden="true"></i>
+    }
+    @pageTitle
+</h1>
+@if (current.Hint is not null)
+{
+    <p class="admin-subtitle">@current.Hint</p>
+}
+@RenderBody()
+@section Scripts {
     <script src="~/js/site.js" asp-append-version="true"></script>
     <script src="~/js/admin.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
-</body>
-</html>
+}

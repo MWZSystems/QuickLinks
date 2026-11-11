@@ -87,4 +87,50 @@ public class FeedbackTests
         var reloaded = new TempDataDictionary(new DefaultHttpContext(), provider);
         Assert.Empty(Feedback.Take(reloaded));
     }
+
+    [Fact]
+    public void NoticesKeepOrderAndKind()
+    {
+        var temp = NewTempData();
+        Feedback.Add(temp, FeedbackKind.Success, "Categoría creada.");
+        Feedback.Add(temp, FeedbackKind.Error, "No se pudo guardar.");
+
+        var notices = Feedback.ToNotices(temp, new Microsoft.AspNetCore.Mvc.ModelBinding.ModelStateDictionary());
+
+        Assert.Equal([new(MWZSystem.Ui.MwzNoticeKind.Error, "No se pudo guardar."), new(MWZSystem.Ui.MwzNoticeKind.Success, "Categoría creada.")], notices);
+    }
+
+    [Fact]
+    public void InvalidFormAddsGenericError()
+    {
+        var state = new Microsoft.AspNetCore.Mvc.ModelBinding.ModelStateDictionary();
+        state.AddModelError("Name", "Escribe el nombre.");
+
+        var notices = Feedback.ToNotices(NewTempData(), state);
+
+        Assert.Equal([new(MWZSystem.Ui.MwzNoticeKind.Error, "Revisa los datos marcados en el formulario.")], notices);
+    }
+
+    [Fact]
+    public void GeneralModelErrorsAreShownAsTheyAre()
+    {
+        var state = new Microsoft.AspNetCore.Mvc.ModelBinding.ModelStateDictionary();
+        state.AddModelError("", "Usuario o contraseña incorrectos.");
+        state.AddModelError("Name", "Escribe el nombre.");
+
+        var notices = Feedback.ToNotices(NewTempData(), state);
+
+        Assert.Equal([new(MWZSystem.Ui.MwzNoticeKind.Error, "Usuario o contraseña incorrectos.")], notices);
+    }
+
+    [Fact]
+    public void InvalidFormDoesNotAddErrorWhenOneIsAlreadyPending()
+    {
+        var temp = NewTempData();
+        Feedback.Add(temp, FeedbackKind.Error, "No se pudo guardar.");
+        var state = new Microsoft.AspNetCore.Mvc.ModelBinding.ModelStateDictionary();
+        state.AddModelError("Name", "Escribe el nombre.");
+
+        Assert.Single(Feedback.ToNotices(temp, state));
+    }
 }

@@ -1,6 +1,7 @@
-/* Estilos compartidos entre el portal y la administración. --ql-primary viene de CT_Settings. */
+/* Estilos propios de QuickLinks, sobre MWZSystem.Ui (estructura, letra, avisos y campos).
+   --ql-primary es el color de CT_Settings, que la estructura común deja en --mwz-primary. */
 :root {
-  --ql-primary: #0D4D84;
+  --ql-primary: var(--mwz-primary);
   --ql-primary-contrast: #fff;
   --ql-text: #1f2937;
   --ql-muted: #6b7280;
@@ -12,27 +13,10 @@
   --ql-info: #0a58ca;
   --ql-warning: #a85a00;
   --ql-danger: #b02a37;
-  --ql-font: "Segoe UI", system-ui, -apple-system, Roboto, "Helvetica Neue", Arial, sans-serif;
 }
 
-html {
-  font-size: 15px;
-  position: relative;
-  min-height: 100%;
-}
-
-body {
-  font-family: var(--ql-font);
-  color: var(--ql-text);
+.portal {
   background: #fff;
-}
-
-.btn:focus-visible,
-.form-control:focus,
-.form-select:focus,
-.form-check-input:focus {
-  box-shadow: 0 0 0 .2rem color-mix(in srgb, var(--ql-primary) 35%, transparent);
-  border-color: var(--ql-primary);
 }
 
 .btn-brand {
@@ -58,11 +42,6 @@ body {
 .btn-brand-outline:focus-visible {
   background: color-mix(in srgb, var(--ql-primary) 8%, #fff);
   color: var(--ql-primary);
-  border-color: var(--ql-primary);
-}
-
-.form-check-input:checked {
-  background-color: var(--ql-primary);
   border-color: var(--ql-primary);
 }
 
@@ -135,94 +114,3 @@ body {
   margin: .5rem 0 1rem;
 }
 
-/* Avisos emergentes (Services/Feedback.cs y QuickLinks.toast): arriba a la derecha, debajo de la barra superior
-   (site.js ajusta "top" a la altura real); en el teléfono ocupan todo el ancho. */
-.toast-stack {
-  position: fixed;
-  top: 4.5rem;
-  right: 1rem;
-  z-index: 1090;
-  display: flex;
-  flex-direction: column;
-  gap: .5rem;
-  /* Sin "vw": en el teléfono 100vw puede ensanchar la página y sacar el aviso de la pantalla. */
-  width: min(24rem, calc(100% - 2rem));
-  pointer-events: none;
-}
-
-.app-toast {
-  pointer-events: auto;
-  display: flex;
-  align-items: flex-start;
-  gap: .75rem;
-  padding: .85rem 1rem;
-  border-radius: 10px;
-  background: #fff;
-  color: var(--ql-text);
-  border: 1px solid var(--ql-border);
-  border-left: .3rem solid var(--toast-color);
-  box-shadow: 0 .5rem 1.5rem rgba(15, 23, 42, .15);
-  animation: toast-in .2s ease-out;
-}
-
-.app-toast.hiding {
-  opacity: 0;
-  transform: translateY(-.5rem);
-  transition: opacity .2s, transform .2s;
-}
-
-.app-toast-icon {
-  font-size: 1.35rem;
-  line-height: 1.2;
-  color: var(--toast-color);
-  flex-shrink: 0;
-}
-
-.app-toast-body {
-  flex: 1;
-  min-width: 0;
-  overflow-wrap: anywhere;
-}
-
-.app-toast-title {
-  font-weight: 700;
-  color: var(--toast-color);
-}
-
-.app-toast-close {
-  border: 0;
-  background: none;
-  padding: .15rem;
-  color: var(--ql-muted);
-  line-height: 1;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
-.app-toast-close:hover,
-.app-toast-close:focus-visible {
-  color: var(--ql-text);
-}
-
-.toast-success { --toast-color: var(--ql-success); }
-.toast-info { --toast-color: var(--ql-info); }
-.toast-warning { --toast-color: var(--ql-warning); }
-.toast-error { --toast-color: var(--ql-danger); }
-
-@keyframes toast-in {
-  from { opacity: 0; transform: translateY(-.5rem); }
-  to { opacity: 1; transform: none; }
-}
-
-@media (max-width: 575.98px) {
-  .toast-stack {
-    left: .5rem;
-    right: .5rem;
-    width: auto;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .app-toast { animation: none; }
-  .app-toast.hiding { transition: none; }
-}
