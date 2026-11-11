@@ -2,6 +2,11 @@
 
 Formato: [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/). Versionado: [SemVer](https://semver.org/lang/es/).
 
+## [1.0.0] - 2026-11-11
+
+### Documentación
+- Nuevo `THIRD-PARTY-NOTICES.md`: componentes de terceros y sus licencias (todas permisivas, sin plantillas ni librerías comerciales).
+
 ## [1.0.0] - 2026-10-30
 
 | Componente | Versión |
