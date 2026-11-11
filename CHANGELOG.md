@@ -5,6 +5,7 @@ Formato: [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/). Versionado
 ## [1.0.0] - 2026-11-11
 
 ### Documentación
+- `LICENSE` deja de ser MIT: derechos reservados a nombre de MWZSystems, por decisión del usuario, para poder comercializar la aplicación. Los componentes de terceros conservan sus licencias (`THIRD-PARTY-NOTICES.md`).
 - Nuevo `THIRD-PARTY-NOTICES.md`: componentes de terceros y sus licencias (todas permisivas, sin plantillas ni librerías comerciales).
 
 ## [1.0.0] - 2026-10-30
