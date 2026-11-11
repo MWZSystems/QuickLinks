@@ -133,4 +133,14 @@ public class FeedbackTests
 
         Assert.Single(Feedback.ToNotices(temp, state));
     }
+
+    [Fact]
+    public void ErrorPageSkipsAntiforgeryCheck()
+    {
+        // La página de error se vuelve a ejecutar con el método original; si ese POST falló por el token vencido,
+        // el filtro global no debe rechazar también la página de error.
+        var action = typeof(QuickLinks.Controllers.HomeController).GetMethod("Error")!;
+
+        Assert.NotEmpty(action.GetCustomAttributes(typeof(Microsoft.AspNetCore.Mvc.IgnoreAntiforgeryTokenAttribute), false));
+    }
 }

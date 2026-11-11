@@ -43,6 +43,8 @@ public class HomeController(IPortalService portal, ISettingsService settings) : 
         return message is null ? NotFound() : Json(new { message });
     }
 
+    // Se vuelve a ejecutar con el método de la petición original; un POST con el token vencido no debe fallar otra vez aquí.
+    [IgnoreAntiforgeryToken]
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     public IActionResult Error()
     {

@@ -1,10 +1,8 @@
 /* Administración */
 
+/* La estructura (menú, barra, pie) es la de MWZSystem.Ui; aquí solo el fondo. */
 .admin {
   background: var(--ql-surface);
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
 }
 
 .admin-tag {
