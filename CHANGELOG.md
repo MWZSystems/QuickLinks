@@ -2,6 +2,10 @@
 
 Formato: [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/). Versionado: [SemVer](https://semver.org/lang/es/).
 
+## [Desarrollo 1.0.0] - 2026-11-12 (menú en teléfono)
+
+- Con el menú abierto en el teléfono ya se puede desplazar la lista cuando un grupo abierto la hace más alta que la pantalla; antes las últimas opciones quedaban inalcanzables hasta cerrarlo. La corrección llega con `MWZSystem.Ui` 1.4.1.
+
 ## [Desarrollo 1.0.0] - 2026-11-12 (segunda revisión)
 
 - Se quitaron las flechas de «Volver al portal» y de las tarjetas de configuración.
