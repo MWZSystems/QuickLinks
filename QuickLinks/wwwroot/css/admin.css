@@ -6,7 +6,7 @@
 }
 
 .admin-tag {
-  font-size: .8rem;
+  font-size: var(--mwz-small);
   text-transform: uppercase;
   letter-spacing: .06em;
   color: var(--ql-muted);
@@ -37,7 +37,7 @@
   display: flex;
   align-items: center;
   gap: .5rem;
-  font-size: .85rem;
+  font-size: var(--mwz-small);
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: .04em;
@@ -129,7 +129,7 @@
 .check-grid-title {
   grid-column: 1 / -1;
   font-weight: 600;
-  font-size: .85rem;
+  font-size: var(--mwz-small);
   color: var(--ql-muted);
   margin-top: .25rem;
 }
@@ -232,7 +232,7 @@
 }
 
 .settings-summary dt {
-  font-size: .75rem;
+  font-size: var(--mwz-small);
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: .03em;

@@ -2,6 +2,15 @@
 
 Formato: [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/). Versionado: [SemVer](https://semver.org/lang/es/).
 
+## [Desarrollo 1.0.0] - 2026-11-12 (segunda revisión)
+
+- Se quitaron las flechas de «Volver al portal» y de las tarjetas de configuración.
+- Ningún texto baja de 16 px: etiqueta de versión, insignias, rótulos de los filtros del portal y encabezados de administración. Los iconos pequeños (enlace externo, orden, separador) conservan su tamaño.
+- Se retiraron los estilos en línea de medidas fijas en administración; el color de cada categoría se dibuja en SVG. Quedan tres estilos en línea que llevan valores configurados por quien administra (color de la marca en la página, color y velocidad de la franja de avisos, y color de cada sección del portal).
+- Se conservó la flecha doble de ordenar columnas, que es un control con función.
+
+Verificación: compilación sin advertencias y 16 pruebas; portal y acceso revisados en local. Las páginas de administración exigen sesión y no se vieron en un navegador.
+
 ## [Desarrollo 1.0.0] - 2026-11-11 (resumen de administración)
 
 - Administración abre con una página nueva, «Resumen»: aplicaciones, aplicaciones en mantenimiento ahora, avisos activos, mantenimientos programados, usuarios y aplicaciones por categoría. Cada tarjeta abre su catálogo. «Activo» y «en mantenimiento» usan la misma definición que el portal.

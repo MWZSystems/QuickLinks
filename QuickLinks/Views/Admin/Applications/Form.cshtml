@@ -52,7 +52,7 @@
             @if (Model.CurrentLogoUrl is not null)
             {
                 <div class="d-flex align-items-center gap-3 mb-2">
-                    <img src="@Model.CurrentLogoUrl" alt="Logo actual" class="thumb" style="width: 64px; height: 64px" />
+                    <img src="@Model.CurrentLogoUrl" alt="Logo actual" class="thumb thumb-logo" />
                     <div class="form-check">
                         <input asp-for="RemoveLogo" class="form-check-input" />
                         <label asp-for="RemoveLogo" class="form-check-label">Quitar logo</label>

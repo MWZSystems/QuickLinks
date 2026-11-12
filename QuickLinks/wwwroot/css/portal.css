@@ -209,7 +209,7 @@
   border-radius: 8px;
   background: #dc3545;
   color: #fff;
-  font-size: .8rem;
+  font-size: var(--mwz-small);
   line-height: 1;
   display: inline-flex;
   align-items: center;
@@ -264,7 +264,7 @@
 
 .filters-selects label span {
   display: block;
-  font-size: .85rem;
+  font-size: var(--mwz-small);
   color: var(--ql-muted);
   margin-bottom: .25rem;
 }
@@ -418,7 +418,7 @@
 .app-card-badge {
   position: absolute;
   bottom: 8px;
-  font-size: .75rem;
+  font-size: var(--mwz-small);
   background: #fcd34d;
   color: #111;
   border-radius: 999px;

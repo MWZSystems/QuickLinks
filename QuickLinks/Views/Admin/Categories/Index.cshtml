@@ -23,7 +23,7 @@
             {
                 <tr>
                     <td>@row.Name</td>
-                    <td><span class="color-swatch" style="background: @Branding.SafeColor(row.Color)"></span>@row.Color</td>
+                    <td><svg class="color-swatch" viewBox="0 0 1 1" aria-hidden="true"><rect width="1" height="1" fill="@Branding.SafeColor(row.Color)" /></svg>@row.Color</td>
                     <td>@row.ApplicationCount</td>
                     <td><local-time value="row.LastUpdated" /></td>
                     <partial name="Admin/_StatusBadge" model="row.Available" />
