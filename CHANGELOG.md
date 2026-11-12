@@ -10,6 +10,8 @@ Formato: [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/). Versionado
 
 Verificación: compilación sin advertencias y 16 pruebas (cinco nuevas del armado del resumen). El portal y el acceso se revisaron en local a 1280 y 375 px con el paquete nuevo, sin desborde ni errores en consola. La página «Resumen» exige sesión de administración y no se vio en un navegador: queda para revisión del usuario. Sus consultas a la base no tienen prueba automática porque el repositorio no tiene arnés con base de datos.
 
+Cierre: fuente `29996b7` en `Releases/v1.0.0` y `main`, publicada en site7 con `dotnet publish` y el perfil Web Deploy propio (la contraseña de despliegue se toma de los secretos locales del proyecto). Comprobado de forma anónima: el portal y el acceso responden 200 y `/Summary` redirige al acceso.
+
 ## [1.0.0] - 2026-11-11 (interfaz común)
 
 ### Cambiado
