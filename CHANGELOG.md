@@ -1,6 +1,14 @@
-# Changelog
+﻿# Changelog
 
 Formato: [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/). Versionado: [SemVer](https://semver.org/lang/es/).
+
+## [Desarrollo 1.0.0] - 2026-11-11 (resumen de administración)
+
+- Administración abre con una página nueva, «Resumen»: aplicaciones, aplicaciones en mantenimiento ahora, avisos activos, mantenimientos programados, usuarios y aplicaciones por categoría. Cada tarjeta abre su catálogo. «Activo» y «en mantenimiento» usan la misma definición que el portal.
+- El portal de los empleados no cambia.
+- `MWZSystem.Ui` 1.4.0 (antes 1.0.0).
+
+Verificación: compilación sin advertencias y 16 pruebas (cinco nuevas del armado del resumen). El portal y el acceso se revisaron en local a 1280 y 375 px con el paquete nuevo, sin desborde ni errores en consola. La página «Resumen» exige sesión de administración y no se vio en un navegador: queda para revisión del usuario. Sus consultas a la base no tienen prueba automática porque el repositorio no tiene arnés con base de datos.
 
 ## [1.0.0] - 2026-11-11 (interfaz común)
 

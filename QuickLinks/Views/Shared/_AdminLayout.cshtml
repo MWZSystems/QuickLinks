@@ -5,6 +5,7 @@
     var action = ViewContext.RouteData.Values["action"]?.ToString();
     var menu = new (string Controller, string Label, string Icon, string Hint)[]
     {
+        ("Summary", "Resumen", "speedometer2", "Totales del portal en este momento"),
         ("Applications", "Aplicaciones", "window-stack", "Enlaces que aparecen en el portal"),
         ("Categories", "Categorías", "tags", "Secciones de colores del portal"),
         ("Groups", "Grupos", "collection", "Agrupaciones que cruzan categorías"),

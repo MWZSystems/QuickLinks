@@ -1,0 +1,14 @@
+@model AdminCounts
+@{
+    ViewData["Title"] = "Resumen";
+}
+<p class="text-muted">Totales del portal en este momento. Cada tarjeta abre su catálogo.</p>
+<div class="mwz-tablero">
+    @foreach (var stat in AdminSummary.Stats(Model, controller => Url.Action("Index", controller)!))
+    {
+        <partial name="MwzUi/_Indicador" model="stat" />
+    }
+</div>
+<div class="mwz-tablero">
+    <div class="mwz-ancho-2"><partial name="MwzUi/_Barras" model="AdminSummary.ByCategory(Model)" /></div>
+</div>
