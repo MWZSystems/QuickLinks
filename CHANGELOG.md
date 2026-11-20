@@ -2,6 +2,13 @@
 
 Formato: [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/). Versionado: [SemVer](https://semver.org/lang/es/).
 
+## [Desarrollo 1.0.0] - 2026-11-20 (librerías por página)
+
+- `MWZSystem.Ui` 1.5.0: cada página baja solo las librerías que usa. Los layouts usan `MwzLibraries.None` y solo el acceso y los formularios de administración y configuración piden `Validation`. Nadie usa Select2 ni DataTables.
+- Archivos JS y CSS por página: portal de 24 a 11, acceso de 23 a 13 (conserva la validación).
+
+Verificación: compilación sin advertencias y 16 pruebas; en local, portal (detalle y búsqueda) y validación del acceso sin avisos en consola. Los formularios de administración exigen sesión y no se abrieron en el navegador.
+
 ## [Desarrollo 1.0.0] - 2026-11-20 (Modern Web Guidance)
 
 - Los logos del portal ya no usan carga diferida y declaran su tamaño: aparecen antes y la página no salta al cargarlos.

@@ -1,6 +1,7 @@
 @model SecuritySettingsForm
 @{
     ViewData["Title"] = "Configuración · Seguridad";
+    MwzShell.Use(Context, MwzLibraries.Validation);
 }
 <partial name="_SectionHeader" model="@("Security")" />
 

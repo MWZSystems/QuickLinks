@@ -38,6 +38,8 @@
 
     ViewData[MwzShell.ViewDataKey] = new MwzShell
     {
+        // Cada página pide sus librerías (los formularios piden Validation); el resto no las descarga.
+        Libraries = MwzLibraries.None,
         AppName = settings.AppName,
         Theme = "quicklinks",
         PrimaryColor = Branding.SafeColor(settings.PrimaryColor),

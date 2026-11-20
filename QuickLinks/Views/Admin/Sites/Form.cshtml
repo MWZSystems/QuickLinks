@@ -1,6 +1,7 @@
 @model SiteForm
 @{
     ViewData["Title"] = Model.Id == 0 ? "Nuevo sitio" : "Editar sitio";
+    MwzShell.Use(Context, MwzLibraries.Validation);
 }
 <form asp-action="@(Model.Id == 0 ? "Create" : "Edit")" asp-route-id="@(Model.Id == 0 ? null : Model.Id)" method="post" class="admin-card form-section">
     <div class="mb-3">

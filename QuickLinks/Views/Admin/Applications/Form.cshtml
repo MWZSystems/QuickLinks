@@ -1,6 +1,7 @@
 @model ApplicationForm
 @{
     ViewData["Title"] = Model.Id == 0 ? "Nueva aplicación" : "Editar aplicación";
+    MwzShell.Use(Context, MwzLibraries.Validation);
     var o = Model.Options;
     var media = (await SettingsService.GetAsync()).Media;
 }

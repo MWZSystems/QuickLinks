@@ -1,6 +1,7 @@
 @model RegionalSettingsForm
 @{
     ViewData["Title"] = "Configuración · Regional";
+    MwzShell.Use(Context, MwzLibraries.Validation);
 }
 <partial name="_SectionHeader" model="@("Regional")" />
 

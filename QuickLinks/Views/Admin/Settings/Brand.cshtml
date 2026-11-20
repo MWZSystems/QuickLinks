@@ -1,6 +1,7 @@
 @model BrandSettingsForm
 @{
     ViewData["Title"] = "Configuración · Marca";
+    MwzShell.Use(Context, MwzLibraries.Validation);
 }
 <partial name="_SectionHeader" model="@("Brand")" />
 

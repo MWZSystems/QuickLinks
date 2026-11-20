@@ -1,6 +1,7 @@
 @model MediaSettingsForm
 @{
     ViewData["Title"] = "Configuración · Imágenes";
+    MwzShell.Use(Context, MwzLibraries.Validation);
 }
 <partial name="_SectionHeader" model="@("Media")" />
 

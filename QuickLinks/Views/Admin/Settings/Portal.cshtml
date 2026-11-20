@@ -1,6 +1,7 @@
 @model PortalSettingsForm
 @{
     ViewData["Title"] = "Configuración · Portal";
+    MwzShell.Use(Context, MwzLibraries.Validation);
 }
 <partial name="_SectionHeader" model="@("Portal")" />
 

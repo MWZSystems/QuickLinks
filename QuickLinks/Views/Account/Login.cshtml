@@ -1,6 +1,7 @@
 @model QuickLinks.Models.ViewModels.LoginViewModel
 @{
     ViewData["Title"] = "Iniciar sesión";
+    MwzShell.Use(Context, MwzLibraries.Validation);
     var settings = await SettingsService.GetAsync();
 }
 <div class="login-wrapper">

@@ -1,6 +1,7 @@
 @model AdviceForm
 @{
     ViewData["Title"] = Model.Id == 0 ? "Nuevo aviso" : "Editar aviso";
+    MwzShell.Use(Context, MwzLibraries.Validation);
     var settings = await SettingsService.GetAsync();
 }
 <form asp-action="@(Model.Id == 0 ? "Create" : "Edit")" asp-route-id="@(Model.Id == 0 ? null : Model.Id)" method="post" class="admin-card form-section">
