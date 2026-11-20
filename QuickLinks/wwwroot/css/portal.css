@@ -43,8 +43,27 @@
   animation: news-scroll var(--news-duration, 30s) linear infinite;
 }
 
-.news-ticker:hover .news-items {
+.news-ticker:hover .news-items,
+.news-ticker.is-paused .news-items {
   animation-play-state: paused;
+}
+
+.news-toggle {
+  flex: none;
+  align-self: center;
+  margin: 0 .5rem;
+  border: 0;
+  border-radius: 6px;
+  padding: .25rem .5rem;
+  background: rgba(0, 0, 0, .12);
+  color: inherit;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.news-toggle:hover,
+.news-toggle:focus-visible {
+  background: rgba(0, 0, 0, .22);
 }
 
 @keyframes news-scroll {
@@ -52,6 +71,10 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .news-toggle {
+    display: none;
+  }
+
   .news-items {
     animation: none;
     padding-left: 1rem;

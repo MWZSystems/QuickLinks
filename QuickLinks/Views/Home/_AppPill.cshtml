@@ -10,7 +10,7 @@
        data-app-id="@Model.Id" data-app-name="@Model.Name" title="Abrir @Model.Name">
         @if (Model.ImageUrl is not null)
         {
-            <img class="app-pill-logo" src="@Model.ImageUrl" alt="" loading="lazy" />
+            <img class="app-pill-logo" src="@Model.ImageUrl" alt="" width="24" height="24" />
         }
         @Model.Name
         @if (Model.IsBlocked)

@@ -40,7 +40,7 @@
     // ---------- Búsqueda y filtros ----------
     const searchInput = portal.querySelector('[data-search]');
     let searchTimer;
-    let lastRequest;
+    let pendingSearch;
 
     searchInput.addEventListener('input', () => {
         clearTimeout(searchTimer);
@@ -116,29 +116,43 @@
 
     async function refresh() {
         const params = currentParams();
-        const request = Symbol();
-        lastRequest = request;
+        // Una búsqueda nueva cancela la anterior: no se descargan resultados que ya no se van a mostrar.
+        pendingSearch?.abort();
+        const controller = new AbortController();
+        pendingSearch = controller;
         updateUrl();
 
         try {
             const response = await fetch(`${portal.dataset.resultsUrl}?${params}`, {
-                headers: { 'X-Requested-With': 'XMLHttpRequest' }
+                headers: { 'X-Requested-With': 'XMLHttpRequest' },
+                signal: controller.signal
             });
             if (!response.ok) {
                 throw new Error(`HTTP ${response.status}`);
             }
             const html = await response.text();
-            if (request !== lastRequest) {
-                return; // llegó una respuesta más nueva mientras tanto
-            }
             const doc = new DOMParser().parseFromString(html, 'text/html');
-            document.getElementById('complete-results').innerHTML = doc.getElementById('complete-part').innerHTML;
+            // Se mueven los nodos ya analizados en lugar de volver a interpretar HTML con innerHTML.
+            document.getElementById('complete-results').replaceChildren(...doc.getElementById('complete-part').childNodes);
             document.getElementById('app-count').textContent = doc.getElementById('count-part').textContent;
         } catch (error) {
+            if (error.name === 'AbortError') {
+                return;
+            }
             console.error('No se pudieron actualizar los resultados', error);
             QuickLinks.toast('error', 'No se pudo actualizar la búsqueda. Revisa tu conexión e intenta de nuevo.');
         }
     }
+
+    // ---------- Franja de avisos: pausa con botón (teclado y pantallas táctiles) ----------
+    document.querySelectorAll('[data-news-toggle]').forEach(button => button.addEventListener('click', () => {
+        const paused = button.closest('.news-ticker').classList.toggle('is-paused');
+        const label = paused ? 'Reanudar avisos' : 'Pausar avisos';
+        button.setAttribute('aria-pressed', String(paused));
+        button.setAttribute('aria-label', label);
+        button.title = label;
+        button.querySelector('i').className = `bi ${paused ? 'bi-play-fill' : 'bi-pause-fill'}`;
+    }));
 
     // ---------- Logos que no cargan: la tarjeta queda solo con el nombre ----------
     // Los eventos error de <img> no burbujean; se escuchan en fase de captura.

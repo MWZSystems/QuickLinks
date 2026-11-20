@@ -2,6 +2,15 @@
 
 Formato: [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/). Versionado: [SemVer](https://semver.org/lang/es/).
 
+## [Desarrollo 1.0.0] - 2026-11-20 (Modern Web Guidance)
+
+- Los logos del portal ya no usan carga diferida y declaran su tamaño: aparecen antes y la página no salta al cargarlos.
+- La franja de avisos tiene un botón para pausarla y reanudarla con teclado o en pantallas táctiles; antes solo se detenía al pasar el ratón.
+- La búsqueda en vivo cancela la petición anterior al seguir escribiendo y coloca los resultados sin volver a interpretar HTML.
+- Nuevas cabeceras de seguridad: `Permissions-Policy` (sin cámara, micrófono, ubicación, pagos ni USB) y `Cross-Origin-Opener-Policy: same-origin`.
+
+Verificación: 16 pruebas; en local, cabeceras, logos, búsqueda rápida, detalle y pausa de la franja revisados en el navegador.
+
 ## [Desarrollo 1.0.0] - 2026-11-12 (menú en teléfono)
 
 - Con el menú abierto en el teléfono ya se puede desplazar la lista cuando un grupo abierto la hace más alta que la pantalla; antes las últimas opciones quedaban inalcanzables hasta cerrarlo. La corrección llega con `MWZSystem.Ui` 1.4.1.

@@ -14,6 +14,10 @@ public sealed class SecurityHeadersMiddleware(RequestDelegate next)
         headers.XFrameOptions = "DENY";
         headers["Referrer-Policy"] = "strict-origin-when-cross-origin";
         headers.ContentSecurityPolicy = ContentSecurityPolicy;
+        // El portal no usa cámara, micrófono, ubicación ni pagos: se desactivan para cualquier script.
+        headers["Permissions-Policy"] = "camera=(), microphone=(), geolocation=(), payment=(), usb=()";
+        // Aísla la ventana de las que abra otro origen (los enlaces externos ya usan noopener).
+        headers["Cross-Origin-Opener-Policy"] = "same-origin";
         return next(context);
     }
 }
