@@ -121,6 +121,10 @@
         const controller = new AbortController();
         pendingSearch = controller;
         updateUrl();
+        // Los resultados se marcan ocupados (MWZSystem.Ui) y solo la búsqueda más reciente los libera:
+        // una cancelada no debe quitar la marca de la que sigue en curso.
+        const results = document.getElementById('complete-results');
+        window.mwz?.cargando(true, results);
 
         try {
             const response = await fetch(`${portal.dataset.resultsUrl}?${params}`, {
@@ -133,11 +137,17 @@
             const html = await response.text();
             const doc = new DOMParser().parseFromString(html, 'text/html');
             // Se mueven los nodos ya analizados en lugar de volver a interpretar HTML con innerHTML.
-            document.getElementById('complete-results').replaceChildren(...doc.getElementById('complete-part').childNodes);
+            results.replaceChildren(...doc.getElementById('complete-part').childNodes);
             document.getElementById('app-count').textContent = doc.getElementById('count-part').textContent;
+            if (pendingSearch === controller) {
+                window.mwz?.cargando(false, results);
+            }
         } catch (error) {
             if (error.name === 'AbortError') {
                 return;
+            }
+            if (pendingSearch === controller) {
+                window.mwz?.cargando(false, results);
             }
             console.error('No se pudieron actualizar los resultados', error);
             QuickLinks.toast('error', 'No se pudo actualizar la búsqueda. Revisa tu conexión e intenta de nuevo.');
@@ -198,7 +208,9 @@
         message.textContent = 'Esta aplicación está en mantenimiento.';
         openDialog(maintenanceDialog);
         try {
-            const response = await fetch(`${portal.dataset.maintenanceUrl}/${link.dataset.appId}`);
+            const request = fetch(`${portal.dataset.maintenanceUrl}/${link.dataset.appId}`);
+            window.mwz?.ocupado(message, request);
+            const response = await request;
             if (response.ok) {
                 message.textContent = (await response.json()).message;
             }
@@ -274,9 +286,12 @@
         });
     }
 
-    async function openDetails(appId) {
+    async function openDetails(appId, trigger) {
         try {
-            const response = await fetch(`${portal.dataset.detailsUrl}/${appId}`);
+            const request = fetch(`${portal.dataset.detailsUrl}/${appId}`);
+            // La tarjeta se marca ocupada mientras llega el detalle.
+            window.mwz?.ocupado(trigger?.closest('.app-card-wrap') ?? trigger, request);
+            const response = await request;
             if (!response.ok) {
                 throw new Error(`HTTP ${response.status}`);
             }
@@ -304,7 +319,7 @@
         if (trigger) {
             e.preventDefault();
             e.stopPropagation();
-            openDetails(Number(trigger.dataset.details));
+            openDetails(Number(trigger.dataset.details), trigger);
         }
     });
 

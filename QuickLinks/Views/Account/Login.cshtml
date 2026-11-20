@@ -9,7 +9,7 @@
         <div class="login-brand"><partial name="_Brand" model="settings" /></div>
         <h1 class="h5 text-center mb-4"><i class="bi bi-shield-lock me-2" aria-hidden="true"></i>Administración</h1>
 
-        <form asp-action="Login" method="post" novalidate>
+        <form asp-action="Login" method="post" data-mwz-texto-carga="Entrando…" novalidate>
             <input type="hidden" asp-for="ReturnUrl" />
 
             <div class="mb-3">

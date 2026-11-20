@@ -2,6 +2,15 @@
 
 Formato: [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/). Versionado: [SemVer](https://semver.org/lang/es/).
 
+## [Desarrollo 1.0.0] - 2026-11-20 (pantalla de carga)
+
+- `MWZSystem.Ui` 1.6.0: al navegar o enviar sale una barra y, si tarda más de un segundo, un recuadro con el mensaje; los botones de envío se desactivan y no hay doble envío.
+- Cada formulario que guarda dice qué hace: «Entrando…», «Cerrando sesión…», «Guardando la aplicación y sus imágenes…», «Guardando la marca y el logo…», «Activando…» o «Desactivando…», etc.
+- La guía de uso es una descarga (`data-mwz-descarga`) y la búsqueda del portal no muestra la carga de página (`data-mwz-sin-carga`): sus resultados, el detalle y el mensaje de mantenimiento marcan su parte como ocupada.
+- Pruebas nuevas (`LoadingScreenTests`): versión 1.6.0 servida, mensaje en los 17 formularios POST, descargas marcadas y fetch del portal con indicador.
+
+Verificación: 22 pruebas; en local, la capa sale con su mensaje, el doble clic envía una vez, Atrás deja la página sin capa, un formulario inválido no muestra carga y la búsqueda (también con Enter) no deja marcas.
+
 ## [Desarrollo 1.0.0] - 2026-11-20 (librerías por página)
 
 - `MWZSystem.Ui` 1.5.0: cada página baja solo las librerías que usa. Los layouts usan `MwzLibraries.None` y solo el acceso y los formularios de administración y configuración piden `Validation`. Nadie usa Select2 ni DataTables.

@@ -3,7 +3,7 @@
     ViewData["Title"] = Model.Id == 0 ? "Nuevo edificio" : "Editar edificio";
     MwzShell.Use(Context, MwzLibraries.Validation);
 }
-<form asp-action="@(Model.Id == 0 ? "Create" : "Edit")" asp-route-id="@(Model.Id == 0 ? null : Model.Id)" method="post" class="admin-card form-section">
+<form asp-action="@(Model.Id == 0 ? "Create" : "Edit")" asp-route-id="@(Model.Id == 0 ? null : Model.Id)" method="post" data-mwz-texto-carga="Guardando el edificio…" class="admin-card form-section">
     @if (Model.Sites.Count == 0)
     {
         <div class="alert alert-warning">Primero da de alta un <a asp-controller="Sites" asp-action="Create">sitio</a>.</div>
