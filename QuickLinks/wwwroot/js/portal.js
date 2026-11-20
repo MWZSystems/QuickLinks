@@ -1,4 +1,4 @@
-// Portal público: búsqueda en vivo, filtros, fijadas, recientes y modales.
+// Portal público: búsqueda en vivo, filtros, fijadas, recientes y ventanas (<dialog> nativo).
 (() => {
     'use strict';
 
@@ -169,8 +169,22 @@
         }
     }, true);
 
+    // ---------- Ventanas ----------
+    // <dialog> con showModal(): foco atrapado, Escape y fondo inerte los da el navegador.
+    // Se cierran con los botones [data-dialog-close] o con un clic fuera, como antes.
+    const openDialog = dialog => {
+        if (!dialog.open) {
+            dialog.showModal();
+        }
+    };
+    document.querySelectorAll('dialog.ql-dialog').forEach(dialog => dialog.addEventListener('click', e => {
+        if (e.target === dialog || e.target.closest('[data-dialog-close]')) {
+            dialog.close();
+        }
+    }));
+
     // ---------- Apertura de aplicaciones, recientes y mantenimiento ----------
-    const maintenanceModal = new bootstrap.Modal(document.getElementById('maintenance-modal'));
+    const maintenanceDialog = document.getElementById('maintenance-modal');
 
     function registerRecent(appId) {
         const recent = cookies.getIds(RECENT).filter(id => id !== appId);
@@ -182,7 +196,7 @@
         document.getElementById('maintenance-title').textContent = link.dataset.appName;
         const message = document.querySelector('[data-maintenance-message]');
         message.textContent = 'Esta aplicación está en mantenimiento.';
-        maintenanceModal.show();
+        openDialog(maintenanceDialog);
         try {
             const response = await fetch(`${portal.dataset.maintenanceUrl}/${link.dataset.appId}`);
             if (response.ok) {
@@ -211,7 +225,6 @@
 
     // ---------- Detalle y fijadas ----------
     const detailsModalEl = document.getElementById('details-modal');
-    const detailsModal = new bootstrap.Modal(detailsModalEl);
     const pinButton = detailsModalEl.querySelector('[data-pin-toggle]');
     const openButton = detailsModalEl.querySelector('[data-open-app]');
 
@@ -279,7 +292,7 @@
             openButton.dataset.appName = app.name;
             renderPinButton(app.id);
             renderCarousel(app.images, app.name, app.logo);
-            detailsModal.show();
+            openDialog(detailsModalEl);
         } catch (error) {
             console.error('No se pudo cargar el detalle de la aplicación', error);
             QuickLinks.toast('error', 'No se pudo abrir el detalle de la aplicación. Intenta de nuevo.');
@@ -295,14 +308,6 @@
         }
     });
 
-    document.addEventListener('keydown', e => {
-        const trigger = e.target.closest?.('[data-details]');
-        if (trigger && (e.key === 'Enter' || e.key === ' ')) {
-            e.preventDefault();
-            openDetails(Number(trigger.dataset.details));
-        }
-    });
-
     pinButton.addEventListener('click', () => {
         const appId = Number(pinButton.dataset.appId);
         const pinned = cookies.getIds(PINNED);
@@ -313,14 +318,14 @@
         location.reload();
     });
 
-    const unpinModal = new bootstrap.Modal(document.getElementById('unpin-modal'));
+    const unpinDialog = document.getElementById('unpin-modal');
     const confirmUnpin = document.querySelector('[data-confirm-unpin]');
 
     document.addEventListener('click', e => {
         const unpin = e.target.closest('[data-unpin]');
         if (unpin) {
             confirmUnpin.dataset.appId = unpin.dataset.unpin;
-            unpinModal.show();
+            openDialog(unpinDialog);
         }
     });
 

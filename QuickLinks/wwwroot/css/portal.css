@@ -370,8 +370,20 @@
   gap: 1.75rem;
 }
 
+/* La tarjeta y su botón de detalle se mueven juntos al pasar el ratón. */
+.app-card-wrap {
+  position: relative;
+  display: flex;
+  transition: transform .15s ease;
+}
+
+.app-card-wrap:hover {
+  transform: translateY(-2px);
+}
+
 .app-card {
   position: relative;
+  flex: 1;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -384,13 +396,13 @@
   color: var(--ql-text);
   text-decoration: none;
   box-shadow: 0 2px 10px 2px rgba(69, 80, 88, .15);
-  transition: box-shadow .15s ease, transform .15s ease;
+  transition: box-shadow .15s ease;
 }
 
-.app-card:hover {
+.app-card:hover,
+.app-card-wrap:hover .app-card {
   color: var(--ql-text);
   box-shadow: 0 4px 18px 4px rgba(69, 80, 88, .2);
-  transform: translateY(-2px);
 }
 
 .app-card-logo {
@@ -413,6 +425,9 @@
   position: absolute;
   top: 6px;
   right: 6px;
+  z-index: 1;
+  border: 0;
+  background: transparent;
   padding: 2px 7px;
   border-radius: 8px;
   color: var(--ql-muted);
@@ -446,6 +461,65 @@
   color: #111;
   border-radius: 999px;
   padding: .1rem .6rem;
+}
+
+/* ----- Ventanas (<dialog> nativo con el aspecto de las tarjetas modales) ----- */
+.ql-dialog {
+  /* Las variables que Bootstrap define en .modal: .modal-content, -header y -footer las necesitan. */
+  --bs-modal-padding: 1rem;
+  --bs-modal-bg: var(--bs-body-bg);
+  --bs-modal-border-color: var(--bs-border-color-translucent);
+  --bs-modal-border-width: var(--bs-border-width);
+  --bs-modal-border-radius: var(--bs-border-radius-lg);
+  --bs-modal-inner-border-radius: calc(var(--bs-border-radius-lg) - (var(--bs-border-width)));
+  --bs-modal-header-padding-x: 1rem;
+  --bs-modal-header-padding-y: 1rem;
+  --bs-modal-header-padding: 1rem 1rem;
+  --bs-modal-header-border-color: var(--bs-border-color);
+  --bs-modal-header-border-width: var(--bs-border-width);
+  --bs-modal-title-line-height: 1.5;
+  --bs-modal-footer-gap: .5rem;
+  --bs-modal-footer-border-color: var(--bs-border-color);
+  --bs-modal-footer-border-width: var(--bs-border-width);
+  width: min(500px, calc(100% - 2rem));
+  max-height: calc(100dvh - 2rem);
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--ql-text);
+  overflow: auto;
+}
+
+.ql-dialog-lg {
+  width: min(800px, calc(100% - 2rem));
+}
+
+.ql-dialog-sm {
+  width: min(300px, calc(100% - 2rem));
+}
+
+.ql-dialog::backdrop {
+  background: rgba(0, 0, 0, .5);
+}
+
+.ql-dialog[open] {
+  animation: ql-dialog-in .15s ease-out;
+}
+
+@keyframes ql-dialog-in {
+  from { opacity: 0; transform: translateY(-.75rem); }
+  to { opacity: 1; transform: none; }
+}
+
+/* Con una ventana abierta la página de fondo no se desplaza. */
+html:has(.ql-dialog[open]) {
+  overflow: hidden;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ql-dialog[open] {
+    animation: none;
+  }
 }
 
 /* ----- Modales ----- */

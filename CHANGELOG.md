@@ -11,6 +11,15 @@ Formato: [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/). Versionado
 
 Verificación: 16 pruebas; en local, cabeceras, logos, búsqueda rápida, detalle y pausa de la franja revisados en el navegador.
 
+Segunda parte (cambian la estructura, mismo funcionamiento):
+
+- En las tarjetas, el botón de detalle ya no está dentro del enlace: son elementos hermanos y el botón es un `<button>` nativo.
+- El carrusel del detalle ya no avanza solo; se cambia de imagen con sus indicadores.
+- Las ventanas de detalle, mantenimiento y quitar de fijadas usan `<dialog>` nativo: el navegador atrapa el foco, cierra con Escape, deja el fondo inerte y devuelve el foco al botón que la abrió. Siguen cerrando con la X, con sus botones o con un clic fuera.
+- Política de contenido más estricta: las hojas y etiquetas `<style>` solo pueden venir del propio sitio (`style-src-elem 'self'`). Los atributos `style` siguen permitidos porque llevan colores configurables y el color principal que pone MWZSystem.Ui.
+
+Verificación: compilación sin advertencias y 16 pruebas; en local, sin controles dentro de enlaces, ventanas (abrir, Escape, X, clic fuera, foco de regreso, fondo sin desplazamiento), sin avance automático, vista de teléfono sin desbordes y sin violaciones de la política de contenido.
+
 ## [Desarrollo 1.0.0] - 2026-11-12 (menú en teléfono)
 
 - Con el menú abierto en el teléfono ya se puede desplazar la lista cuando un grupo abierto la hace más alta que la pantalla; antes las últimas opciones quedaban inalcanzables hasta cerrarlo. La corrección llega con `MWZSystem.Ui` 1.4.1.

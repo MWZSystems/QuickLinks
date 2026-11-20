@@ -2,25 +2,27 @@
 @{
     var target = (await SettingsService.GetAsync()).Portal.OpenInNewTab ? "_blank" : "_self";
 }
-<a href="@Model.Link" target="@target" rel="noopener noreferrer"
-   class="app-card app-link @(Model.IsBlocked ? "is-blocked" : "")"
-   data-app-id="@Model.Id" data-app-name="@Model.Name">
-    @* span y no button: un elemento interactivo no puede ir dentro de un enlace. *@
-    <span class="app-card-more" role="button" tabindex="0" data-details="@Model.Id" aria-label="Ver detalle de @Model.Name" title="Ver detalle y fijar">
+@* El enlace y el botón de detalle son hermanos: un control no puede ir dentro de un enlace. *@
+<div class="app-card-wrap">
+    <a href="@Model.Link" target="@target" rel="noopener noreferrer"
+       class="app-card app-link @(Model.IsBlocked ? "is-blocked" : "")"
+       data-app-id="@Model.Id" data-app-name="@Model.Name">
+        @if (Model.ImageUrl is not null)
+        {
+            <img class="app-card-logo" src="@Model.ImageUrl" alt="" width="80" height="80" />
+            <span class="app-card-name">@Model.Name</span>
+        }
+        else
+        {
+            <i class="bi bi-window-stack app-card-placeholder" aria-hidden="true"></i>
+            <span class="app-card-name app-card-name-only">@Model.Name</span>
+        }
+        @if (Model.IsBlocked)
+        {
+            <span class="app-card-badge"><i class="bi bi-tools me-1" aria-hidden="true"></i>En mantenimiento</span>
+        }
+    </a>
+    <button type="button" class="app-card-more" data-details="@Model.Id" aria-label="Ver detalle de @Model.Name" title="Ver detalle y fijar">
         <i class="bi bi-info-circle" aria-hidden="true"></i>
-    </span>
-    @if (Model.ImageUrl is not null)
-    {
-        <img class="app-card-logo" src="@Model.ImageUrl" alt="" width="80" height="80" />
-        <span class="app-card-name">@Model.Name</span>
-    }
-    else
-    {
-        <i class="bi bi-window-stack app-card-placeholder" aria-hidden="true"></i>
-        <span class="app-card-name app-card-name-only">@Model.Name</span>
-    }
-    @if (Model.IsBlocked)
-    {
-        <span class="app-card-badge"><i class="bi bi-tools me-1" aria-hidden="true"></i>En mantenimiento</span>
-    }
-</a>
+    </button>
+</div>

@@ -135,73 +135,68 @@
     <div id="complete-results"><partial name="_CompleteResults" model="Model" /></div>
 </div>
 
+@* Ventanas nativas (<dialog> con showModal): el navegador atrapa el foco, cierra con Escape y deja el fondo inerte. *@
 <!-- Detalle de aplicación -->
-<div class="modal fade" id="details-modal" tabindex="-1" aria-labelledby="details-title" aria-hidden="true">
-    <div class="modal-dialog modal-lg modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h2 class="modal-title fs-5" id="details-title"></h2>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+<dialog class="ql-dialog ql-dialog-lg" id="details-modal" aria-labelledby="details-title">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2 class="modal-title fs-5" id="details-title"></h2>
+            <button type="button" class="btn-close" data-dialog-close aria-label="Cerrar"></button>
+        </div>
+        <div class="modal-body details-body">
+            <div id="details-carousel" class="carousel slide details-carousel">
+                <div class="carousel-indicators"></div>
+                <div class="carousel-inner"></div>
             </div>
-            <div class="modal-body details-body">
-                <div id="details-carousel" class="carousel slide details-carousel" data-bs-ride="carousel">
-                    <div class="carousel-indicators"></div>
-                    <div class="carousel-inner"></div>
-                </div>
-                <dl class="details-info">
-                    <dt><i class="bi bi-card-text me-2" aria-hidden="true"></i>Descripción</dt>
-                    <dd data-field="description"></dd>
-                    <dt><i class="bi bi-person-badge me-2" aria-hidden="true"></i>Responsable (SME)</dt>
-                    <dd data-field="sme"></dd>
-                    <dt><i class="bi bi-book me-2" aria-hidden="true"></i>Manual de usuario</dt>
-                    <dd data-field="userManual"></dd>
-                    <dt><i class="bi bi-tag me-2" aria-hidden="true"></i>Versión</dt>
-                    <dd data-field="version"></dd>
-                </dl>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-brand-outline" data-pin-toggle></button>
-                <a href="#" class="btn btn-success ms-auto app-link" target="@(options.OpenInNewTab ? "_blank" : "_self")" rel="noopener noreferrer" data-open-app><i class="bi bi-box-arrow-up-right me-2" aria-hidden="true"></i>Abrir aplicación</a>
-            </div>
+            <dl class="details-info">
+                <dt><i class="bi bi-card-text me-2" aria-hidden="true"></i>Descripción</dt>
+                <dd data-field="description"></dd>
+                <dt><i class="bi bi-person-badge me-2" aria-hidden="true"></i>Responsable (SME)</dt>
+                <dd data-field="sme"></dd>
+                <dt><i class="bi bi-book me-2" aria-hidden="true"></i>Manual de usuario</dt>
+                <dd data-field="userManual"></dd>
+                <dt><i class="bi bi-tag me-2" aria-hidden="true"></i>Versión</dt>
+                <dd data-field="version"></dd>
+            </dl>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-brand-outline" data-pin-toggle></button>
+            <a href="#" class="btn btn-success ms-auto app-link" target="@(options.OpenInNewTab ? "_blank" : "_self")" rel="noopener noreferrer" data-open-app><i class="bi bi-box-arrow-up-right me-2" aria-hidden="true"></i>Abrir aplicación</a>
         </div>
     </div>
-</div>
+</dialog>
 
 <!-- Aplicación en mantenimiento -->
-<div class="modal fade" id="maintenance-modal" tabindex="-1" aria-labelledby="maintenance-title" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h2 class="modal-title fs-5" id="maintenance-title"></h2>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
-            </div>
-            <div class="modal-body text-center">
-                <div class="maintenance-icon" aria-hidden="true"><i class="bi bi-tools"></i></div>
-                <p class="mt-3 mb-0" data-maintenance-message></p>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-brand px-4" data-bs-dismiss="modal"><i class="bi bi-check-lg me-1" aria-hidden="true"></i>Entendido</button>
-            </div>
+<dialog class="ql-dialog" id="maintenance-modal" aria-labelledby="maintenance-title">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2 class="modal-title fs-5" id="maintenance-title"></h2>
+            <button type="button" class="btn-close" data-dialog-close aria-label="Cerrar"></button>
+        </div>
+        <div class="modal-body text-center">
+            <div class="maintenance-icon" aria-hidden="true"><i class="bi bi-tools"></i></div>
+            <p class="mt-3 mb-0" data-maintenance-message></p>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-brand px-4" data-dialog-close><i class="bi bi-check-lg me-1" aria-hidden="true"></i>Entendido</button>
         </div>
     </div>
-</div>
+</dialog>
 
 <!-- Confirmación para quitar de fijadas -->
-<div class="modal fade" id="unpin-modal" tabindex="-1" aria-labelledby="unpin-title" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-sm">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h2 class="modal-title fs-5" id="unpin-title"><i class="bi bi-pin-angle me-2" aria-hidden="true"></i>Quitar de fijadas</h2>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
-            </div>
-            <div class="modal-body">¿Quieres quitar esta aplicación de tus fijadas?</div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-light" data-bs-dismiss="modal"><i class="bi bi-x-lg me-1" aria-hidden="true"></i>Cancelar</button>
-                <button type="button" class="btn btn-danger" data-confirm-unpin><i class="bi bi-pin-angle me-1" aria-hidden="true"></i>Quitar</button>
-            </div>
+<dialog class="ql-dialog ql-dialog-sm" id="unpin-modal" aria-labelledby="unpin-title">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2 class="modal-title fs-5" id="unpin-title"><i class="bi bi-pin-angle me-2" aria-hidden="true"></i>Quitar de fijadas</h2>
+            <button type="button" class="btn-close" data-dialog-close aria-label="Cerrar"></button>
+        </div>
+        <div class="modal-body">¿Quieres quitar esta aplicación de tus fijadas?</div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-light" data-dialog-close><i class="bi bi-x-lg me-1" aria-hidden="true"></i>Cancelar</button>
+            <button type="button" class="btn btn-danger" data-confirm-unpin><i class="bi bi-pin-angle me-1" aria-hidden="true"></i>Quitar</button>
         </div>
     </div>
-</div>
+</dialog>
 
 @section Scripts {
     <script src="~/js/portal.js" asp-append-version="true"></script>
