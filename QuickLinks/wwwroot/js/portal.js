@@ -246,8 +246,9 @@
         icon.className = `bi ${pinned ? 'bi-pin-angle' : 'bi-pin-angle-fill'} me-2`;
         icon.setAttribute('aria-hidden', 'true');
         pinButton.replaceChildren(icon, pinned ? 'Quitar de fijadas' : 'Fijar en inicio');
-        pinButton.classList.toggle('btn-outline-danger', pinned);
-        pinButton.classList.toggle('btn-brand-outline', !pinned);
+        // Colores por acción: fijar es agregar (azul) y quitar de fijadas es quitar (rojo).
+        pinButton.classList.toggle('btn-danger', pinned);
+        pinButton.classList.toggle('btn-primary', !pinned);
         pinButton.dataset.appId = String(appId);
     }
 

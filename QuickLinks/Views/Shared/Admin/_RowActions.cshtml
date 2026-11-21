@@ -1,6 +1,6 @@
 @model (int Id, bool Available)
 <td class="text-end text-nowrap">
-    <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-sm btn-brand-outline" title="Editar">
+    <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-sm" data-mwz-accion="editar" title="Editar">
         <i class="bi bi-pencil-square" aria-hidden="true"></i><span class="d-none d-xl-inline ms-1">Editar</span>
     </a>
     <form asp-action="ToggleAvailable" asp-route-id="@Model.Id" method="post" class="d-inline"
@@ -8,13 +8,13 @@
           data-mwz-confirmar="@(Model.Available ? "¿Seguro que quieres desactivar este registro?" : null)">
         @if (Model.Available)
         {
-            <button type="submit" class="btn btn-sm btn-outline-danger" title="Desactivar">
+            <button type="submit" class="btn btn-sm" data-mwz-accion="desactivar" title="Desactivar">
                 <i class="bi bi-eye-slash" aria-hidden="true"></i><span class="d-none d-xl-inline ms-1">Desactivar</span>
             </button>
         }
         else
         {
-            <button type="submit" class="btn btn-sm btn-outline-success" title="Activar">
+            <button type="submit" class="btn btn-sm" data-mwz-accion="activar" title="Activar">
                 <i class="bi bi-eye" aria-hidden="true"></i><span class="d-none d-xl-inline ms-1">Activar</span>
             </button>
         }

@@ -160,7 +160,8 @@
             </dl>
         </div>
         <div class="modal-footer">
-            <button type="button" class="btn btn-brand-outline" data-pin-toggle></button>
+            @* Fijar (azul) o quitar de fijadas (rojo): el color lo pone portal.js según el estado. *@
+            <button type="button" class="btn btn-primary" data-pin-toggle data-mwz-accion="ninguna"></button>
             <a href="#" class="btn btn-success ms-auto app-link" target="@(options.OpenInNewTab ? "_blank" : "_self")" rel="noopener noreferrer" data-open-app><i class="bi bi-box-arrow-up-right me-2" aria-hidden="true"></i>Abrir aplicación</a>
         </div>
     </div>
@@ -178,7 +179,7 @@
             <p class="mt-3 mb-0" data-maintenance-message></p>
         </div>
         <div class="modal-footer">
-            <button type="button" class="btn btn-brand px-4" data-dialog-close><i class="bi bi-check-lg me-1" aria-hidden="true"></i>Entendido</button>
+            <button type="button" class="btn px-4" data-dialog-close><i class="bi bi-check-lg me-1" aria-hidden="true"></i>Entendido</button>
         </div>
     </div>
 </dialog>
@@ -192,7 +193,7 @@
         </div>
         <div class="modal-body">¿Quieres quitar esta aplicación de tus fijadas?</div>
         <div class="modal-footer">
-            <button type="button" class="btn btn-light" data-dialog-close><i class="bi bi-x-lg me-1" aria-hidden="true"></i>Cancelar</button>
+            <button type="button" class="btn" data-dialog-close><i class="bi bi-x-lg me-1" aria-hidden="true"></i>Cancelar</button>
             <button type="button" class="btn btn-danger" data-confirm-unpin><i class="bi bi-pin-angle me-1" aria-hidden="true"></i>Quitar</button>
         </div>
     </div>

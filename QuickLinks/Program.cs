@@ -143,3 +143,6 @@ app.MapControllerRoute(
 await DbInitializer.InitializeAsync(app.Services, app.Configuration, app.Logger);
 
 app.Run();
+
+// Las pruebas levantan la aplicación con WebApplicationFactory<Program>.
+public partial class Program;

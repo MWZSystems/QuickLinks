@@ -2,6 +2,15 @@
 
 Formato: [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/). Versionado: [SemVer](https://semver.org/lang/es/).
 
+## [Desarrollo 1.0.0] - 2026-11-20 (colores por acción)
+
+- `MWZSystem.Ui` 1.7.0 con `ActionColors = true` en el portal y en la administración, y el ayudante de colores en `_ViewImports`: el criterio de Trainify. Azul guarda, agrega o entra («Guardar», «Nueva aplicación», «Entendido», «Entrar», «Fijar en inicio»); verde activa; amarillo edita; rojo cancela, quita o desactiva («Cancelar», «Quitar», «Quitar de fijadas», «Desactivar»).
+- Los botones de editar, activar y desactivar de las listas dicen su acción con `data-mwz-accion` (en pantallas angostas solo muestran el ícono). El botón de fijar cambia de color desde `portal.js`.
+- La marca (#0D4D84 o el color configurado) queda en el encabezado, los enlaces y el botón «Filtros». Los avisos emergentes van en color sólido; la confirmación muestra «Cancelar» en rojo y «Aceptar» en azul.
+- Pruebas nuevas (`ActionColorsTests`): 18 pantallas dibujadas contra SQLite en memoria sin botones de color equivocado, colores concretos de los botones principales y contraste AA de los colores propios.
+
+Verificación: 50 pruebas; en local, colores de botones, avisos y confirmación revisados, y a 375 px sin desborde.
+
 ## [Desarrollo 1.0.0] - 2026-11-20 (pantalla de carga)
 
 - `MWZSystem.Ui` 1.6.0: al navegar o enviar sale una barra y, si tarda más de un segundo, un recuadro con el mensaje; los botones de envío se desactivan y no hay doble envío.
