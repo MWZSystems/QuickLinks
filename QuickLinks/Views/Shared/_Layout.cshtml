@@ -8,6 +8,8 @@
         // Botones con el color de su acción (criterio de Trainify); la marca queda en el encabezado y los enlaces.
         ActionColors = true,
         AppName = settings.AppName,
+        // Descripción para buscadores y vistas previas (MWZSystem.Ui 1.9.0).
+        Description = $"Accesos rápidos a las aplicaciones de {settings.AppName}.",
         Theme = "quicklinks",
         PrimaryColor = Branding.SafeColor(settings.PrimaryColor),
         HomeUrl = Url.Action("Index", "Home")!,

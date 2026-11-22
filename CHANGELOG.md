@@ -2,6 +2,18 @@
 
 Formato: [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/). Versionado: [SemVer](https://semver.org/lang/es/).
 
+## [Desarrollo 1.0.0] - 2026-11-22 (revisión con Lighthouse)
+
+- `MWZSystem.Ui` 1.9.0: confirmación con `<dialog>` nativo, contraste del botón de contorno azul, tablas desplazables con teclado, `aria-invalid` en la validación y `<meta name="color-scheme">`.
+- Sin `Mwz:Ambiente`, la etiqueta usa el ambiente de ASP.NET (Development da DEV, Production da PRD). El sitio publicado sigue con `Mwz:Ambiente=STG`.
+- `robots.txt` sin sesión con `Disallow: /`: antes redirigía al inicio de sesión.
+- Las 8 tablas de administración tienen `<caption>` (oculto a la vista) con el título de la página; los encabezados ya tenían `scope="col"`.
+- Descripción de la página del portal (`MwzShell.Description`).
+- `MapStaticAssets()` ya estaba; `UseStaticFiles` se queda solo para las imágenes subidas.
+- Pruebas nuevas (`ReviewFixesTests`): robots.txt, tablas y descripción.
+
+Verificación: 69 pruebas.
+
 ## [Desarrollo 1.0.0] - 2026-11-22 (ambiente y versión)
 
 - `MWZSystem.Ui` 1.8.0: la barra superior de todas las páginas (portal, acceso, administración y error) muestra el ambiente y la versión, por ejemplo «PRD · v1.0.0». La versión es la del proyecto (1.0.0).

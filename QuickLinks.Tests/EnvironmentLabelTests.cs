@@ -5,7 +5,7 @@ using MWZSystem.Ui;
 namespace QuickLinks.Tests;
 
 /// <summary>
-/// Etiqueta de ambiente y versión de MWZSystem.Ui 1.8.0: todas las páginas dicen en qué ambiente corre el sitio y qué
+/// Etiqueta de ambiente y versión de MWZSystem.Ui 1.8.0 (y 1.9.0): todas las páginas dicen en qué ambiente corre el sitio y qué
 /// versión de QuickLinks es («PRD · v1.0.0»), una sola vez y sin la versión escrita a mano de antes.
 /// </summary>
 public class EnvironmentLabelTests : IClassFixture<EnvironmentLabelTests.PrdApp>, IClassFixture<ActionColorsTests.App>
@@ -35,12 +35,12 @@ public class EnvironmentLabelTests : IClassFixture<EnvironmentLabelTests.PrdApp>
     }
 
     [Fact]
-    public async Task Sin_ambiente_definido_la_etiqueta_lo_dice()
+    public async Task Sin_Mwz_Ambiente_se_usa_el_ambiente_de_ASP_NET()
     {
-        // Este sitio de pruebas no define Mwz:Ambiente ni la variable ASPNETCORE_ENVIRONMENT: nunca se supone producción.
-        // Por eso el sitio publicado lleva Mwz:Ambiente en su appsettings.Production.json.
+        // Desde MWZSystem.Ui 1.9.0, sin Mwz:Ambiente ni la variable se usa el ambiente que tomó ASP.NET (aquí Development).
+        // El sitio publicado igual lleva Mwz:Ambiente=STG en su appsettings.Production.json: sin él diría PRD.
         var text = WebUtility.HtmlDecode(await _dev.GetAsync("/Account/Login", anonymous: true));
-        Assert.Contains("<span aria-hidden=\"true\">AMBIENTE SIN DEFINIR · v1.0.0</span>", text);
+        Assert.Contains("<span aria-hidden=\"true\">DEV · v1.0.0</span>", text);
     }
 
     [Fact]
