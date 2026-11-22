@@ -5,7 +5,7 @@ using MWZSystem.Ui;
 namespace QuickLinks.Tests;
 
 /// <summary>
-/// Pantalla de carga de MWZSystem.Ui (desde 1.6.0; la app usa 1.7.0): la app sirve esa versión, cada formulario que guarda dice qué está
+/// Pantalla de carga de MWZSystem.Ui (desde 1.6.0; la app usa 1.8.0): la app sirve esa versión, cada formulario que guarda dice qué está
 /// haciendo, las descargas no dejan la página bloqueada y lo que se carga con fetch marca su parte como ocupada.
 /// </summary>
 public class LoadingScreenTests
@@ -14,9 +14,9 @@ public class LoadingScreenTests
     private static readonly string ViewsFolder = Path.Combine(ProjectFolder, "Views");
 
     [Fact]
-    public void Usa_MWZSystem_Ui_1_7_0()
+    public void Usa_MWZSystem_Ui_1_8_0()
     {
-        Assert.Equal(new Version(1, 7, 0, 0), typeof(MwzShell).Assembly.GetName().Version);
+        Assert.Equal(new Version(1, 8, 0, 0), typeof(MwzShell).Assembly.GetName().Version);
     }
 
     [Fact]
@@ -28,7 +28,7 @@ public class LoadingScreenTests
             .Select(r => r.GetString()!)
             .Single(r => r.Contains("mwzsystem.ui", StringComparison.OrdinalIgnoreCase));
 
-        Assert.Contains(Path.Combine("mwzsystem.ui", "1.7.0"), packageRoot, StringComparison.OrdinalIgnoreCase);
+        Assert.Contains(Path.Combine("mwzsystem.ui", "1.8.0"), packageRoot, StringComparison.OrdinalIgnoreCase);
         var script = File.ReadAllText(Path.Combine(packageRoot, "js", "mwz-ui.js"));
         Assert.Contains("mwz-texto-carga", script);
         Assert.Contains("mwz-descarga", script);

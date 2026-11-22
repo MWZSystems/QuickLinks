@@ -105,14 +105,19 @@ public class ActionColorsTests : IClassFixture<ActionColorsTests.App>
         $@"<[^>]*(class=""{classes}""[^>]*data-mwz-accion=""{action}""|data-mwz-accion=""{action}""[^>]*class=""{classes}"")";
 
     /// <summary>La aplicación web con SQLite en memoria, unos datos de prueba y un administrador con sesión.</summary>
-    public sealed class App : WebApplicationFactory<Program>, IAsyncLifetime
+    public class App : WebApplicationFactory<Program>, IAsyncLifetime
     {
         private readonly SqliteConnection _connection = new("Data Source=:memory:");
         private HttpClient _client = null!;
 
+        /// <summary>Valor de Mwz:Ambiente para el sitio; sin él, la etiqueta sale del ambiente Development (DEV).</summary>
+        protected virtual string? Ambiente => null;
+
         protected override void ConfigureWebHost(IWebHostBuilder builder)
         {
             builder.UseEnvironment("Development");
+            if (Ambiente is { } ambiente)
+                builder.UseSetting("Mwz:Ambiente", ambiente);
             builder.UseSetting("ConnectionStrings:QuickLinksDb", "Server=no-se-usa");
             builder.ConfigureLogging(l => l.SetMinimumLevel(LogLevel.Warning));
             builder.ConfigureTestServices(services =>

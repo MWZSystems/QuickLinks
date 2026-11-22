@@ -2,6 +2,15 @@
 
 Formato: [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/). Versionado: [SemVer](https://semver.org/lang/es/).
 
+## [Desarrollo 1.0.0] - 2026-11-22 (ambiente y versión)
+
+- `MWZSystem.Ui` 1.8.0: la barra superior de todas las páginas (portal, acceso, administración y error) muestra el ambiente y la versión, por ejemplo «PRD · v1.0.0». La versión es la del proyecto (1.0.0).
+- Se quitó la versión escrita a mano junto al nombre de la aplicación (`app-version`), para que no salga dos veces. El pie conserva «Versión 1.0.0».
+- El ambiente sale de `Mwz:Ambiente` en la configuración del sitio publicado. Si falta, la etiqueta dice «AMBIENTE SIN DEFINIR».
+- Pruebas nuevas (`EnvironmentLabelTests`): etiqueta única con ambiente y versión en 7 páginas, aviso cuando no hay ambiente definido y versión 1.0.0.
+
+Verificación: 59 pruebas; en local se ve «DEV · v1.0.0» en la barra superior del acceso y del portal.
+
 ## [Desarrollo 1.0.0] - 2026-11-20 (colores por acción)
 
 - `MWZSystem.Ui` 1.7.0 con `ActionColors = true` en el portal y en la administración, y el ayudante de colores en `_ViewImports`: el criterio de Trainify. Azul guarda, agrega o entra («Guardar», «Nueva aplicación», «Entendido», «Entrar», «Fijar en inicio»); verde activa; amarillo edita; rojo cancela, quita o desactiva («Cancelar», «Quitar», «Quitar de fijadas», «Desactivar»).
