@@ -2,6 +2,13 @@
 
 Formato: [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/). Versionado: [SemVer](https://semver.org/lang/es/).
 
+## [Desarrollo 1.0.0] - 2026-11-23 (archivos agrupados)
+
+- `MWZSystem.Ui` 1.10.0: la estructura común carga CSS y JS agrupados (`mwz-base.css`, `mwz-base.js` y un archivo por librería pedida), para que el hosting no responda 503 sueltos cuando una página pide muchos archivos. Sin cambios de código: las plantillas propias no cargan jQuery otra vez.
+- Prueba nueva: inicio de sesión, portal y formulario cargan los grupos una vez y no cargan jQuery suelto.
+
+Verificación: 72 pruebas.
+
 ## [Desarrollo 1.0.0] - 2026-11-22 (revisión con Lighthouse)
 
 - `MWZSystem.Ui` 1.9.0: confirmación con `<dialog>` nativo, contraste del botón de contorno azul, tablas desplazables con teclado, `aria-invalid` en la validación y `<meta name="color-scheme">`.

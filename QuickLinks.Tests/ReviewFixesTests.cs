@@ -36,6 +36,19 @@ public class ReviewFixesTests : IClassFixture<ActionColorsTests.App>
         Assert.All(headers, h => Assert.Contains(@"scope=""col""", h.Value));
     }
 
+    [Theory]
+    [InlineData("/Account/Login", true)]
+    [InlineData("/", false)]
+    [InlineData("/Applications/Create", false)]
+    public async Task Las_paginas_cargan_los_grupos_de_MWZSystem_Ui_y_jQuery_una_vez(string page, bool anonymous)
+    {
+        // MWZSystem.Ui 1.10.0 junta CSS y JS para que el hosting no responda 503 con muchas peticiones.
+        var html = await _app.GetAsync(page, anonymous);
+        Assert.Single(Regex.Matches(html, @"<link[^>]*dist/mwz-base\.css"));
+        Assert.Single(Regex.Matches(html, @"<script[^>]*dist/mwz-base\.js"));
+        Assert.DoesNotMatch(@"<script[^>]*jquery(\.min)?\.js", html);
+    }
+
     [Fact]
     public async Task El_portal_tiene_descripcion()
     {
