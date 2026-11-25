@@ -29,6 +29,8 @@ builder.Services.AddControllersWithViews(options =>
     // Solo son obligatorios los campos con [Required] explícito y mensaje en español; sin esto,
     // cualquier propiedad no anulable (por ejemplo la lista de imágenes del carrusel) se vuelve obligatoria.
     options.SuppressImplicitRequiredAttributeForNonNullableReferenceTypes = true;
+    // Una lista que llega sin elegir («Selecciona...», valor vacío) es error, nunca se supone el primer elemento.
+    options.ModelBindingMessageProvider.SetValueMustNotBeNullAccessor(_ => "Selecciona una opción.");
 });
 
 // Las vistas de los catálogos viven en Views/Admin/{Controller}.

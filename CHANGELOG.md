@@ -2,6 +2,15 @@
 
 Formato: [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/). Versionado: [SemVer](https://semver.org/lang/es/).
 
+## [Desarrollo 1.0.0] - 2026-11-25 (listas sin elegir)
+
+- Regla para todas las aplicaciones: una lista de formulario sin dato guardado aparece vacía («Selecciona...» sin valor) y es obligatoria. Aplica a Edificios (sitio), Mantenimientos (aplicación) y Usuarios (rol). En una edición la lista conserva el valor guardado; los filtros del portal no cambian.
+- Un usuario nuevo ya no sale con el rol de administrador elegido por omisión.
+- El servidor tampoco supone el primer elemento: una lista que llega vacía da «Selecciona una opción.» y no se guarda.
+- Pruebas nuevas (`FormSelectTests`): recorre las vistas, revisa las altas y una edición, y envía un formulario con la lista vacía.
+
+Verificación: 78 pruebas.
+
 ## [Desarrollo 1.0.0] - 2026-11-23 (archivos agrupados)
 
 - `MWZSystem.Ui` 1.10.0: la estructura común carga CSS y JS agrupados (`mwz-base.css`, `mwz-base.js` y un archivo por librería pedida), para que el hosting no responda 503 sueltos cuando una página pide muchos archivos. Sin cambios de código: las plantillas propias no cargan jQuery otra vez.

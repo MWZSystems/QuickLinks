@@ -11,8 +11,8 @@
     <div class="row g-3">
         <div class="col-md-6">
             <label asp-for="SiteId" class="form-label"></label>
-            <select asp-for="SiteId" asp-items="Model.Sites" class="form-select">
-                <option value="0">Selecciona...</option>
+            <select asp-for="SiteId" asp-items="Model.Sites" class="form-select" required>
+                <option value="">Selecciona...</option>
             </select>
             <span asp-validation-for="SiteId" class="text-danger small"></span>
         </div>

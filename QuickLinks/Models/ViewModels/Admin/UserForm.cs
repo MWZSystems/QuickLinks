@@ -21,7 +21,8 @@ public sealed class UserForm
 
     [Range(1, int.MaxValue, ErrorMessage = "Selecciona un rol.")]
     [Display(Name = "Rol")]
-    public int RoleId { get; set; } = Entities.Role.AdministratorId;
+    // Sin rol por omisión: un usuario nuevo no queda como administrador sin elegirlo.
+    public int RoleId { get; set; }
 
     [DataType(DataType.Password)]
     // La longitud mínima se valida en el controlador con el valor de Configuración > Seguridad.

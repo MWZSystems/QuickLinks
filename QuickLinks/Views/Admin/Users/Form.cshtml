@@ -17,7 +17,9 @@
         </div>
         <div class="col-md-6">
             <label asp-for="RoleId" class="form-label"></label>
-            <select asp-for="RoleId" asp-items="Model.Roles" class="form-select"></select>
+            <select asp-for="RoleId" asp-items="Model.Roles" class="form-select" required>
+                <option value="">Selecciona...</option>
+            </select>
             <span asp-validation-for="RoleId" class="text-danger small"></span>
         </div>
         <div class="col-12"><hr class="my-1" /></div>
